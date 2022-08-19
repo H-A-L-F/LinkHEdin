@@ -1,0 +1,17 @@
+:root {
+    --color-primary: #0077B5;
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-secondary-dark: #313335;
+    --color-secondary-medium: #86888A;
+    --color-secondary-light: #caccce;
+}
+
+body.dark-theme {
+    --color-primary: #0077B5;
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-secondary-dark: #313335;
+    --color-secondary-medium: #86888A;
+    --color-secondary-light: #caccce;
+}
