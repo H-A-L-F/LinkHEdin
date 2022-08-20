@@ -18,7 +18,6 @@ body {
   }
   
   .text-input {
-     
     color: black;
     font-size: 15px;
     width: 22rem;
@@ -1601,12 +1600,12 @@ body {
   .bg-transparent {
     background-color: transparent;
   }
-  .bg-black {
-    background-color: rgb(0 0 0);
-  }
-  .bg-white {
-    background-color: rgb(255 255 255);
-  }
+  // .bg-black {
+  //   background-color: rgb(0 0 0);
+  // }
+  // .bg-white {
+  //   background-color: rgb(255 255 255);
+  // }
   .bg-slate-50 {
     background-color: rgb(248 250 252);
   }
@@ -2588,6 +2587,19 @@ body {
   .font-bold {
     font-weight: 700;
   }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+  .lowercase {
+    text-transform: lowercase;
+  }	 
+  .capitalize {
+    text-transform: capitalize;
+  }	
+  .normal-case {
+    text-transform: none;
+  } 
   
   // Justify Content
   .justify-start {
@@ -2767,12 +2779,12 @@ body {
   .text-transparent {
     color: transparent;
   }
-  .text-black {
-    color: rgb(0 0 0);
-  }
-  .text-white {
-    color: rgb(255 255 255);
-  }
+  // .text-black {
+  //   color: rgb(0 0 0);
+  // }
+  // .text-white {
+  //   color: rgb(255 255 255);
+  // }
   .text-slate-50 {
     color: rgb(248 250 252);
   }
@@ -3480,3 +3492,15 @@ body {
     box-sizing: content-box;
   }
   
+  .underline {
+    text-decoration-line: underline;
+  }	
+  .overline {
+    text-decoration-line: overline;
+  }	
+  .line-through {
+    text-decoration-line: line-through;
+  }	
+  .no-underline {
+    text-decoration-line: none;
+  }	

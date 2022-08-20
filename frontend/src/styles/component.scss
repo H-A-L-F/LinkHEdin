@@ -1,0 +1,26 @@
+@use 'index' as i;
+
+.bg-primary {   
+    background-color: var(--col-primary-500);
+}
+
+.bg-white {
+    background-color: var(--col-white);
+}
+
+.bg-black {
+    background-color: var(--col-black);
+}
+
+.text-black {
+    color: var(--col-black);
+}
+
+.text-white {
+    color: var(--col-white);
+}
+
+.btn {
+    @extend .w-full, .h-10, .rounded-sm, .center-all, .font-bold, .text-xl;
+    @extend .bg-primary, .text-white;
+}
