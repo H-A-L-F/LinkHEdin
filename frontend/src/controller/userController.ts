@@ -1,5 +1,4 @@
 import { useMutation } from "@apollo/client";
-import { useAuth } from "../hooks/useAuth";
 import { LOGIN_QUERY, REGISTER_QUERY } from "../query/user";
 
 export function login(email: string, password: string) {
@@ -9,8 +8,6 @@ export function login(email: string, password: string) {
 }
 
 export function register(name: string, email: string, password: string) {
-    const auth = useAuth()
-    
     const [registerFunc, { data, loading, error }] = useMutation(REGISTER_QUERY);
     const input = {
         name: name,
@@ -18,6 +15,6 @@ export function register(name: string, email: string, password: string) {
         password: password,
     };
     registerFunc({ variables: { input: input } });
-    
+
     return { data, loading, error }
 }

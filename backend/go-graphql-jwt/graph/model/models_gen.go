@@ -2,6 +2,11 @@
 
 package model
 
+type NewLink struct {
+	Link   string `json:"link"`
+	UserID string `json:"user_id"`
+}
+
 type NewUser struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`

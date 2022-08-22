@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useState } from "react";
+import Loading from "../components/Loading";
 
 const loadingContext = createContext({} as any);
 
-export default function LoadingContextProvider({ children }:{children: JSX.Element}) {
+export function LoadingContextProvider({ children }:{children: JSX.Element}) {
   const [loading, setLoading] = useState(false);
 
   return (
     <loadingContext.Provider value={{ loading, setLoading }}>
-      {children}
+      {loading ? <Loading /> : children}
     </loadingContext.Provider>
   );
 }

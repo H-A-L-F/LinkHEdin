@@ -7,4 +7,5 @@ import (
 func MigrateTable() {
 	db := GetDB()
 	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.UserValidation{})
 }

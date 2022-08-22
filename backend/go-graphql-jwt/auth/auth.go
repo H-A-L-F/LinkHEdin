@@ -3,9 +3,13 @@ package my_auth
 import (
 	"context"
 	"errors"
+	"fmt"
 
+	"LinkHEdin/database"
 	"LinkHEdin/graph/model"
+	"LinkHEdin/mail"
 
+	"github.com/google/uuid"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 	"gorm.io/gorm"
 )
@@ -21,34 +25,46 @@ func UserRegister(ctx context.Context, newUser model.NewUser) (interface{}, erro
 	}
 
 	createdUser, err := UserCreate(ctx, newUser)
-
 	if err != nil {
 		return nil, err
 	}
+	fmt.Print("lewat create")
+
 	token, err := GenerateJWT(ctx, createdUser.ID)
 	if err != nil {
 		return nil, err
 	}
+	fmt.Print("Lewat jwt")
 
-	// verification := &model.UserValidation{
-	// 	ID:     uuid.New().String(),
-	// 	Link:   uuid.New().String(),
-	// 	UserID: createdUser.ID,
-	// }
+	newId := uuid.New().String()
 
-	// db := database.GetDB()
-	// err = db.Create(verification).Error
+	verification := &model.UserValidation{
+		ID:     newId,
+		Link:   "http://localhost:5173/verification/" + newId,
+		UserID: createdUser.ID,
+	}
+
+	db := database.GetDB()
+	err = db.Create(verification).Error
 
 	if err != nil {
 		return nil, err
 	}
+	fmt.Print("Lewat verif")
 
-	// mail.SendVerification(verification.Link)
+	fmt.Print("Mau send")
+	mail.SendVerification(verification.Link, createdUser.Email)
+	fmt.Print("Udah send")
 
 	return map[string]interface{}{
-		"token": token,
-		"name":  createdUser.Name,
-		"email": createdUser.Email,
+		"id":             createdUser.ID,
+		"token":          token,
+		"name":           createdUser.Name,
+		"email":          createdUser.Email,
+		"PhotoProfile":   createdUser.PhotoProfile,
+		"FollowedUser":   createdUser.FollowedUser,
+		"RequestConnect": createdUser.RequestConnect,
+		"BgPhotoProfile": createdUser.BgPhotoProfile,
 	}, nil
 }
 

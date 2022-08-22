@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
-import { register } from "../controller/userController";
+import { useContext, createContext } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 const authContext = createContext({} as any);
@@ -17,7 +16,26 @@ export const useAuth = () => {
 // Provider hook that creates auth object and handles state
 function useProvideAuth() {
     const [user, setUser] = useLocalStorage("user", null)
-    
+
+    // function login(email: string, password: string) {
+    //     const [loginFunc] = useMutation(LOGIN_QUERY)
+
+    //     setLoading(true)
+    //     loginFunc({ variables: { email: email, password: password } }).then((res) => {
+    //         const data = res.data;
+    //         if (data && data.login.token !== "undefined") {
+    //             console.log(data.login)
+    //             setUser(data.login)
+    //             setLoading(false)
+    //             navigate("/home")
+    //         }
+    //     }).catch((err) => {
+    //         setLoading(false)
+    //         console.log(err.message)
+    //         toastError(err)
+    //     })
+    // }
+
     return {
         user,
         setUser
