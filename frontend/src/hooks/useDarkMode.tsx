@@ -21,8 +21,10 @@ export function useDarkMode() {
             const className = "dark-mode";
             const element = window.document.body;
             if (enabled) {
+                setDark()
                 element.classList.add(className);
             } else {
+                setLight()
                 element.classList.remove(className);
             }
         },
@@ -38,4 +40,12 @@ export function useDarkMode() {
 // Read the recipe for useMedia to learn more: usehooks.com/useMedia
 function usePrefersDarkMode() {
     return useMedia<boolean>(["(prefers-color-scheme: dark)"], [true], false);
+}
+
+function setDark() {
+    document.documentElement.setAttribute("data-theme", "dark")//set theme to light
+}
+
+function setLight() {
+    document.documentElement.setAttribute("data-theme", "light"); //set theme to light
 }
