@@ -29,7 +29,7 @@ export default function Register() {
             password: pass,
         }
 
-        register(registerFunc({ variables: { input: input } }))
+        validateInput(e.target) && register(registerFunc({ variables: { input: input } }))
 
         // registerUser(registerFunc({ variables: { input: input } }), setLoading) && onSuccessRegister()
     }
@@ -38,6 +38,25 @@ export default function Register() {
     //     console.log("Navigate")
     //     navigate("/login")
     // }
+
+    function validateInput(form: any) {
+        if(form.email.value === "") {
+            toastError("You must fill the email field!")
+            return false
+        }
+
+        if(form.name.value === "") {
+            toastError("You must fill the name field!")
+            return false
+        }
+
+        if(form.pass.value === "") {
+            toastError("You must fill the password field!")
+            return false
+        }
+
+        return true
+    }
 
     function navLogin() {
         navigate("/login")
@@ -54,8 +73,6 @@ export default function Register() {
                         <input className='text-input' type={"text"} placeholder={"Name"} name={"name"} />
                         <div className='form-space-y'></div>
                         <input className='text-input' type={"password"} placeholder={"Passwword"} name={"pass"} />
-                        <div className='form-space-y'></div>
-                        <div className='place-self-start link'>Forgot passowrd?</div>
                         <div className='form-space-y'></div>
                         <button className='btn btn-primary'>Register</button>
                     </div>

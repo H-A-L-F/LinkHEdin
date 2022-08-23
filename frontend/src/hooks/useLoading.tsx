@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import Loading from "../components/Loading";
+import Loading from "../components/LoadingOverlay/Loading";
 
 const loadingContext = createContext({} as any);
 
@@ -8,7 +8,9 @@ export function LoadingContextProvider({ children }:{children: JSX.Element}) {
 
   return (
     <loadingContext.Provider value={{ loading, setLoading }}>
-      {loading ? <Loading /> : children}
+      {/* {loading ? <Loading loading={loading}/> : children} */}
+      <Loading loading={loading}/>
+      {children}
     </loadingContext.Provider>
   );
 }
