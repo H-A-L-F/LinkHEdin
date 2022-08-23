@@ -25,8 +25,14 @@ export const REQ_CHANGE_PASS_QUERY = gql`
 `
 
 export const VALIDATE_CHANGE_PASS_QUERY = gql`
-  mutation  ValidateChangePass($input: ValidChangePass!) {
+  mutation ValidateChangePass($input: ValidChangePass!) {
     validateChangePass(input: $input)
+  }
+`
+
+export const CHANGE_PASS_QUERY = gql`
+  mutation ChangePass($password: String!, $id: String!) {
+      changePassword(password: $password, id: $id)
   }
 `
 

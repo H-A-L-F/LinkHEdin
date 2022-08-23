@@ -103,11 +103,28 @@ function useProvideBackEnd() {
         })
     }
 
+    function changePass(changePassFunc: Promise<any>) {
+        setLoading(true)
+
+        changePassFunc.then((res) => {
+            setLoading(false)
+            toastSuccess("Successfully change password")
+            navigate(ROUTE.ROUTE_LOGIN)
+        })
+
+        changePassFunc.catch((err) => {
+            setLoading(false)
+            toastError(err)
+            console.log(err)
+        })
+    }
+
     return {
         login,
         register,
         validateUser,
         reqChangePass,
-        validateChangePassReq
+        validateChangePassReq,
+        changePass
     }
 }

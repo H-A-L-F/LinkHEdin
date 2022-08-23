@@ -1,19 +1,40 @@
 import { useMutation } from '@apollo/client'
+import { formatError } from 'graphql'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { toastError } from '../config/toast'
 import { useBackEnd } from '../hooks/useBackEnd'
-import { VALIDATE_CHANGE_PASS_QUERY } from '../query/user'
+import { CHANGE_PASS_QUERY, VALIDATE_CHANGE_PASS_QUERY } from '../query/user'
 
 export default function ResetPassword() {
+    const { id } = useParams()
     const [authorized, setAuthorized] = useState(false)
+    const [changePassFunc] = useMutation(CHANGE_PASS_QUERY)
+    const { changePass } = useBackEnd()
 
     function handleResetPass(e: any) {
+        e.preventDefault()
 
+        if (!validateInput(e.target)) return
+
+        const pass = e.target.pass.value
+
+        console.log(pass, id)
+        changePass(changePassFunc({ variables: { password: pass, id: id } }))
     }
 
     function validateInput(form: any) {
+        if (form.pass.value === "" || form.confpass.value === "") {
+            toastError("Please fill all fields!")
+            return false
+        }
 
+        if (form.pass.value !== form.confpass.value) {
+            toastError("Password does not match")
+            return false
+        }
+
+        return true
     }
 
     useEffect(() => {
