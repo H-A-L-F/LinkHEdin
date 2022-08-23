@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import mainLogo from '../assets/mainLogo.png'
 import { registerUser } from '../controller/userController'
+import { useBackEnd } from '../hooks/useBackEnd'
 import { useLoading } from '../hooks/useLoading'
 import { REGISTER_QUERY } from '../query/user'
 
@@ -11,6 +12,7 @@ export default function Register() {
     const { setLoading } = useLoading()
     const [registerFunc] = useMutation(REGISTER_QUERY);
     const [regState, setRegState] = useState(false)
+    const {register} = useBackEnd()
 
     function handleRegister(e: any) {
         e.preventDefault()
@@ -18,19 +20,23 @@ export default function Register() {
         const name = e.target.name.value
         const pass = e.target.pass.value
 
+        // register(name, email, pass)
+
         const input = {
             name: name,
             email: email,
             password: pass,
         }
 
-        registerUser(registerFunc({ variables: { input: input } }), setLoading) && onSuccessRegister()
+        register(registerFunc({ variables: { input: input } }))
+
+        // registerUser(registerFunc({ variables: { input: input } }), setLoading) && onSuccessRegister()
     }
 
-    function onSuccessRegister() {
-        console.log("Navigate")
-        navigate("/login")
-    }
+    // function onSuccessRegister() {
+    //     console.log("Navigate")
+    //     navigate("/login")
+    // }
 
     function navLogin() {
         navigate("/login")

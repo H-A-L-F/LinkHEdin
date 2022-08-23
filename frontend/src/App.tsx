@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import { useAuth } from "./hooks/useAuth";
 import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
 import Verification from "./pages/Verification";
+import { ProvideBackEnd } from "./hooks/useBackEnd";
 
 export function App() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -48,16 +49,18 @@ export function App() {
       <BrowserRouter>
         <ToastContainer />
         <div className="full-screen bg-base-100" data-theme={theme}>
-          <Routes>
-            <Route path='login' element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="verification/:id" element={<Verification />}/>
-            <Route path="/" element={
-              <RequireAuth>
-                <Home />
-              </RequireAuth>
-            } />
-          </Routes>
+          <ProvideBackEnd>
+            <Routes>
+              <Route path='login' element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="verification/:id" element={<Verification />} />
+              <Route path="/" element={
+                <RequireAuth>
+                  <Home />
+                </RequireAuth>
+              } />
+            </Routes>
+          </ProvideBackEnd>
         </div>
       </BrowserRouter>
     </ApolloProvider>
