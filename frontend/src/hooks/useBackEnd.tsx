@@ -19,9 +19,9 @@ export const useBackEnd = () => {
 function useProvideBackEnd() {
     const { setLoading } = useLoading()
     const navigate = useNavigate()
+    // const [registerFunc] = useMutation(REGISTER_QUERY)
 
     // function register(name: string, email: string, password: string) {
-    //     const [registerFunc] = useMutation(REGISTER_QUERY)
     //     const input = {
     //         name: name,
     //         email: email,
@@ -49,7 +49,7 @@ function useProvideBackEnd() {
 
     function register(registerFunc: Promise<any>) {
         setLoading(true)
-        
+
         registerFunc.then((res) => {
             toastSuccess("Succesfully created user")
             const data = res.data
@@ -62,7 +62,7 @@ function useProvideBackEnd() {
         registerFunc.catch((err) => {
             setLoading(false)
             console.log(err.message)
-            toastError(err)
+            toastError("Fill all field properly!")
         })
     }
 
