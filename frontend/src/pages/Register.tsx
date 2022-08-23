@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import mainLogo from '../assets/mainLogo.png'
+import GoogleSignIn from '../components/GoogleSignIn'
 import { ROUTE } from '../config/constants'
 import { toastError } from '../config/toast'
 import { useBackEnd } from '../hooks/useBackEnd'
@@ -9,7 +10,7 @@ import { REGISTER_QUERY } from '../query/user'
 export default function Register() {
     const navigate = useNavigate()
     const [registerFunc] = useMutation(REGISTER_QUERY);
-    const {register} = useBackEnd()
+    const { register } = useBackEnd()
 
     function handleRegister(e: any) {
         e.preventDefault()
@@ -27,17 +28,17 @@ export default function Register() {
     }
 
     function validateInput(form: any) {
-        if(form.email.value === "") {
+        if (form.email.value === "") {
             toastError("You must fill the email field!")
             return false
         }
 
-        if(form.name.value === "") {
+        if (form.name.value === "") {
             toastError("You must fill the name field!")
             return false
         }
 
-        if(form.pass.value === "") {
+        if (form.pass.value === "") {
             toastError("You must fill the password field!")
             return false
         }
@@ -62,6 +63,10 @@ export default function Register() {
                         <input className='text-input' type={"password"} placeholder={"Passwword"} name={"pass"} />
                         <div className='form-space-y'></div>
                         <button className='btn btn-primary'>Register</button>
+                        <div className='form-space-y'></div>
+                        <div className='text-base-content'>OR</div>
+                        <div className='form-space-y'></div>
+                        <GoogleSignIn />
                     </div>
                 </form>
                 <div className='mt-8'></div>

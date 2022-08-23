@@ -1,7 +1,7 @@
 @use 'index' as i;
 
 .btn {
-    @extend .w-full, .h-12, .rounded-sm, .center-all, .font-bold, .text-xl;
+    @extend .w-full, .h-12, .rounded-sm, .center-all, .font-bold, .text-xl, .cursor-pointer;
 
     &-primary {
         @extend .border-4, .border-primary, .bg-primary, .text-primary-content;
