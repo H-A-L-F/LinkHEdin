@@ -16,8 +16,6 @@ export default function Register() {
         const name = e.target.name.value
         const pass = e.target.pass.value
 
-        // register(name, email, pass)
-
         const input = {
             name: name,
             email: email,
@@ -25,14 +23,7 @@ export default function Register() {
         }
 
         validateInput(e.target) && register(registerFunc({ variables: { input: input } }))
-
-        // registerUser(registerFunc({ variables: { input: input } }), setLoading) && onSuccessRegister()
     }
-
-    // function onSuccessRegister() {
-    //     console.log("Navigate")
-    //     navigate("/login")
-    // }
 
     function validateInput(form: any) {
         if(form.email.value === "") {
