@@ -99,6 +99,7 @@ function useProvideBackEnd() {
     }
 
     return {
+        login,
         register,
         validateUser
     }
