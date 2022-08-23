@@ -1,34 +1,23 @@
-import { useMutation } from '@apollo/client';
-import React, { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
-import { toastError } from '../config/toast';
-import { useLoading } from '../hooks/useLoading';
-import { VALIDATE_QUERY } from '../query/user';
+import mainLogo from '../assets/mainLogo.png'
 
 export default function Verification() {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const { setLoading } = useLoading();
-    const [validateFunc] = useMutation(VALIDATE_QUERY);
-
-    useEffect(() => {
-        setLoading(true);
-        if (id) {
-            validate();
-        }
-    }, [id]);
-
-    function validate() {
-        validateFunc({ variables: { id: id } })
-            .then((resp) => {
-                setLoading(false);
-                navigate("/login");
-            })
-            .catch((err) => {
-                setLoading(false);
-                toastError(err.messsage);
-            });
+    function handleVerfication(e: any) {
+        e.preventDefault()
     }
 
-    return <div>Validation Page</div>;
+    return (
+        <div className='full-screen center-all'>
+            <div className='flex flex-col center-all w-fit h-fit px-4'>
+                <img className='w-72 mb-4' alt='LinkHEdIn' src={mainLogo} />
+                <form action="" onSubmit={handleVerfication}>
+                    <div className='flex flex-col w-96 py-4 center-all'>
+                        <div className='form-space-y'></div>
+                        <input className='text-input' type={"text"} placeholder={"Code"} name={"code"} />
+                        <div className='form-space-y'></div>
+                        <button className='btn btn-primary'>Activate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    )
 }
