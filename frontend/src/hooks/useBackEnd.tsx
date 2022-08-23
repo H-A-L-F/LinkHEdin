@@ -92,6 +92,7 @@ function useProvideBackEnd() {
 
         validateChangePassFunc.then((res) => {
             setLoading(false)
+            toastSuccess("Code correct")
             setAuthorized(true)
             return true
         })
