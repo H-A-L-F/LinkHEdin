@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import mainLogo from '../assets/mainLogo.png'
+import { ROUTE } from '../config/constants'
 import { toastError } from '../config/toast'
 import { useBackEnd } from '../hooks/useBackEnd'
 import { REGISTER_QUERY } from '../query/user'
@@ -45,7 +46,7 @@ export default function Register() {
     }
 
     function navLogin() {
-        navigate("/login")
+        navigate(ROUTE.ROUTE_LOGIN)
     }
 
     return (

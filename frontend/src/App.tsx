@@ -52,23 +52,7 @@ export function App() {
         <ToastContainer />
         <div className="full-screen bg-base-100" data-theme={theme}>
           <ProvideBackEnd>
-            {/* <Routes>
-              <Route path="guest" element={
-                <RequireGuest>
-                  <div>
-                    <Route path='login' element={<Login />} />
-                    <Route path="register" element={<Register />} />
-                    <Route path="verification/:id" element={<Verification />} />
-                  </div>
-                </RequireGuest>
-              } />
-              <Route path="/" element={
-                <RequireAuth>
-                  <Home />
-                </RequireAuth>
-              } />
-            </Routes> */}
-
+            
             <Routes>
               <Route element={<MainLayout />}>
                 <Route path="/home" element={<Home />} />
@@ -80,30 +64,10 @@ export function App() {
                 <Route path="verification/:id" element={<Verification />} />
               </Route>
             </Routes>
-            
+
           </ProvideBackEnd>
         </div>
       </BrowserRouter>
     </ApolloProvider>
   )
 }
-
-function RequireAuth({ children }: { children: JSX.Element }) {
-  let auth = useAuth();
-  let location = useLocation();
-
-  if (!auth.user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return children;
-}
-
-function RequireGuest({ children }: { children: JSX.Element }) {
-  const { user } = useAuth()
-  let location = useLocation()
-
-  if (user) return <Navigate to="/home" state={{ from: location }} replace />
-
-  return children
-} 

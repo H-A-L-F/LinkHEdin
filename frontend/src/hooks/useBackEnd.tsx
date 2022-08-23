@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
@@ -55,7 +56,7 @@ function useProvideBackEnd() {
             console.log(user)
             setUser(user)
             setLoading(false)
-            navigate("/home")
+            navigate(ROUTE.ROUTE_HOME)
         })
 
         loginFunc.catch((err) => {
@@ -73,7 +74,7 @@ function useProvideBackEnd() {
             const data = res.data
             if (data && data.register.token !== undefined) {
                 setLoading(false)
-                navigate("/login")
+                navigate(ROUTE.ROUTE_LOGIN)
             }
         })
 
@@ -89,7 +90,7 @@ function useProvideBackEnd() {
 
         validateUserFunc.then((res) => {
             setLoading(false)
-            navigate("/login")
+            navigate(ROUTE.ROUTE_LOGIN)
         })
 
         validateUserFunc.catch((err) => {
