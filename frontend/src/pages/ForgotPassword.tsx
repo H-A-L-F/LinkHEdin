@@ -33,6 +33,8 @@ export default function ForgotPassword() {
                 <input className='text-input' type={"email"} placeholder={"Email"} name={"email"} />
                 <div className='form-space-y'></div>
                 <button className='btn btn-primary'>Reset password</button>
+                <div className='form-space-y'></div>
+                <div className='btn btn-neutral'>Back</div>
             </div>
         </form>
     )
