@@ -66,7 +66,22 @@ function useProvideBackEnd() {
         })
     }
 
+    function validateUser(validateUserFunc: Promise<any>) {
+        setLoading(true)
+
+        validateUserFunc.then((res) => {
+            setLoading(false)
+            navigate("/login")
+        })
+
+        validateUserFunc.catch((err) => {
+            setLoading(false)
+            toastError("Please check your code again!")
+        })
+    }
+
     return {
-        register
+        register,
+        validateUser
     }
 }
