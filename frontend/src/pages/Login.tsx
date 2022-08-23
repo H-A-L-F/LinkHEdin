@@ -37,6 +37,10 @@ export default function Login() {
     navigate(ROUTE.ROUTE_REGISTER)
   }
 
+  function navForgotPass() {
+    navigate(ROUTE.ROUTE_FORGOTPASS)
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit} action="">
@@ -45,7 +49,7 @@ export default function Login() {
           <div className='form-space-y'></div>
           <input className='text-input' type={"password"} placeholder={"Passwword"} name={"pass"} />
           <div className='form-space-y'></div>
-          <div className='place-self-start link'>Forgot passowrd?</div>
+          <div className='place-self-start link' onClick={navForgotPass}>Forgot passowrd?</div>
           <div className='form-space-y'></div>
           <button className='btn btn-primary'>Sign In</button>
           <div className='form-space-y'></div>
