@@ -72,9 +72,25 @@ function useProvideBackEnd() {
         })
     }
 
+    function reqChangePass(reqChangePassFunc: Promise<any>) {
+        setLoading(true)
+
+        reqChangePassFunc.then((res) => {
+            setLoading(false)
+            toastSuccess("Password reset link has been sent to your email.")
+        })
+
+        reqChangePassFunc.catch((err) => {
+            setLoading(false)
+            console.log(err)
+            toastError(err)
+        })
+    }
+
     return {
         login,
         register,
-        validateUser
+        validateUser,
+        reqChangePass
     }
 }

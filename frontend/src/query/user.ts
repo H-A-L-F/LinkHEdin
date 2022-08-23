@@ -18,6 +18,12 @@ export const VALIDATE_USER_QUERY = gql`
   }
 `;
 
+export const REQ_CHANGE_PASS_QUERY = gql`
+  mutation RequestChangePassword($email: String!) {
+    requestChangePassword(email: $email)
+  }
+`
+
 export const FIND_USER_QUERY = gql`
   query User($id:ID!){
     user(id:$id){
