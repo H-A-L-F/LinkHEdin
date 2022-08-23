@@ -81,8 +81,8 @@ func UserLogin(ctx context.Context, email string, password string) (interface{},
 		return nil, err
 	}
 
-	if user.Validate == false {
-		return nil, errors.New("Your account is not authenticated!")
+	if !user.Validate {
+		return nil, errors.New("please activate your account first")
 	}
 
 	if err := ComparePassword(user.Password, password); err != nil {
@@ -95,10 +95,16 @@ func UserLogin(ctx context.Context, email string, password string) (interface{},
 	}
 
 	return map[string]interface{}{
-		"id":            user.ID,
-		"token":         token,
-		"followed_user": user.FollowedUser,
-		"name":          user.Name,
-		"email":         user.Email,
+		"id":             user.ID,
+		"token":          token,
+		"name":           user.Name,
+		"email":          user.Email,
+		"photoprofile":   user.PhotoProfile,
+		"followeduser":   user.FollowedUser,
+		"requestconnect": user.RequestConnect,
+		"bgphotoprofile": user.BgPhotoProfile,
+		"connecteduser":  user.ConnectedUser,
+		"headline":       user.Headline,
+		"profileviews":   user.ProfileViews,
 	}, nil
 }
