@@ -20,33 +20,6 @@ function useProvideBackEnd() {
     const { setLoading } = useLoading()
     const navigate = useNavigate()
     const {setUser} = useAuth()
-    // const [registerFunc] = useMutation(REGISTER_QUERY)
-
-    // function register(name: string, email: string, password: string) {
-    //     const input = {
-    //         name: name,
-    //         email: email,
-    //         password: password,
-    //     }
-
-    //     setLoading(true)
-    //     const mutation = registerFunc({ variables: { input: input } })
-
-    //     mutation.then((res) => {
-    //         toastSuccess("Succesfully created user")
-    //         const data = res.data
-    //         if (data && data.register.token !== undefined) {
-    //             setLoading(false)
-    //             navigate("/login")
-    //         }
-    //     })
-
-    //     mutation.catch((err) => {
-    //         setLoading(false)
-    //         console.log(err.message)
-    //         toastError(err)
-    //     })
-    // }
 
     function login(loginFunc: Promise<any>) {
         setLoading(true)
