@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navigate, useLocation, useOutlet } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
+import mainLogo from '../assets/mainLogo.png'
 
 export default function GuestLayout() {
     const { user } = useAuth()
@@ -12,14 +13,11 @@ export default function GuestLayout() {
     }
 
     return (
-        <div>
-            {/* <AppBar
-                pages={[
-                    { label: "Settings", path: "settings" },
-                    { label: "Profile", path: "profile" }
-                ]}
-            /> */}
-            {outlet}
+        <div className='full-screen center-all'>
+            <div className='flex flex-col center-all w-fit h-fit px-4'>
+                <img className='w-72 mb-4' alt='LinkHEdIn' src={mainLogo} />
+                {outlet}
+            </div>
         </div>
     )
 }

@@ -17,6 +17,7 @@ import Verification from "./pages/Verification";
 import { ProvideBackEnd } from "./hooks/useBackEnd";
 import MainLayout from "./layout/MainLayout";
 import GuestLayout from "./layout/GuestLayout";
+import ForgotPassword from "./pages/ForgotPassword";
 
 export function App() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -54,14 +55,15 @@ export function App() {
           <ProvideBackEnd>
             
             <Routes>
-              <Route element={<MainLayout />}>
-                <Route path="/home" element={<Home />} />
+              <Route path="/" element={<MainLayout />}>
+                <Route path="home" element={<Home />} />
               </Route>
 
               <Route path="guest" element={<GuestLayout />}>
                 <Route path='login' element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route path="verification/:id" element={<Verification />} />
+                <Route path="forgotpass" element={<ForgotPassword />}/>
               </Route>
             </Routes>
 
