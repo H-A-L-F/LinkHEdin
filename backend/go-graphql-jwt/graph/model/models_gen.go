@@ -14,6 +14,11 @@ type NewUser struct {
 	Email    string `json:"email"`
 }
 
+type ValidChangePass struct {
+	ID   string `json:"id"`
+	Code int    `json:"code"`
+}
+
 type ValidReq struct {
 	ID   string `json:"id"`
 	Code int    `json:"code"`

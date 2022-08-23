@@ -8,7 +8,7 @@ import (
 	"LinkHEdin/graph/generated"
 	"LinkHEdin/graph/model"
 	"LinkHEdin/lib"
-	mail "LinkHEdin/mail"
+	"LinkHEdin/mail"
 	middleware "LinkHEdin/middlewares"
 	"context"
 
@@ -36,6 +36,17 @@ func (r *mutationResolver) RequestChangePassword(ctx context.Context, email stri
 
 	link := "http://localhost:5173/guest/resetpass/" + changePasswordRequest.ID
 	mail.SendPasswordRequest(link, changePasswordRequest.Email, changePasswordRequest.Code)
+	return "Ok", nil
+}
+
+// ValidateChangePass is the resolver for the validateChangePass field.
+func (r *mutationResolver) ValidateChangePass(ctx context.Context, input model.ValidChangePass) (string, error) {
+	var validate *model.ChangePasswordRequest
+
+	if err := r.DB.Where("id = ? AND code = ?", input.ID, input.Code).First(&validate).Error; err != nil {
+		return "Change password request not found", err
+	}
+
 	return "Ok", nil
 }
 

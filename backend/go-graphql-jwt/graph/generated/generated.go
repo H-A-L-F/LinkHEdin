@@ -56,6 +56,7 @@ type ComplexityRoot struct {
 		Register              func(childComplexity int, input model.NewUser) int
 		RequestChangePassword func(childComplexity int, email string) int
 		UpdateUser            func(childComplexity int, id string, input model.NewUser) int
+		ValidateChangePass    func(childComplexity int, input model.ValidChangePass) int
 		ValidateUser          func(childComplexity int, input model.ValidReq) int
 		ValidateUserWithEmail func(childComplexity int, email string) int
 	}
@@ -82,6 +83,7 @@ type ComplexityRoot struct {
 
 type MutationResolver interface {
 	RequestChangePassword(ctx context.Context, email string) (string, error)
+	ValidateChangePass(ctx context.Context, input model.ValidChangePass) (string, error)
 	ChangePassword(ctx context.Context, password string, id string) (string, error)
 	Follow(ctx context.Context, id string) (string, error)
 	ValidateUser(ctx context.Context, input model.ValidReq) (string, error)
@@ -227,6 +229,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(string), args["input"].(model.NewUser)), true
 
+	case "Mutation.validateChangePass":
+		if e.complexity.Mutation.ValidateChangePass == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_validateChangePass_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.ValidateChangePass(childComplexity, args["input"].(model.ValidChangePass)), true
+
 	case "Mutation.validateUser":
 		if e.complexity.Mutation.ValidateUser == nil {
 			break
@@ -357,6 +371,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputNewLink,
 		ec.unmarshalInputNewUser,
+		ec.unmarshalInputValidChangePass,
 		ec.unmarshalInputValidReq,
 	)
 	first := true
@@ -456,8 +471,14 @@ input ValidReq {
   code: Int!
 }
 
+input ValidChangePass {
+  id: String!
+  code: Int!
+}
+
 type Mutation {
   requestChangePassword(email: String!): String!
+  validateChangePass(input: ValidChangePass!): String!
   changePassword(password: String!, id: ID!): String!
   follow(id: ID!): String! @auth
   validateUser(input: ValidReq!): String!
@@ -647,6 +668,21 @@ func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, 
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_validateChangePass_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.ValidChangePass
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNValidChangePass2LinkHEdinᚋgraphᚋmodelᚐValidChangePass(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_validateUserWithEmail_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -794,6 +830,61 @@ func (ec *executionContext) fieldContext_Mutation_requestChangePassword(ctx cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_requestChangePassword_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_validateChangePass(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_validateChangePass(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().ValidateChangePass(rctx, fc.Args["input"].(model.ValidChangePass))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_validateChangePass(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_validateChangePass_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -4115,6 +4206,42 @@ func (ec *executionContext) unmarshalInputNewUser(ctx context.Context, obj inter
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputValidChangePass(ctx context.Context, obj interface{}) (model.ValidChangePass, error) {
+	var it model.ValidChangePass
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "code"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "code":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("code"))
+			it.Code, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputValidReq(ctx context.Context, obj interface{}) (model.ValidReq, error) {
 	var it model.ValidReq
 	asMap := map[string]interface{}{}
@@ -4182,6 +4309,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_requestChangePassword(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "validateChangePass":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_validateChangePass(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {
@@ -5026,6 +5162,11 @@ func (ec *executionContext) marshalNUser2ᚖLinkHEdinᚋgraphᚋmodelᚐUser(ctx
 		return graphql.Null
 	}
 	return ec._User(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNValidChangePass2LinkHEdinᚋgraphᚋmodelᚐValidChangePass(ctx context.Context, v interface{}) (model.ValidChangePass, error) {
+	res, err := ec.unmarshalInputValidChangePass(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNValidReq2LinkHEdinᚋgraphᚋmodelᚐValidReq(ctx context.Context, v interface{}) (model.ValidReq, error) {
