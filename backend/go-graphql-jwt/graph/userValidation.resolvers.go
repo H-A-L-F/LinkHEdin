@@ -15,6 +15,7 @@ func (r *mutationResolver) CreateUserValidation(ctx context.Context, input model
 	model := &model.UserValidation{
 		ID:     uuid.New().String(),
 		Link:   input.Link,
+		Code:   input.Code,
 		UserID: input.UserID,
 	}
 

@@ -7,6 +7,7 @@ import (
 
 	"LinkHEdin/database"
 	"LinkHEdin/graph/model"
+	"LinkHEdin/lib"
 	"LinkHEdin/mail"
 
 	"github.com/google/uuid"
@@ -41,6 +42,7 @@ func UserRegister(ctx context.Context, newUser model.NewUser) (interface{}, erro
 	verification := &model.UserValidation{
 		ID:     newId,
 		Link:   "http://localhost:5173/verification/" + newId,
+		Code:   lib.RangeIn(1000, 9999),
 		UserID: createdUser.ID,
 	}
 
@@ -53,7 +55,7 @@ func UserRegister(ctx context.Context, newUser model.NewUser) (interface{}, erro
 	fmt.Print("Lewat verif")
 
 	fmt.Print("Mau send")
-	mail.SendVerification(verification.Link, createdUser.Email)
+	mail.SendVerification(verification.Link, createdUser.Email, verification.Code)
 	fmt.Print("Udah send")
 
 	return map[string]interface{}{

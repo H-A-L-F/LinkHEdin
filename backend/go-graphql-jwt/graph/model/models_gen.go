@@ -4,6 +4,7 @@ package model
 
 type NewLink struct {
 	Link   string `json:"link"`
+	Code   int    `json:"code"`
 	UserID string `json:"user_id"`
 }
 

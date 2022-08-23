@@ -459,6 +459,7 @@ type Mutation {
 }`, BuiltIn: false},
 	{Name: "../userValidation.graphqls", Input: `input NewLink {
   link: String!
+  code: Int!
   user_id: String!
 }
 
@@ -3996,7 +3997,7 @@ func (ec *executionContext) unmarshalInputNewLink(ctx context.Context, obj inter
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"link", "user_id"}
+	fieldsInOrder := [...]string{"link", "code", "user_id"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4008,6 +4009,14 @@ func (ec *executionContext) unmarshalInputNewLink(ctx context.Context, obj inter
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("link"))
 			it.Link, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "code":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("code"))
+			it.Code, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}

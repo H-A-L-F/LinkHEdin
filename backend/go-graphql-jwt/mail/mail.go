@@ -2,6 +2,7 @@ package mail
 
 import (
 	"log"
+	"strconv"
 
 	"gopkg.in/gomail.v2"
 )
@@ -14,12 +15,12 @@ const CONFIG_SENDER_NAME = "LinkhedIn <bluejackslc221@gmail.com>"
 const CONFIG_AUTH_EMAIL = "slcax221@gmail.com"
 const CONFIG_AUTH_PASSWORD = "kpryfcefwyldlcix"
 
-func SendVerification(link string, to string) {
+func SendVerification(link string, to string, code int) {
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", CONFIG_SENDER_NAME)
 	mailer.SetHeader("To", to)
 	mailer.SetHeader("Subject", "LinkhedIn Verification")
-	body := "This is your verification link for LinkhedIn account " + link
+	body := "This is your verification link for LinkhedIn account " + link + "<br>Please enter your code: " + strconv.Itoa(code)
 	mailer.SetBody("text/html", body)
 
 	dialer := gomail.NewDialer(
