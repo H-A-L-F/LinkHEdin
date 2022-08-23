@@ -1,8 +1,24 @@
 import React from 'react'
+import { toastError } from '../config/toast'
 
 export default function ForgotPassword() {
-    function handleForgotPass() {
+    function handleForgotPass(e: any) {
+        e.preventDefault()
 
+        if(!validateInput(e.target)) return
+
+        const email = e.target.email.value
+
+        
+    }
+
+    function validateInput(form: any): boolean {
+        if(form.email.value === "") {
+            toastError("You must fill the email field!")
+            return false
+        }
+
+        return true
     }
 
     return (
