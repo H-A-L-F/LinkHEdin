@@ -86,9 +86,16 @@ func (r *mutationResolver) Follow(ctx context.Context, id string) (string, error
 
 // ValidateUser is the resolver for the validateUser field.
 func (r *mutationResolver) ValidateUser(ctx context.Context, id string) (string, error) {
+	var validation *model.UserValidation
+
+	if err := r.DB.First(&validation, "id = ?", id).Error; err != nil {
+		return "Not Found Validation", err
+	}
+
 	var user *model.User
-	if err := r.DB.First(&user, "id = ?", id).Error; err != nil {
-		return "Not Found", err
+
+	if err := r.DB.First(&user, "id = ?", validation.UserID).Error; err != nil {
+		return "Not Found User", err
 	}
 
 	user.Validate = true

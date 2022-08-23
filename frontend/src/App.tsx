@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import { useAuth } from "./hooks/useAuth";
 import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import Verification from "./pages/Verification";
 
 export function App() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -50,6 +51,7 @@ export function App() {
           <Routes>
             <Route path='login' element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="verification/:id" element={<Verification />}/>
             <Route path="/" element={
               <RequireAuth>
                 <Home />

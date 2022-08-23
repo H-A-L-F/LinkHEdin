@@ -12,6 +12,12 @@ export const REGISTER_QUERY = gql`
   }
 `;
 
+export const VALIDATE_QUERY = gql`
+mutation ValidateUser($id:ID!){
+  validateUser(id:$id)
+}
+`;
+
 export const FIND_USER_QUERY = gql`
 query User($id:ID!){
   user(id:$id){

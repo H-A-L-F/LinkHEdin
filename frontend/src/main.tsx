@@ -8,9 +8,9 @@ import { App } from './App'
 import { LoadingContextProvider } from './hooks/useLoading'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <ProvideAuth>
-    <LoadingContextProvider>
+  <LoadingContextProvider>
+    <ProvideAuth>
       <App />
-    </LoadingContextProvider>
-  </ProvideAuth>
+    </ProvideAuth>
+  </LoadingContextProvider>
 )
