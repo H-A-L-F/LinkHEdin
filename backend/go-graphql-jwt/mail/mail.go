@@ -36,12 +36,12 @@ func SendVerification(link string, to string, code int) {
 	log.Println("Mail sent!")
 }
 
-func SendPasswordRequest(link string, to string) {
+func SendPasswordRequest(link string, to string, code int) {
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", CONFIG_SENDER_NAME)
 	mailer.SetHeader("To", to)
 	mailer.SetHeader("Subject", "LinkhedIn Verification")
-	body := "This is change password request link for LinkhedIn acccount " + link
+	body := "This is change password request link for LinkhedIn acccount " + link + "<br>Please enter your code: " + strconv.Itoa(code)
 	mailer.SetBody("text/html", body)
 
 	dialer := gomail.NewDialer(

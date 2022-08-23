@@ -37,7 +37,7 @@ input ValidReq {
 }
 
 type Mutation {
-  requestChangePassword: String!
+  requestChangePassword(email: String!): String!
   changePassword(password: String!, id: ID!): String!
   follow(id: ID!): String! @auth
   validateUser(input: ValidReq!): String!

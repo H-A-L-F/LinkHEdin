@@ -54,7 +54,7 @@ type ComplexityRoot struct {
 		Follow                func(childComplexity int, id string) int
 		Login                 func(childComplexity int, email string, password string) int
 		Register              func(childComplexity int, input model.NewUser) int
-		RequestChangePassword func(childComplexity int) int
+		RequestChangePassword func(childComplexity int, email string) int
 		UpdateUser            func(childComplexity int, id string, input model.NewUser) int
 		ValidateUser          func(childComplexity int, input model.ValidReq) int
 		ValidateUserWithEmail func(childComplexity int, email string) int
@@ -81,7 +81,7 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	RequestChangePassword(ctx context.Context) (string, error)
+	RequestChangePassword(ctx context.Context, email string) (string, error)
 	ChangePassword(ctx context.Context, password string, id string) (string, error)
 	Follow(ctx context.Context, id string) (string, error)
 	ValidateUser(ctx context.Context, input model.ValidReq) (string, error)
@@ -208,7 +208,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Mutation.RequestChangePassword(childComplexity), true
+		args, err := ec.field_Mutation_requestChangePassword_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.RequestChangePassword(childComplexity, args["email"].(string)), true
 
 	case "Mutation.updateUser":
 		if e.complexity.Mutation.UpdateUser == nil {
@@ -452,7 +457,7 @@ input ValidReq {
 }
 
 type Mutation {
-  requestChangePassword: String!
+  requestChangePassword(email: String!): String!
   changePassword(password: String!, id: ID!): String!
   follow(id: ID!): String! @auth
   validateUser(input: ValidReq!): String!
@@ -603,6 +608,21 @@ func (ec *executionContext) field_Mutation_register_args(ctx context.Context, ra
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_requestChangePassword_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["email"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["email"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -739,7 +759,7 @@ func (ec *executionContext) _Mutation_requestChangePassword(ctx context.Context,
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().RequestChangePassword(rctx)
+		return ec.resolvers.Mutation().RequestChangePassword(rctx, fc.Args["email"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -765,6 +785,17 @@ func (ec *executionContext) fieldContext_Mutation_requestChangePassword(ctx cont
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_requestChangePassword_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
 	}
 	return fc, nil
 }

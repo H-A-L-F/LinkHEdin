@@ -8,6 +8,7 @@ import (
 	"LinkHEdin/graph/generated"
 	"LinkHEdin/graph/model"
 	"LinkHEdin/lib"
+	mail "LinkHEdin/mail"
 	middleware "LinkHEdin/middlewares"
 	"context"
 
@@ -15,24 +16,27 @@ import (
 )
 
 // RequestChangePassword is the resolver for the requestChangePassword field.
-func (r *mutationResolver) RequestChangePassword(ctx context.Context) (string, error) {
-	val := *middleware.CtxValue(ctx)
+func (r *mutationResolver) RequestChangePassword(ctx context.Context, email string) (string, error) {
 	var user *model.User
-	err := r.DB.First(&user, "id = ?", val.ID).Error
-	if err != nil {
+
+	if err := r.DB.First(&user, "email = ?", email).Error; err != nil {
 		return "Error", err
 	}
 
-	passwordRequest := &model.ChangePasswordRequest{
-		ID:    uuid.NewString(),
-		Email: user.Email,
+	changePasswordRequest := &model.ChangePasswordRequest{
+		ID:     uuid.NewString(),
+		Email:  user.Email,
+		Code:   lib.RangeIn(1000, 9999),
+		IsUsed: false,
 	}
-	err = r.DB.Create(passwordRequest).Error
-	if err != nil {
+
+	if err := r.DB.Create(changePasswordRequest).Error; err != nil {
 		return "Error", err
 	}
 
-	return passwordRequest.ID, nil
+	link := "http://localhost:5173/resetpass/" + changePasswordRequest.ID
+	mail.SendPasswordRequest(link, changePasswordRequest.Email, changePasswordRequest.Code)
+	return "Ok", nil
 }
 
 // ChangePassword is the resolver for the changePassword field.

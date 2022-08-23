@@ -8,4 +8,5 @@ func MigrateTable() {
 	db := GetDB()
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.UserValidation{})
+	db.AutoMigrate(&model.ChangePasswordRequest{})
 }
