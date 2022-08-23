@@ -1,8 +1,7 @@
-import { useMutation } from "@apollo/client";
 import { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "../config/toast";
-import { REGISTER_QUERY } from "../query/user";
+import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
 
 const backEndContext = createContext({} as any)
@@ -19,6 +18,7 @@ export const useBackEnd = () => {
 function useProvideBackEnd() {
     const { setLoading } = useLoading()
     const navigate = useNavigate()
+    const {setUser} = useAuth()
     // const [registerFunc] = useMutation(REGISTER_QUERY)
 
     // function register(name: string, email: string, password: string) {
@@ -46,6 +46,24 @@ function useProvideBackEnd() {
     //         toastError(err)
     //     })
     // }
+
+    function login(loginFunc: Promise<any>) {
+        setLoading(true)
+
+        loginFunc.then((res) => {
+            const user = res.data
+            console.log(user)
+            setUser(user)
+            setLoading(false)
+            navigate("/home")
+        })
+
+        loginFunc.catch((err) => {
+            setLoading(false)
+            console.log(err)
+            toastError(err)
+        })
+    }
 
     function register(registerFunc: Promise<any>) {
         setLoading(true)
