@@ -31,11 +31,16 @@ input NewUser {
   email: String!
 }
 
+input ValidReq {
+  id:  String!
+  code: Int!
+}
+
 type Mutation {
   requestChangePassword: String!
   changePassword(password: String!, id: ID!): String!
   follow(id: ID!): String! @auth
-  validateUser(id: ID!): String!
+  validateUser(input: ValidReq!): String!
   validateUserWithEmail(email: String!): String!
   login(email: String!, password: String!): Any!
   register(input: NewUser!): Any!

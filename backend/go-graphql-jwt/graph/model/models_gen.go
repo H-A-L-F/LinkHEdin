@@ -13,3 +13,8 @@ type NewUser struct {
 	Password string `json:"password"`
 	Email    string `json:"email"`
 }
+
+type ValidReq struct {
+	ID   string `json:"id"`
+	Code int    `json:"code"`
+}

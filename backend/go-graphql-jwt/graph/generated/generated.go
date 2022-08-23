@@ -56,7 +56,7 @@ type ComplexityRoot struct {
 		Register              func(childComplexity int, input model.NewUser) int
 		RequestChangePassword func(childComplexity int) int
 		UpdateUser            func(childComplexity int, id string, input model.NewUser) int
-		ValidateUser          func(childComplexity int, id string) int
+		ValidateUser          func(childComplexity int, input model.ValidReq) int
 		ValidateUserWithEmail func(childComplexity int, email string) int
 	}
 
@@ -84,7 +84,7 @@ type MutationResolver interface {
 	RequestChangePassword(ctx context.Context) (string, error)
 	ChangePassword(ctx context.Context, password string, id string) (string, error)
 	Follow(ctx context.Context, id string) (string, error)
-	ValidateUser(ctx context.Context, id string) (string, error)
+	ValidateUser(ctx context.Context, input model.ValidReq) (string, error)
 	ValidateUserWithEmail(ctx context.Context, email string) (string, error)
 	Login(ctx context.Context, email string, password string) (interface{}, error)
 	Register(ctx context.Context, input model.NewUser) (interface{}, error)
@@ -232,7 +232,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.ValidateUser(childComplexity, args["id"].(string)), true
+		return e.complexity.Mutation.ValidateUser(childComplexity, args["input"].(model.ValidReq)), true
 
 	case "Mutation.validateUserWithEmail":
 		if e.complexity.Mutation.ValidateUserWithEmail == nil {
@@ -352,6 +352,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputNewLink,
 		ec.unmarshalInputNewUser,
+		ec.unmarshalInputValidReq,
 	)
 	first := true
 
@@ -445,11 +446,16 @@ input NewUser {
   email: String!
 }
 
+input ValidReq {
+  id:  String!
+  code: Int!
+}
+
 type Mutation {
   requestChangePassword: String!
   changePassword(password: String!, id: ID!): String!
   follow(id: ID!): String! @auth
-  validateUser(id: ID!): String!
+  validateUser(input: ValidReq!): String!
   validateUserWithEmail(email: String!): String!
   login(email: String!, password: String!): Any!
   register(input: NewUser!): Any!
@@ -639,15 +645,15 @@ func (ec *executionContext) field_Mutation_validateUserWithEmail_args(ctx contex
 func (ec *executionContext) field_Mutation_validateUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+	var arg0 model.ValidReq
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNValidReq2LinkHEdinᚋgraphᚋmodelᚐValidReq(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["id"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -907,7 +913,7 @@ func (ec *executionContext) _Mutation_validateUser(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().ValidateUser(rctx, fc.Args["id"].(string))
+		return ec.resolvers.Mutation().ValidateUser(rctx, fc.Args["input"].(model.ValidReq))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4078,6 +4084,42 @@ func (ec *executionContext) unmarshalInputNewUser(ctx context.Context, obj inter
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputValidReq(ctx context.Context, obj interface{}) (model.ValidReq, error) {
+	var it model.ValidReq
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "code"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "code":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("code"))
+			it.Code, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -4953,6 +4995,11 @@ func (ec *executionContext) marshalNUser2ᚖLinkHEdinᚋgraphᚋmodelᚐUser(ctx
 		return graphql.Null
 	}
 	return ec._User(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNValidReq2LinkHEdinᚋgraphᚋmodelᚐValidReq(ctx context.Context, v interface{}) (model.ValidReq, error) {
+	res, err := ec.unmarshalInputValidReq(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
