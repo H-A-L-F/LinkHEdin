@@ -34,7 +34,7 @@ func (r *mutationResolver) RequestChangePassword(ctx context.Context, email stri
 		return "Error", err
 	}
 
-	link := "http://localhost:5173/resetpass/" + changePasswordRequest.ID
+	link := "http://localhost:5173/guest/resetpass/" + changePasswordRequest.ID
 	mail.SendPasswordRequest(link, changePasswordRequest.Email, changePasswordRequest.Code)
 	return "Ok", nil
 }

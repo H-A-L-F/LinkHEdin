@@ -18,6 +18,7 @@ import { ProvideBackEnd } from "./hooks/useBackEnd";
 import MainLayout from "./layout/MainLayout";
 import GuestLayout from "./layout/GuestLayout";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 export function App() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -53,7 +54,7 @@ export function App() {
         <ToastContainer />
         <div className="full-screen bg-base-100" data-theme={theme}>
           <ProvideBackEnd>
-            
+
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route path="home" element={<Home />} />
@@ -63,7 +64,8 @@ export function App() {
                 <Route path='login' element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route path="verification/:id" element={<Verification />} />
-                <Route path="forgotpass" element={<ForgotPassword />}/>
+                <Route path="forgotpass" element={<ForgotPassword />} />
+                <Route path="resetpass/:id" element={<ResetPassword />} />
               </Route>
             </Routes>
 
