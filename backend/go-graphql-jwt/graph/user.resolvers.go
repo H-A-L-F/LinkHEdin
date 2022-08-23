@@ -53,23 +53,28 @@ func (r *mutationResolver) ValidateChangePass(ctx context.Context, input model.V
 // ChangePassword is the resolver for the changePassword field.
 func (r *mutationResolver) ChangePassword(ctx context.Context, password string, id string) (string, error) {
 	var request *model.ChangePasswordRequest
-	err := r.DB.First(&request, "id = ?", id).Error
-	if err != nil {
+
+	if err := r.DB.First(&request, "id = ?", id).Error; err != nil {
 		return "Code Not Valid", err
 	}
 
 	var user *model.User
-	err = r.DB.First(&user, "email = ?", request.Email).Error
-	if err != nil {
+
+	if err := r.DB.First(&user, "email = ?", request.Email).Error; err != nil {
 		return "User not found", err
 	}
 
 	user.Password = my_auth.HashPassword(password)
-	err = r.DB.Save(user).Error
-	if err != nil {
+
+	if err := r.DB.Save(user).Error; err != nil {
 		return "Failed to update user", err
 	}
-	return "Change Password Succed!", nil
+
+	if err := r.DB.Delete(request).Error; err != nil {
+		return "Failed to delete change password request row", err
+	}
+
+	return "Change Password Succeeded!", nil
 }
 
 // Follow is the resolver for the follow field.
