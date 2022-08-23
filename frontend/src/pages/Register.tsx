@@ -1,18 +1,13 @@
 import { useMutation } from '@apollo/client'
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import mainLogo from '../assets/mainLogo.png'
 import { toastError } from '../config/toast'
-import { registerUser } from '../controller/userController'
 import { useBackEnd } from '../hooks/useBackEnd'
-import { useLoading } from '../hooks/useLoading'
 import { REGISTER_QUERY } from '../query/user'
 
 export default function Register() {
     const navigate = useNavigate()
-    const { setLoading } = useLoading()
     const [registerFunc] = useMutation(REGISTER_QUERY);
-    const [regState, setRegState] = useState(false)
     const {register} = useBackEnd()
 
     function handleRegister(e: any) {
