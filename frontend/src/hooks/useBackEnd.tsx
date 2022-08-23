@@ -87,10 +87,26 @@ function useProvideBackEnd() {
         })
     }
 
+    function validateChangePassReq(validateChangePassFunc: Promise<any>, setAuthorized: React.Dispatch<React.SetStateAction<boolean>>) {
+        setLoading(true)
+
+        validateChangePassFunc.then((res) => {
+            setLoading(false)
+            setAuthorized(true)
+            return true
+        })
+
+        validateChangePassFunc.catch((err) => {
+            setLoading(false)
+            toastError(err)
+        })
+    }
+
     return {
         login,
         register,
         validateUser,
-        reqChangePass
+        reqChangePass,
+        validateChangePassReq
     }
 }

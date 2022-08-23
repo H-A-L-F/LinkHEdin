@@ -24,6 +24,12 @@ export const REQ_CHANGE_PASS_QUERY = gql`
   }
 `
 
+export const VALIDATE_CHANGE_PASS_QUERY = gql`
+  mutation  ValidateChangePass($input: ValidChangePass!) {
+    validateChangePass(input: $input)
+  }
+`
+
 export const FIND_USER_QUERY = gql`
   query User($id:ID!){
     user(id:$id){
