@@ -1,5 +1,6 @@
 input NewLink {
   link: String!
+  code: Int!
   user_id: String!
 }
 
