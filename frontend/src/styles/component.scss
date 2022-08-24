@@ -152,12 +152,13 @@
 }
 
 .nav-item--container {
+    // @extend .bg-red-400;
     height: 65px;
-    width: 600px;
+    // width: 600px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    // justify-content: space-evenly;
 }
 
 .nav {

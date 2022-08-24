@@ -25,7 +25,7 @@ function useProvideBackEnd() {
         setLoading(true)
 
         loginFunc.then((res) => {
-            const user = res.data
+            const user = res.data.login
             console.log(user)
             setUser(user)
             setLoading(false)

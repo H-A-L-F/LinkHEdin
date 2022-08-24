@@ -46,9 +46,13 @@ export default function Navbar() {
 
             <div className='nav-item--container'>
                 <NavbarLink route={ROUTE.ROUTE_HOME} Icon={HiHome} title={"Home"} />
+                <div className='w-4'></div>
                 <NavbarLink route={ROUTE.ROUTE_MYNETWORK} Icon={HiUserGroup} title={"My Network"} />
+                <div className='w-4'></div>
                 <NavbarLink route={ROUTE.ROUTE_JOBS} Icon={HiBriefcase} title={"Jobs"} />
+                <div className='w-4'></div>
                 <NavbarLink route={ROUTE.ROUTE_MESSAGES} Icon={HiChatAlt} title={"Messages"} />
+                <div className='w-4'></div>
                 <NavbarLink route={ROUTE.ROUTE_NOTIFICATIONS} Icon={HiBell} title={"Notifications"} />
                 
                 <Avatar />

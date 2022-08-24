@@ -17,7 +17,7 @@ export default function Avatar() {
 
     return (
         <NavLink to='/profile' onMouseEnter={() => { setDropdown(true) }} onMouseLeave={() => { setDropdown(false) }} className={toggleActive}>
-            <img src={user.profile_picture} className='navbar-picture'></img>
+            <img src={user.photoprofile} className='navbar-picture'></img>
             <p className='item-label'>{user.first_name}</p>
             {dropdown && (
                 <div className='dropdown'>
