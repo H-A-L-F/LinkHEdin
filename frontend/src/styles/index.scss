@@ -5280,8 +5280,16 @@ p.t-52 {
   &-primary {
     background-color: var(--col-primary-500);
 
+    &-600 {
+      background-color: var(--col-primary-600);
+    }
+
     &-focus {
       background-color: var(--col-primary-focus);
+    }
+
+    &-content {
+      background-color: var(--col-primary-content);
     }
   }
 

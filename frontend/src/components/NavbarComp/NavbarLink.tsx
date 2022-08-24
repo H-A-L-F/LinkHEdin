@@ -6,7 +6,7 @@ import Avatar from './Avatar'
 
 export default function NavbarLink({ route, Icon, title }: { route: string, Icon: IconType, title: string }) {
     function toggleActive(state: any) {
-        if (state.isActive) return 'nav-item:active'
+        if (state.isActive) return 'nav-item-active'
         return 'nav-item'
     }
 
