@@ -31,7 +31,7 @@ export const VALIDATE_CHANGE_PASS_QUERY = gql`
 `
 
 export const CHANGE_PASS_QUERY = gql`
-  mutation ChangePass($password: String!, $id: String!) {
+  mutation ChangePass($password: String!, $id: ID!) {
       changePassword(password: $password, id: $id)
   }
 `
