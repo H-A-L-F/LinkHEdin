@@ -8,7 +8,6 @@ export function LoadingContextProvider({ children }:{children: JSX.Element}) {
 
   return (
     <loadingContext.Provider value={{ loading, setLoading }}>
-      {/* {loading ? <Loading loading={loading}/> : children} */}
       <Loading loading={loading}/>
       {children}
     </loadingContext.Provider>

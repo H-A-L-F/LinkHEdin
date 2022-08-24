@@ -6,7 +6,6 @@ import { ROUTE } from '../../config/constants';
 import Avatar from './Avatar';
 import '../../styles/index.scss'
 import './navbar.scss'
-import NavbarIcon from './NavbarIcon';
 
 export default function Navbar() {
 

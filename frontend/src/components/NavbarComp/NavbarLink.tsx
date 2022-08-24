@@ -12,8 +12,6 @@ export default function NavbarLink({ route, Icon, title }: { route: string, Icon
 
     return (
         <NavLink to={route} className={toggleActive}>
-            {/* <Icon className='navbar-icon'/>
-            <p className='item-label'>{title}</p> */}
             <div className='bg'></div>
             <div className='content flex flex-col'>
                 <Icon className='icon' />
