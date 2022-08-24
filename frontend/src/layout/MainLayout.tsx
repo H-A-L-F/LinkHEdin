@@ -1,5 +1,6 @@
 import React from 'react'
 import { Navigate, useLocation, useOutlet } from 'react-router'
+import Navbar from '../components/NavbarComp/Navbar'
 import { useAuth } from '../hooks/useAuth'
 
 export default function MainLayout() {
@@ -13,12 +14,7 @@ export default function MainLayout() {
 
     return (
         <div>
-            {/* <AppBar
-                pages={[
-                    { label: "Home", path: "/" },
-                    { label: "Login", path: "/login" }
-                ]}
-            /> */}
+            <Navbar />
             {outlet}
         </div>
     )
