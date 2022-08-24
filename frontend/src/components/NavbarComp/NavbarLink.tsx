@@ -1,19 +1,24 @@
 import React, { MouseEventHandler } from 'react'
 import { IconType } from 'react-icons'
+import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import Avatar from './Avatar'
-import './navbarlink.scss'
 
-export default function NavbarLink({ avatar, Icon, title, onClick }: { avatar?: boolean, Icon?: IconType, title: string, onClick?: MouseEventHandler<HTMLDivElement> }) {
-    const { user } = useAuth()
+export default function NavbarLink({ route, Icon, title }: { route: string, Icon: IconType, title: string }) {
+    function toggleActive(state: any) {
+        if (state.isActive) return 'nav-item:active'
+        return 'nav-item'
+    }
 
-    if (Icon) return <Icon className='headerOption__icon'/>
     return (
-        <div onClick={onClick} className="headerOption">
-            {avatar && (
-                <Avatar className="headerOption__icon" image={user?.photoURL} />
-            )}
-            <h3 className="headerOption__title text-base-content">{title}</h3>
-        </div>
-    )   
+        <NavLink to={route} className={toggleActive}>
+            {/* <Icon className='navbar-icon'/>
+            <p className='item-label'>{title}</p> */}
+            <div className='bg'></div>
+            <div className='content flex flex-col'>
+                <Icon className='icon' />
+            </div>
+            <div className='hint'>{title}</div>
+        </NavLink>
+    )
 }

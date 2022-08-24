@@ -35,7 +35,7 @@ body {
 
 //components
 .searchbar {
-  color: $black;
+  @extend .bg-base-100, .text-base-content;
   font-size: 15px;
   width: 300px;
   height: 40px;
@@ -47,7 +47,7 @@ body {
 
 .navbar-logo {
   scale: 250%;
-  fill: $blue;
+  // fill: $blue;
   margin: 30px
 }
 
@@ -65,7 +65,7 @@ body {
     width: 25px;
     height: 25px;
     // border-radius: 100%;
-    fill: $grey;
+    fill: var(--col-base-content);
   }
 
   .navbar-picture {
@@ -76,18 +76,19 @@ body {
   }
 
   .item-label {
-    color: $grey;
+    @extend .text-base-content;
+    // color: $grey;
     font-size: 12px;
     margin: 3px;
   }
 
   &:hover {
     .navbar-icon {
-      fill: $black;
+      // fill: $black;
     }
 
     .item-label {
-      color: $black;
+      // color: $black;
     }
   }
 }
@@ -99,7 +100,7 @@ body {
   flex-direction: column;
   position: absolute;
   top: 80px;
-  background-color: $white;
+  // background-color: $white;
   border:1px solid rgba(0, 0, 0, 0.50);
   border-radius: 5%;
 }
@@ -123,15 +124,15 @@ body {
 
   .navbar-icon {
     scale: 170%;
-    fill: $black;
+    // fill: $black;
   }
 
   .item-label {
     width: 100%;
-    color: $black;
+    // color: $black;
     font-size: 12px;
     margin: 5px;
-    border-bottom: 4px solid $black;
+    // border-bottom: 4px solid $black;
     font-weight: bold;
   }
 }
@@ -156,12 +157,13 @@ body {
 }
 
 .navbar {
+  @extend .bg-base-300;
   min-height: 65px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .form-space-y {

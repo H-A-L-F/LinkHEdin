@@ -25,3 +25,88 @@
 .link {
     @extend .text-info, .cursor-pointer;
 }
+
+.nav-item {
+    @extend .w-14, .h-14, .bg-base, .rounded-md, .center-all, .cursor-pointer, .text-base-content;
+    position: relative;
+    transition: all 0.4s ease;
+
+    &:active {
+        @extend .bg-primary, .text-primary-content;
+    }
+
+    &:hover .bg {
+        @extend .bg-base-content, .rounded-md;
+        opacity: 0.2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .bg {
+        @extend .bg-base-content, .rounded-md;
+        opacity: 0.0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .content {
+        @extend .center-all;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        .icon {
+            @extend .center-all;
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+        }
+    }
+
+    .hint {
+        @extend .w-24, .h-6, .center-all, .bg-neutral-content, .text-neutral, .rounded-md;
+        position: absolute;
+        opacity: 0.0;
+        top: 100%;
+        transition: all 0.2s ease;
+    }
+
+    &:hover .hint {
+        @extend .w-24, .h-6, .center-all, .bg-neutral-content, .text-neutral, .rounded-md;
+        position: absolute;
+        opacity: 1;
+        top: 120%;
+        transition: all 0.2s ease;
+    }
+}
+
+.nav-item--container {
+    height: 65px;
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.nav {
+    @extend .bg-base-300;
+    padding: 0 15%;
+    min-height: 65px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
