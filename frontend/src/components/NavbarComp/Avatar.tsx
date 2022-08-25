@@ -1,23 +1,14 @@
-import React, { useRef, useState } from 'react'
-import ReactDOM from 'react-dom'
-import { NavLink } from 'react-router-dom'
+import React, { useRef } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 
 export default function Avatar() {
-    const { user } = useAuth()
-    const [dropdown, setDropdown] = useState(false)
+    const { user, setUser } = useAuth()
     const divRef = useRef()
 
-    function toggleActive(state: any) {
-        if (state.isActive) return 'nav-item-active'
-        return 'nav-item'
+    function handleSignOut() {
+        setUser(undefined)
     }
 
-    function handleLogout() {
-
-    }
-
-    // onMouseEnter={() => { setDropdown(true) }} onMouseLeave={() => { setDropdown(false) }} 
     return (
         <div className='nav-item' tabIndex={1}>
             <div className='bg'></div>
@@ -25,8 +16,8 @@ export default function Avatar() {
                 <img src={user.photoprofile} className='image'></img>
                 <div className='name'>{user.name}</div>
             </div>
-            <div className='dropdown'>
-
+            <div className='dropdown flex flex-col'>
+                <p className='link' onClick={handleSignOut}>Sign Out</p>
             </div>
         </div>
     )

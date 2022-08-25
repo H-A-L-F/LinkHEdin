@@ -24,6 +24,10 @@
 
 .link {
     @extend .text-info, .cursor-pointer;
+
+    &:hover {
+        @extend .underline;
+    }
 }
 
 .nav-item {
