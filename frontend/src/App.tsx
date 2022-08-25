@@ -59,7 +59,7 @@ export function App() {
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route path="home" element={<Home />} />
-                <Route path="profile" element={<Profile />} />
+                <Route path="profile/:id" element={<Profile />} />
               </Route>
 
               <Route path="guest" element={<GuestLayout />}>

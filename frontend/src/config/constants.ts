@@ -9,5 +9,5 @@ export const ROUTE = {
     ROUTE_JOBS: "/jobs",
     ROUTE_MESSAGES: "/messages",
     ROUTE_NOTIFICATIONS: "/notifications",
-    ROUTE_PROFILE: "/profile"
+    ROUTE_PROFILE: (id: string) => {return "/profile/" + id}
 }

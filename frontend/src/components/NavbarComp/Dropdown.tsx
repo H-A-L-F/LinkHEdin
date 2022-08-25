@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth'
 import Link from './Link'
 
 export default function Dropdown() {
-    const {setUser} = useAuth()
+    const {user, setUser} = useAuth()
 
     function handleSignOut() {
         setUser(undefined)
@@ -13,7 +13,7 @@ export default function Dropdown() {
 
     return (
         <div className='dropdown flex flex-col'>
-            <Link text='Profile' link={ROUTE.ROUTE_PROFILE}/>
+            <Link text='Profile' link={ROUTE.ROUTE_PROFILE(user.id)}/>
             <p className='link' onClick={handleSignOut}>Sign Out</p>
         </div>
     )
