@@ -36,6 +36,15 @@ export const CHANGE_PASS_QUERY = gql`
   }
 `
 
+export const UPDATE_USER_QUERY = gql`
+mutation UpdateUser($id:ID!, $input:UpdateUser!){
+  updateUser(id:$id, input:$input){
+    name
+    id
+  }
+}
+`
+
 export const FIND_USER_QUERY = gql`
   query User($id:ID!){
     user(id:$id){
@@ -66,15 +75,5 @@ export const USER_FETCH_QUERY = gql`
 export const FOLLOW_USER_QUERY = gql`
   mutation Follow($id:ID!){
     follow(id:$id)
-  }
-`;
-
-
-export const UPDATE_USER_QUERY = gql`
-  mutation UpdateUser($id:ID!, $input:UpdateUser!){
-    updateUser(id:$id, input:$input){
-      name
-      id
-    }
   }
 `;
