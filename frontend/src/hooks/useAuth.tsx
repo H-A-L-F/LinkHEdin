@@ -13,7 +13,7 @@ export const useAuth = () => {
 };
 
 function useProvideAuth() {
-    const [user, setUser] = useLocalStorage("user", null)
+    const [user, setUser] = useLocalStorage("user", undefined)
 
     return {
         user,
