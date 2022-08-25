@@ -15,7 +15,10 @@ export default function MainLayout() {
     return (
         <div>
             <Navbar />
-            {outlet}
+            <div className='main-layout'>
+                <div className='h-8'></div>
+                {outlet}
+            </div>
         </div>
     )
 }

@@ -19,6 +19,7 @@ import MainLayout from "./layout/MainLayout";
 import GuestLayout from "./layout/GuestLayout";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 
 export function App() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -58,6 +59,7 @@ export function App() {
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route path="home" element={<Home />} />
+                <Route path="profile" element={<Profile />} />
               </Route>
 
               <Route path="guest" element={<GuestLayout />}>
