@@ -156,16 +156,31 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.NewUser) (*model.User, error) {
+func (r *mutationResolver) UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*model.User, error) {
 	var model *model.User
 
-	if err := r.DB.First(model, "id = ?", id).Error; err != nil {
+	if err := r.DB.First(&model, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 
-	model.Email = input.Email
-	model.Password = input.Password
-	model.Name = input.Name
+	if input.BgPhotoProfile != "" {
+		model.BgPhotoProfile = input.BgPhotoProfile
+	}
+
+	if input.Email != "" {
+		model.Email = input.Email
+	}
+
+	if input.Headline != "" {
+		model.Headline = input.Headline
+	}
+	if input.Name != "" {
+		model.Name = input.Name
+	}
+	if input.PhotoProfile != "" {
+		model.PhotoProfile = input.PhotoProfile
+	}
+
 	return model, r.DB.Save(model).Error
 }
 

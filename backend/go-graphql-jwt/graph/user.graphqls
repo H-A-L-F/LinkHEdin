@@ -41,6 +41,14 @@ input ValidChangePass {
   code: Int!
 }
 
+input UpdateUser {
+  Name: String!
+  Email: String!
+  PhotoProfile: String!
+  Headline: String!
+  BgPhotoProfile: String!
+}
+
 type Mutation {
   requestChangePassword(email: String!): String!
   validateChangePass(input: ValidChangePass!): String!
@@ -51,6 +59,6 @@ type Mutation {
   login(email: String!, password: String!): Any!
   register(input: NewUser!): Any!
   createUser(input: NewUser!): User!
-  updateUser(id: ID!, input: NewUser!): User!
+  updateUser(id: ID!, input: UpdateUser!): User!
   deleteUser(id: ID!): User!
 }

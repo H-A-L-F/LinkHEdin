@@ -14,6 +14,14 @@ type NewUser struct {
 	Email    string `json:"email"`
 }
 
+type UpdateUser struct {
+	Name           string `json:"Name"`
+	Email          string `json:"Email"`
+	PhotoProfile   string `json:"PhotoProfile"`
+	Headline       string `json:"Headline"`
+	BgPhotoProfile string `json:"BgPhotoProfile"`
+}
+
 type ValidChangePass struct {
 	ID   string `json:"id"`
 	Code int    `json:"code"`

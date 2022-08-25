@@ -55,7 +55,7 @@ type ComplexityRoot struct {
 		Login                 func(childComplexity int, email string, password string) int
 		Register              func(childComplexity int, input model.NewUser) int
 		RequestChangePassword func(childComplexity int, email string) int
-		UpdateUser            func(childComplexity int, id string, input model.NewUser) int
+		UpdateUser            func(childComplexity int, id string, input model.UpdateUser) int
 		ValidateChangePass    func(childComplexity int, input model.ValidChangePass) int
 		ValidateUser          func(childComplexity int, input model.ValidReq) int
 		ValidateUserWithEmail func(childComplexity int, email string) int
@@ -91,7 +91,7 @@ type MutationResolver interface {
 	Login(ctx context.Context, email string, password string) (interface{}, error)
 	Register(ctx context.Context, input model.NewUser) (interface{}, error)
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
-	UpdateUser(ctx context.Context, id string, input model.NewUser) (*model.User, error)
+	UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*model.User, error)
 	DeleteUser(ctx context.Context, id string) (*model.User, error)
 	CreateUserValidation(ctx context.Context, input model.NewLink) (string, error)
 }
@@ -227,7 +227,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(string), args["input"].(model.NewUser)), true
+		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(string), args["input"].(model.UpdateUser)), true
 
 	case "Mutation.validateChangePass":
 		if e.complexity.Mutation.ValidateChangePass == nil {
@@ -371,6 +371,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputNewLink,
 		ec.unmarshalInputNewUser,
+		ec.unmarshalInputUpdateUser,
 		ec.unmarshalInputValidChangePass,
 		ec.unmarshalInputValidReq,
 	)
@@ -476,6 +477,14 @@ input ValidChangePass {
   code: Int!
 }
 
+input UpdateUser {
+  Name: String!
+  Email: String!
+  PhotoProfile: String!
+  Headline: String!
+  BgPhotoProfile: String!
+}
+
 type Mutation {
   requestChangePassword(email: String!): String!
   validateChangePass(input: ValidChangePass!): String!
@@ -486,7 +495,7 @@ type Mutation {
   login(email: String!, password: String!): Any!
   register(input: NewUser!): Any!
   createUser(input: NewUser!): User!
-  updateUser(id: ID!, input: NewUser!): User!
+  updateUser(id: ID!, input: UpdateUser!): User!
   deleteUser(id: ID!): User!
 }`, BuiltIn: false},
 	{Name: "../userValidation.graphqls", Input: `input NewLink {
@@ -656,10 +665,10 @@ func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, 
 		}
 	}
 	args["id"] = arg0
-	var arg1 model.NewUser
+	var arg1 model.UpdateUser
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg1, err = ec.unmarshalNNewUser2LinkHEdinᚋgraphᚋmodelᚐNewUser(ctx, tmp)
+		arg1, err = ec.unmarshalNUpdateUser2LinkHEdinᚋgraphᚋmodelᚐUpdateUser(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1332,7 +1341,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateUser(rctx, fc.Args["id"].(string), fc.Args["input"].(model.NewUser))
+		return ec.resolvers.Mutation().UpdateUser(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateUser))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4206,6 +4215,66 @@ func (ec *executionContext) unmarshalInputNewUser(ctx context.Context, obj inter
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateUser(ctx context.Context, obj interface{}) (model.UpdateUser, error) {
+	var it model.UpdateUser
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"Name", "Email", "PhotoProfile", "Headline", "BgPhotoProfile"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "Name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "Email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Email"))
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "PhotoProfile":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("PhotoProfile"))
+			it.PhotoProfile, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "Headline":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Headline"))
+			it.Headline, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "BgPhotoProfile":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("BgPhotoProfile"))
+			it.BgPhotoProfile, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputValidChangePass(ctx context.Context, obj interface{}) (model.ValidChangePass, error) {
 	var it model.ValidChangePass
 	asMap := map[string]interface{}{}
@@ -5104,6 +5173,11 @@ func (ec *executionContext) marshalNString2ᚕstringᚄ(ctx context.Context, sel
 	}
 
 	return ret
+}
+
+func (ec *executionContext) unmarshalNUpdateUser2LinkHEdinᚋgraphᚋmodelᚐUpdateUser(ctx context.Context, v interface{}) (model.UpdateUser, error) {
+	res, err := ec.unmarshalInputUpdateUser(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalNUser2LinkHEdinᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
