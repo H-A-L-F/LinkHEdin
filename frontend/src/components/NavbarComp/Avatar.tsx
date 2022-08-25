@@ -1,29 +1,33 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 
 export default function Avatar() {
     const { user } = useAuth()
     const [dropdown, setDropdown] = useState(false)
+    const divRef = useRef()
 
     function toggleActive(state: any) {
-        if (state.isActive) return 'navbar-items-active'
-        return 'navbar-items'
+        if (state.isActive) return 'nav-item-active'
+        return 'nav-item'
     }
 
     function handleLogout() {
 
     }
 
+    // onMouseEnter={() => { setDropdown(true) }} onMouseLeave={() => { setDropdown(false) }} 
     return (
-        <NavLink to='/profile' onMouseEnter={() => { setDropdown(true) }} onMouseLeave={() => { setDropdown(false) }} className={toggleActive}>
-            <img src={user.photoprofile} className='navbar-picture'></img>
-            <p className='item-label'>{user.first_name}</p>
-            {dropdown && (
-                <div className='dropdown'>
-                    <div onClick={handleLogout}>Logout</div>
-                </div>
-            )}
-        </NavLink>
+        <div className='nav-item' tabIndex={1}>
+            <div className='bg'></div>
+            <div className='avatar content'>
+                <img src={user.photoprofile} className='image'></img>
+                <div className='name'>{user.name}</div>
+            </div>
+            <div className='dropdown'>
+
+            </div>
+        </div>
     )
 }

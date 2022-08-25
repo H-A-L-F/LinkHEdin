@@ -44,6 +44,7 @@
 
     .bg {
         @extend .bg-base-content, .rounded-md;
+        z-index: 1;
         opacity: 0.0;
         position: absolute;
         top: 0;
@@ -55,6 +56,7 @@
 
     .content {
         @extend .center-all;
+        z-index: 10;
         position: absolute;
         top: 0;
         left: 0;
@@ -85,6 +87,52 @@
         opacity: 1;
         top: 120%;
         transition: all 0.2s ease;
+    }
+
+    .avatar {
+        @extend .center-all;
+        z-index: 10;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+
+        .image {
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .name {
+            @extend .center-all, .text-base-content;
+            z-index: 10;
+            font-size: 12px;
+            position: absolute;
+            top: 100%;
+        }
+    }
+
+    .dropdown {
+        // @extend .w-52, .h-12;
+        @extend .bg-base-300, .px-4, .py-2;
+        @extend .center-all, .text-base-content;
+        opacity: 0;
+        z-index: 10;
+        position: absolute;
+        top: 180%;
+        right: 0;
+    }
+
+    &:focus .dropdown {
+        // @extend .w-52, .h-12;
+        @extend .bg-base-300, .px-4, .py-2;
+        @extend .center-all, .text-base-content;
+        opacity: 1;
+        z-index: 10;
+        position: absolute;
+        top: 180%;
+        right: 0;
     }
 }
 
