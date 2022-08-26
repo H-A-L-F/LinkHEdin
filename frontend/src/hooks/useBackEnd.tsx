@@ -191,30 +191,49 @@ function useProvideBackEnd() {
         });
     }
 
-    function setProfilePict(img: any, id: string) {
+    async function setProfilePict(img: any, id: string) {
         setLoading(true)
-        sendImage(img).then((url) => {
-            const input = constructUpdateUser({ profpict: url })
-            console.log(input)
-            updateFunc({
-                variables: {
-                    id: id,
-                    input: input,
-                }
-            }).then(() => {
+        // sendImage(img).then((url) => {
+        //     const input = constructUpdateUser({ profpict: url })
+        //     console.log(input)
+        //     updateFunc({
+        //         variables: {
+        //             id: id,
+        //             input: input,
+        //         }
+        //     }).then(() => {
+        //         refetchUser()
+        //         toastSuccess("Successfully changed profile picture")
+        //         setLoading(false)
+        //     }).catch((err: any) => {
+        //         toastError(err.message)
+        //         console.log(err)
+        //         setLoading(false)
+        //     })
+        // }).catch((err) => {
+        //     toastError(err.message)
+        //     console.log(err)
+        //     setLoading(false)
+        // })
+
+        try {
+            const resUrl = await sendImage(img)
+            const input = constructUpdateUser({ profpict: resUrl })
+            try {
+                const resUpdate = await updateFunc({ variables: { id: id, input: input } })
                 refetchUser()
                 toastSuccess("Successfully changed profile picture")
                 setLoading(false)
-            }).catch((err: any) => {
+            } catch (err: any) {
                 toastError(err.message)
                 console.log(err)
                 setLoading(false)
-            })
-        }).catch((err) => {
+            }
+        } catch (err: any) {
             toastError(err.message)
             console.log(err)
             setLoading(false)
-        })
+        }
     }
 
     return {
