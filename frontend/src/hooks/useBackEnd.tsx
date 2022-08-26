@@ -151,16 +151,6 @@ function useProvideBackEnd() {
             });
     }
 
-    // function constructUpdateUser(name?: string, email?: string, profpict?: string, headline?: string, bgphoto?: string) {
-    //     return {
-    //         Name: name,
-    //         Email: email,
-    //         PhotoProfile: profpict,
-    //         Headline: headline,
-    //         BgPhotoProfile: bgphoto,
-    //     }
-    // }
-
     function constructUpdateUser(input: { name?: string, email?: string, profpict?: string | void, headline?: string, bgphoto?: string }) {
         const res = {
             Name: input.name ? input.name : "",
@@ -171,35 +161,6 @@ function useProvideBackEnd() {
         }
         console.log(input, res)
         return res
-    }
-
-    async function uploadImage(img: any) {
-        setLoading(true)
-        await sendImage(img)
-            .then((url) => {
-                setLoading(false)
-                return url
-            })
-            .catch((err) => {
-                setLoading(false)
-                toastError(err)
-                return undefined
-            })
-    }
-
-    function updateProfilePict(updateFunc: Promise<any>) {
-        setLoading(true)
-
-        updateFunc.then(() => {
-            setLoading(false);
-            refetchUser();
-            toastSuccess("Profile picture changed");
-        })
-
-        updateFunc.catch((err) => {
-            setLoading(false);
-            toastError(err.message);
-        });
     }
 
     async function updateUser(id: string, input: {}) {
@@ -233,10 +194,6 @@ function useProvideBackEnd() {
         reqChangePass,
         validateChangePassReq,
         changePass,
-        refetchUser,
-        constructUpdateUser,
-        uploadImage,
-        updateProfilePict,
         setProfilePict
     }
 }
