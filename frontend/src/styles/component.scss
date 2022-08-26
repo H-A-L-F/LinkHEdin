@@ -249,6 +249,12 @@
                 @extend .w-full, .h-full, .bg-red-400;
                 border-radius: 0.375rem 0.375rem 0 0;
             }
+
+            .edit {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
         }
 
         .avatar {
@@ -274,6 +280,55 @@
             border-radius: 50%;
             overflow: hidden;
             border: 1px solid grey;
+        }
+    }
+}
+
+.btn-ghost {
+    @extend .w-10, .h-10, .rounded-md, .center-all, .cursor-pointer;
+    @extend .bg-base, .text-base-content;
+    position: relative;
+    transition: all 0.4s ease;
+
+    &:hover .bg {
+        @extend .bg-base-content, .rounded-md;
+        opacity: 0.2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .bg {
+        @extend .bg-base-content, .rounded-md;
+        z-index: 1;
+        opacity: 0.0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .content {
+        @extend .center-all;
+        z-index: 10;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        .icon {
+            @extend .center-all;
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            height: 60%;
         }
     }
 }
