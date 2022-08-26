@@ -236,14 +236,14 @@
 
     .profile {
         // @extend .w-full, .h-96;
-        @extend .bg-red-400;
+        // @extend .bg-red-400;
 
         &-bg {
-            @extend .w-full, .h-32, .center-all, .center-all;
+            // @extend .w-full, .h-32, .center-all;
+            // @extend .bg-red-400;
             position: absolute;
             top: 0;
             left: 0;
-
 
             .image {
                 @extend .w-full, .h-full, .bg-red-400;
@@ -251,9 +251,26 @@
             }
         }
 
-        &-avatar {
+        .avatar {
             @extend .center-all;
             position: absolute;
+
+            .image {
+                @extend .w-44, .h-44;
+                border-radius: 50%;
+            }
+        }
+
+        .profile-pic-div {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1px solid grey;
         }
     }
 }

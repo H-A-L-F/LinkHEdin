@@ -1,7 +1,10 @@
+import { useQuery } from "@apollo/client";
 import { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
+import { sendImage } from "../lib/image";
+import { USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
 
@@ -19,7 +22,8 @@ export const useBackEnd = () => {
 function useProvideBackEnd() {
     const { setLoading } = useLoading()
     const navigate = useNavigate()
-    const {setUser} = useAuth()
+    const { user, setUser } = useAuth()
+    const { refetch } = useQuery(USER_FETCH_QUERY);
 
     function login(loginFunc: Promise<any>) {
         setLoading(true)
@@ -119,12 +123,84 @@ function useProvideBackEnd() {
         })
     }
 
+    function refetchUser() {
+        setLoading(true)
+        refetch()
+            .then((resp) => {
+                const newUser = { ...resp.data.whoisme, token: user.token };
+                console.log("new user : ", newUser);
+                setUser(newUser)
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+                toastError(err.message);
+            });
+    }
+
+    // function constructUpdateUser(name?: string, email?: string, profpict?: string, headline?: string, bgphoto?: string) {
+    //     return {
+    //         Name: name,
+    //         Email: email,
+    //         PhotoProfile: profpict,
+    //         Headline: headline,
+    //         BgPhotoProfile: bgphoto,
+    //     }
+    // }
+
+    function constructUpdateUser(input: { name?: string, email?: string, profpict?: string, headline?: string, bgphoto?: string }) {
+        return {
+            Name: input.name,
+            Email: input.email,
+            PhotoProfile: input.profpict,
+            Headline: input.headline,
+            BgPhotoProfile: input.bgphoto,
+        }
+    }
+
+    async function uploadImage(img: any) {
+        setLoading(true)
+        await sendImage(img)
+            .then((url) => {
+                setLoading(false)
+                return url
+            })
+            .catch((err) => {
+                setLoading(false)
+                toastError(err)
+                return ""
+            })
+    }
+
+    function updateProfilePict(updateFunc: Promise<any>) {
+        setLoading(true)
+
+        updateFunc.then(() => {
+            setLoading(false);
+            refetchUser();
+            toastSuccess("Profile picture changed");
+        })
+
+        updateFunc.catch((err) => {
+            setLoading(false);
+            toastError(err.message);
+        });
+    }
+
+    function setProfilePict() {
+
+    }
+
     return {
         login,
         register,
         validateUser,
         reqChangePass,
         validateChangePassReq,
-        changePass
+        changePass,
+        refetchUser,
+        constructUpdateUser,
+        uploadImage,
+        updateProfilePict
     }
 }

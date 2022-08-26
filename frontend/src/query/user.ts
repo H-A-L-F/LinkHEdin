@@ -45,18 +45,6 @@ mutation UpdateUser($id:ID!, $input:UpdateUser!){
 }
 `
 
-export const FIND_USER_QUERY = gql`
-  query User($id:ID!){
-    user(id:$id){
-      id,
-      name,
-      email,
-      BgPhotoProfile,
-      PhotoProfile
-    }
-  }
-`;
-
 export const USER_FETCH_QUERY = gql`
   query Fetch{
     whoisme{
@@ -68,6 +56,18 @@ export const USER_FETCH_QUERY = gql`
       ConnectedUser,
       RequestConnect,
       BgPhotoProfile
+    }
+  }
+`
+
+export const FIND_USER_QUERY = gql`
+  query User($id:ID!){
+    user(id:$id){
+      id,
+      name,
+      email,
+      BgPhotoProfile,
+      PhotoProfile
     }
   }
 `;
