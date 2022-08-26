@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import AvatarProfile from '../components/Profile/AvatarProfile';
 import { toastError } from '../config/toast';
 import { useAuth } from '../hooks/useAuth';
 import { useBackEnd } from '../hooks/useBackEnd';
@@ -7,22 +8,6 @@ import { useBackEnd } from '../hooks/useBackEnd';
 export default function Profile() {
     const { id } = useParams()
     const { user } = useAuth()
-    const { setProfilePict } = useBackEnd()
-
-    function imageOnChange(e: any) {
-        if(!validateFile(e.target)) return
-        const img = e.target.files[0]
-        setProfilePict(img, user.id)
-    }
-
-    function validateFile(form: any) {
-        if(form.files.length == 0) {
-            toastError("Please choose a picture")
-            return false
-        }
-
-        return true;
-    }
 
     return (
         <div className='box'>
@@ -31,22 +16,7 @@ export default function Profile() {
                 <div className='profile-bg'>
                     <img src="https://picsum.photos/seed/picsum/200/300" alt="" className='image'/>
                 </div>
-                <div className='avatar'>
-                    <label htmlFor="input-file">
-                        <img
-                            className="image"
-                            src={user.PhotoProfile}
-                            alt=""
-                        />
-                    </label>
-                    <input
-                        onChange={imageOnChange}
-                        className="none"
-                        id="input-file"
-                        type="file"
-                        hidden={true}
-                    />
-                </div>
+                <AvatarProfile />
             </div>
         </div>
     )
