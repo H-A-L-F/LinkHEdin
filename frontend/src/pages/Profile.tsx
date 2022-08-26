@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AvatarProfile from '../components/Profile/AvatarProfile';
 import EditProfileBg from '../components/Profile/EditProfileBg';
@@ -7,10 +7,17 @@ import { useAuth } from '../hooks/useAuth';
 import { useBackEnd } from '../hooks/useBackEnd';
 import { HiPencil, HiTrash, HiPlus } from "react-icons/hi";
 import IconButton from '../components/Buttons/IconButton';
+import EducationModal from '../components/Profile/EducationModal';
+import Modal from '../components/Modal/Modal';
 
 export default function Profile() {
     const { id } = useParams()
     const { user } = useAuth()
+    const [openModal, setOpenModal] = useState(false)
+
+    function openEducationModal() {
+        setOpenModal(true)
+    }
 
     return (
         <div>
@@ -24,7 +31,7 @@ export default function Profile() {
             <div className='box'>
                 <div className='header'>
                     Education
-                    <IconButton Icon={HiPlus} />
+                    <IconButton Icon={HiPlus} onClick={openEducationModal}/>
                 </div>
                 <div className='content'>
                     <div className='education'>
@@ -54,6 +61,9 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
+            <div className='h-4'></div>
+            {/* <EducationModal open={openModal} setOpen={setOpenModal}/> */}
+            <Modal open={openModal} setOpen={setOpenModal} Content={<EducationModal open={openModal} setOpen={setOpenModal}/>}/>
         </div>
     )
 }
