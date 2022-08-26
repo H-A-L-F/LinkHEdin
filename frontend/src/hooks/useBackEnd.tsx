@@ -169,6 +169,7 @@ function useProvideBackEnd() {
             Headline: input.headline ? input.headline : "",
             BgPhotoProfile: input.bgphoto ? input.bgphoto : "",
         }
+        console.log(input, res)
         return res
     }
 
@@ -216,17 +217,7 @@ function useProvideBackEnd() {
         setLoading(true)
         try {
             const resUrl = await sendImage(img)
-            const input = constructUpdateUser({ profpict: "https://picsum.photos/id/237/200/300" })
-            // try {
-            //     const resUpdate = await updateFunc({ variables: { id: id, input: input } })
-            //     refetchUser()
-            //     toastSuccess("Successfully changed profile picture")
-            //     setLoading(false)
-            // } catch (err: any) {
-            //     toastError(err.message)
-            //     console.log(err)
-            //     setLoading(false)
-            // }
+            const input = constructUpdateUser({ profpict: resUrl })
             updateUser(id, input)
         } catch (err: any) {
             toastError(err.message)
