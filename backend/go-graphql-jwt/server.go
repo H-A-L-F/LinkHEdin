@@ -4,9 +4,12 @@ import (
 	"LinkHEdin/database"
 	"LinkHEdin/graph"
 	"LinkHEdin/graph/generated"
+	middleware "LinkHEdin/middlewares"
 	"log"
 	"net/http"
 	"os"
+
+	directives "LinkHEdin/directive"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -41,10 +44,12 @@ func main() {
 
 	router := mux.NewRouter()
 	router.Use(MyCors)
+	router.Use(middleware.AuthMiddleware)
 
 	config := generated.Config{Resolvers: &graph.Resolver{
 		DB: db,
 	}}
+	config.Directives.Auth = directives.Auth
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(config))
 
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))

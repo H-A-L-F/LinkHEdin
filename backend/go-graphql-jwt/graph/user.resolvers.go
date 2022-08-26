@@ -11,6 +11,7 @@ import (
 	"LinkHEdin/mail"
 	middleware "LinkHEdin/middlewares"
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
 )
@@ -210,6 +211,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 func (r *queryResolver) Whoisme(ctx context.Context) (*model.User, error) {
 	val := *middleware.CtxValue(ctx)
 	var user *model.User
+	fmt.Println(val.ID)
 	err := r.DB.First(&user, "id = ?", val.ID).Error
 	if err != nil {
 		return nil, err
