@@ -29,7 +29,7 @@ export default function Profile() {
             <p>test</p>
             <div className='profile'>
                 <div className='profile-bg'>
-
+                    <img src="https://picsum.photos/seed/picsum/200/300" alt="" className='image'/>
                 </div>
                 <div className='avatar'>
                     <label htmlFor="input-file">

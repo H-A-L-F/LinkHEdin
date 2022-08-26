@@ -239,7 +239,7 @@
         // @extend .bg-red-400;
 
         &-bg {
-            // @extend .w-full, .h-32, .center-all;
+            @extend .w-full, .h-44, .center-all;
             // @extend .bg-red-400;
             position: absolute;
             top: 0;
