@@ -1,10 +1,10 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
-import { USER_FETCH_QUERY } from "../query/user";
+import { UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
 
@@ -24,6 +24,7 @@ function useProvideBackEnd() {
     const navigate = useNavigate()
     const { user, setUser } = useAuth()
     const { refetch } = useQuery(USER_FETCH_QUERY);
+    const [updateFunc] = useMutation(UPDATE_USER_QUERY)
 
     function login(loginFunc: Promise<any>) {
         setLoading(true)
@@ -134,6 +135,7 @@ function useProvideBackEnd() {
             })
             .catch((err) => {
                 setLoading(false)
+                console.log(err)
                 toastError(err.message);
             });
     }
@@ -148,14 +150,16 @@ function useProvideBackEnd() {
     //     }
     // }
 
-    function constructUpdateUser(input: { name?: string, email?: string, profpict?: string, headline?: string, bgphoto?: string }) {
-        return {
-            Name: input.name,
-            Email: input.email,
-            PhotoProfile: input.profpict,
-            Headline: input.headline,
-            BgPhotoProfile: input.bgphoto,
+    function constructUpdateUser(input: { name?: string, email?: string, profpict?: string | void, headline?: string, bgphoto?: string }) {
+        const res = {
+            Name: input.name ? input.name : "",
+            Email: input.email ? input.email : "",
+            PhotoProfile: input.profpict ? input.profpict : "",
+            Headline: input.headline ? input.headline : "",
+            BgPhotoProfile: input.bgphoto ? input.bgphoto : "",
         }
+        console.log(input, res)
+        return res
     }
 
     async function uploadImage(img: any) {
@@ -168,7 +172,7 @@ function useProvideBackEnd() {
             .catch((err) => {
                 setLoading(false)
                 toastError(err)
-                return ""
+                return undefined
             })
     }
 
@@ -187,8 +191,30 @@ function useProvideBackEnd() {
         });
     }
 
-    function setProfilePict() {
-
+    function setProfilePict(img: any, id: string) {
+        setLoading(true)
+        sendImage(img).then((url) => {
+            const input = constructUpdateUser({ profpict: url })
+            console.log(input)
+            updateFunc({
+                variables: {
+                    id: id,
+                    input: input,
+                }
+            }).then(() => {
+                refetchUser()
+                toastSuccess("Successfully changed profile picture")
+                setLoading(false)
+            }).catch((err: any) => {
+                toastError(err.message)
+                console.log(err)
+                setLoading(false)
+            })
+        }).catch((err) => {
+            toastError(err.message)
+            console.log(err)
+            setLoading(false)
+        })
     }
 
     return {
@@ -201,6 +227,7 @@ function useProvideBackEnd() {
         refetchUser,
         constructUpdateUser,
         uploadImage,
-        updateProfilePict
+        updateProfilePict,
+        setProfilePict
     }
 }
