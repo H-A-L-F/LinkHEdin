@@ -242,7 +242,7 @@
 
         &-bg {
             @extend .w-full, .h-44, .center-all;
-            // @extend .bg-red-400;
+            @extend .bg-base-300;
             position: absolute;
             top: 0;
             left: 0;
@@ -262,6 +262,8 @@
         .avatar {
             @extend .center-all;
             position: absolute;
+            top: 4rem;
+            left: 1rem;
 
             .image {
                 @extend .w-44, .h-44;
@@ -270,18 +272,6 @@
                 outline-style: solid;
                 outline-color: var(--col-base-100);
             }
-        }
-
-        .profile-pic-div {
-            height: 200px;
-            width: 200px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            overflow: hidden;
-            border: 1px solid grey;
         }
     }
 }

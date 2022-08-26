@@ -12,12 +12,8 @@ export default function Profile() {
 
     return (
         <div className='box'>
-            <p>test</p>
             <div className='profile'>
-                <div className='profile-bg'>
-                    <img src="https://picsum.photos/seed/picsum/200/300" alt="" className='image' />
-                    <EditProfileBg />
-                </div>
+                <EditProfileBg />
                 <AvatarProfile />
             </div>
         </div>
