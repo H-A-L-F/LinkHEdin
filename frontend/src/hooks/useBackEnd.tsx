@@ -187,6 +187,17 @@ function useProvideBackEnd() {
         }
     }
 
+    async function setBgPict(img: any, id: string) {
+        setLoading(true)
+        try {
+            const resUrl = await sendImage(img)
+            const input = constructUpdateUser({ bgphoto: resUrl })
+            updateUser(id, input)
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     return {
         login,
         register,
@@ -194,6 +205,7 @@ function useProvideBackEnd() {
         reqChangePass,
         validateChangePassReq,
         changePass,
-        setProfilePict
+        setProfilePict,
+        setBgPict
     }
 }

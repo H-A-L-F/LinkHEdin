@@ -237,7 +237,7 @@
     padding: $pad-y $pad-x;
 
     .profile {
-        // @extend .w-full, .h-96;
+        @extend .w-full, .h-96;
         // @extend .bg-red-400;
 
         &-bg {
@@ -266,7 +266,7 @@
             .image {
                 @extend .w-44, .h-44;
                 border-radius: 50%;
-                outline-width: 0.3 rem;
+                outline-width: 0.3rem;
                 outline-style: solid;
                 outline-color: var(--col-base-100);
             }
