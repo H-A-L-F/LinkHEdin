@@ -5,7 +5,7 @@ import EditProfileBg from '../components/Profile/EditProfileBg';
 import { toastError } from '../config/toast';
 import { useAuth } from '../hooks/useAuth';
 import { useBackEnd } from '../hooks/useBackEnd';
-import { HiPencil, HiTrash } from "react-icons/hi";
+import { HiPencil, HiTrash, HiPlus } from "react-icons/hi";
 import IconButton from '../components/Buttons/IconButton';
 
 export default function Profile() {
@@ -24,7 +24,7 @@ export default function Profile() {
             <div className='box'>
                 <div className='header'>
                     Education
-                    <IconButton Icon={HiPencil} />
+                    <IconButton Icon={HiPlus} />
                 </div>
                 <div className='content'>
                     <div className='education'>
