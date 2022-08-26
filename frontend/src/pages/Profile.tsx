@@ -35,7 +35,7 @@ export default function Profile() {
                     <label htmlFor="input-file">
                         <img
                             className="image"
-                            src={user.photoprofile}
+                            src={user.PhotoProfile}
                             alt=""
                         />
                     </label>

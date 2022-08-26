@@ -26,6 +26,17 @@ function useProvideBackEnd() {
     const { refetch } = useQuery(USER_FETCH_QUERY);
     const [updateFunc] = useMutation(UPDATE_USER_QUERY)
 
+    function errHandle(err: any) {
+        toastError(err.message)
+        console.log(err)
+        setLoading(false)
+    }
+
+    function successHandle(msg: string) {
+        toastSuccess(msg)
+        setLoading(false)
+    }
+
     function login(loginFunc: Promise<any>) {
         setLoading(true)
 
@@ -158,7 +169,6 @@ function useProvideBackEnd() {
             Headline: input.headline ? input.headline : "",
             BgPhotoProfile: input.bgphoto ? input.bgphoto : "",
         }
-        console.log(input, res)
         return res
     }
 
@@ -191,21 +201,33 @@ function useProvideBackEnd() {
         });
     }
 
+    async function updateUser(id: string, input: {}) {
+        setLoading(true)
+        try {
+            const resUpdate = await updateFunc({ variables: { id: id, input: input } })
+            refetchUser()
+            successHandle("Successfully changed profile picture")
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     async function setProfilePict(img: any, id: string) {
         setLoading(true)
         try {
             const resUrl = await sendImage(img)
-            const input = constructUpdateUser({ profpict: resUrl })
-            try {
-                const resUpdate = await updateFunc({ variables: { id: id, input: input } })
-                refetchUser()
-                toastSuccess("Successfully changed profile picture")
-                setLoading(false)
-            } catch (err: any) {
-                toastError(err.message)
-                console.log(err)
-                setLoading(false)
-            }
+            const input = constructUpdateUser({ profpict: "https://picsum.photos/id/237/200/300" })
+            // try {
+            //     const resUpdate = await updateFunc({ variables: { id: id, input: input } })
+            //     refetchUser()
+            //     toastSuccess("Successfully changed profile picture")
+            //     setLoading(false)
+            // } catch (err: any) {
+            //     toastError(err.message)
+            //     console.log(err)
+            //     setLoading(false)
+            // }
+            updateUser(id, input)
         } catch (err: any) {
             toastError(err.message)
             console.log(err)
