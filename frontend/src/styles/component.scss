@@ -229,12 +229,33 @@
     padding: 0 15%;
 }
 
+.divider {
+    @extend .w-full, .bg-base-100, .my-2;
+    height: 0.2rem;
+}
+
 .box {
     @extend .w-auto, .bg-base-300, .rounded-md, .text-base-content;
     $pad-y: 0.5rem;
     $pad-x: 1rem;
     position: relative;
     padding: $pad-y $pad-x;
+
+    .header {
+        @extend .flex, .flex-row, .justify-between, .font-bold, .text-xl, .center-all;
+    }
+
+    .content {
+        @extend .flex, .flex-col;
+
+        .education {
+            @extend .flex, .flex-row, .justify-between, .center-all;
+
+            .info {
+                @extend .flex, .flex-col;
+            }
+        }
+    }
 
     .profile {
         @extend .w-full, .h-96;
