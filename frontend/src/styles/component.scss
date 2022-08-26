@@ -122,6 +122,7 @@
         @extend .bg-base-300, .px-4, .py-2;
         @extend .center-all, .text-base-content;
         opacity: 0;
+        display: none;
         z-index: 10;
         position: absolute;
         top: 180%;
@@ -132,6 +133,7 @@
         // @extend .w-52, .h-12;
         @extend .bg-base-300, .px-4, .py-2;
         @extend .center-all, .text-base-content;
+        display: flex;
         opacity: 1;
         z-index: 10;
         position: absolute;
