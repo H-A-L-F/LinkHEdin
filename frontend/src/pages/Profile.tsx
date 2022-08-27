@@ -9,15 +9,11 @@ import { HiPencil, HiTrash, HiPlus } from "react-icons/hi";
 import IconButton from '../components/Buttons/IconButton';
 import EducationModal from '../components/Profile/EducationModal';
 import Modal from '../components/Modal/Modal';
+import Education from '../components/Profile/Education';
 
 export default function Profile() {
     const { id } = useParams()
     const { user } = useAuth()
-    const [openModal, setOpenModal] = useState(false)
-
-    function openEducationModal() {
-        setOpenModal(true)
-    }
 
     return (
         <div>
@@ -28,41 +24,7 @@ export default function Profile() {
                 </div>
             </div>
             <div className='h-4'></div>
-            <div className='box'>
-                <div className='header'>
-                    Education
-                    <IconButton Icon={HiPlus} onClick={openEducationModal}/>
-                </div>
-                <div className='content'>
-                    <div className='education'>
-                        <div className='info'>
-                            <div className='font-semibold text-lg'>Binus</div>
-                            <div className='text-md'>CompSci</div>
-                            <div className='text-sm'>02 Jan - 30 Jan</div>
-                        </div>
-                        <div className='flex flex-row'>
-                            <IconButton Icon={HiTrash} />
-                            <div className='w-2'></div>
-                            <IconButton Icon={HiPencil} />
-                        </div>
-                    </div>
-                    <div className='divider'></div>
-                    <div className='education'>
-                        <div className='info'>
-                            <div className='font-semibold text-lg'>Binus</div>
-                            <div className='text-md'>CompSci</div>
-                            <div className='text-sm'>02 Jan - 30 Jan</div>
-                        </div>
-                        <div className='flex flex-row'>
-                            <IconButton Icon={HiTrash} />
-                            <div className='w-2'></div>
-                            <IconButton Icon={HiPencil} />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='h-4'></div>
-            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id}/>
+            <Education id={id}/>
         </div>
     )
 }

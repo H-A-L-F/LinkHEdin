@@ -1,14 +1,18 @@
+import { ApolloClient, ApolloQueryResult } from '@apollo/client'
 import { useBackEnd } from '../../hooks/useBackEnd'
 import Modal from '../Modal/Modal'
 
-interface EducationModalInterface { 
-    openModal: boolean, 
+interface EducationModalInterface {
+    openModal: boolean,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
-    uid: string
+    uid: string,
+    refetch: (variables?: Partial<{
+        UserID: string | undefined;
+    }> | undefined) => Promise<ApolloQueryResult<any>>,
 }
 
-export default function EducationModal({ openModal, setOpenModal, uid }: EducationModalInterface) {
-    const {addEducation} = useBackEnd()
+export default function EducationModal({ openModal, setOpenModal, uid, refetch }: EducationModalInterface) {
+    const { addEducation } = useBackEnd()
 
     function handleSubmit() {
         const school = (document.getElementById("School-ced") as HTMLInputElement).value
@@ -21,6 +25,7 @@ export default function EducationModal({ openModal, setOpenModal, uid }: Educati
         const description = (document.getElementById("Description-ced") as HTMLInputElement).value
 
         addEducation(uid, school, degree, studyField, startDate, endDate, grade, activities, description)
+        refetch({ UserID: uid })
 
         handleClose()
     }
