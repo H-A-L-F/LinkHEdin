@@ -26,13 +26,13 @@ export default function EditProfileBg() {
     return (
         <div className='profile-bg'>
             <img src={user.BgPhotoProfile} alt="" className='image' />
-            <label htmlFor="input-file" className='edit'>
+            <label htmlFor="input-file-bg" className='edit'>
                 <IconButton Icon={HiPencil} />
             </label>
             <input
                 onChange={imageOnChange}
                 className="none"
-                id="input-file"
+                id="input-file-bg"
                 type="file"
                 hidden={true}
             />

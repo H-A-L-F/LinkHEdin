@@ -62,8 +62,7 @@ export default function Profile() {
                 </div>
             </div>
             <div className='h-4'></div>
-            {/* <EducationModal open={openModal} setOpen={setOpenModal}/> */}
-            <Modal open={openModal} setOpen={setOpenModal} Content={<EducationModal open={openModal} setOpen={setOpenModal}/>}/>
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal}/>
         </div>
     )
 }

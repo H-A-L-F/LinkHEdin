@@ -23,7 +23,7 @@ export default function AvatarProfile() {
 
     return (
         <div className='avatar'>
-            <label htmlFor="input-file">
+            <label htmlFor="input-file-ava">
                 <img
                     className="image"
                     src={user.PhotoProfile}
@@ -33,7 +33,7 @@ export default function AvatarProfile() {
             <input
                 onChange={imageOnChange}
                 className="none"
-                id="input-file"
+                id="input-file-ava"
                 type="file"
                 hidden={true}
             />
