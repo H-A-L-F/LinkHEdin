@@ -383,7 +383,7 @@
 
     .content {
         @extend .w-full, .px-2;
-        @extend .bg-base-200;
+        @extend .bg-base-100;
         overflow-y: auto;
         overflow-x: hidden;
         right: -17px;
