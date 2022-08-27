@@ -422,14 +422,14 @@
 }
 
 .btn-primary {
-    @extend .rounded-xl, .center-all, .cursor-pointer, .px-4;
+    @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
     // @extend .w-10, .h-10;
     @extend .bg-primary, .text-primary-content;
     position: relative;
     transition: all 0.4s ease;
 
     &:hover .bg {
-        @extend .bg-primary-400, .rounded-md;
+        @extend .bg-primary-content, .rounded-md;
         opacity: 0.2;
         position: absolute;
         top: 0;
@@ -440,7 +440,7 @@
     }
 
     .bg {
-        @extend .bg-primary-400, .rounded-md;
+        @extend .bg-primary-content, .rounded-md;
         z-index: 1;
         opacity: 0.0;
         position: absolute;
@@ -458,7 +458,7 @@
 }
 
 .btn-ghost {
-    @extend .rounded-xl, .center-all, .cursor-pointer, .px-4;
+    @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
     // @extend .w-10, .h-10;
     @extend .bg-base-300, .text-base-content;
     position: relative;
@@ -477,6 +477,42 @@
 
     .bg {
         @extend .bg-base-content, .rounded-md;
+        z-index: 1;
+        opacity: 0.0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .text {
+        @extend .center-all;
+        z-index: 2;
+    }
+}
+
+.btn-error {
+    @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
+    // @extend .w-10, .h-10;
+    @extend .bg-error, .text-error-content;
+    position: relative;
+    transition: all 0.4s ease;
+
+    &:hover .bg {
+        @extend .bg-error-content, .rounded-md;
+        opacity: 0.2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .bg {
+        @extend .bg-error-content, .rounded-md;
         z-index: 1;
         opacity: 0.0;
         position: absolute;

@@ -25,11 +25,11 @@ export default function Modal({ open, handleClose, Content, title }: Modal) {
                         {/* <Content /> */}
                     </div>
                     <div className='footer'>
-                        <div className='btn-ghost'>
+                        <div className='btn-error'>
                             <div className='bg'></div>
                             <div className='text'>Discard</div>
                         </div>
-                        <div className='w-2'></div>
+                        <div className='w-4'></div>
                         <div className='btn-primary'>
                             <div className='bg'></div>
                             <div className='text'>Save</div>
