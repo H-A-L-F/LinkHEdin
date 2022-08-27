@@ -429,7 +429,7 @@
     transition: all 0.4s ease;
 
     &:hover .bg {
-        @extend .bg-primary-contentz, .rounded-md;
+        @extend .bg-primary-content, .rounded-md;
         opacity: 0.2;
         position: absolute;
         top: 0;
@@ -440,7 +440,7 @@
     }
 
     .bg {
-        @extend .bg-primary-contentz, .rounded-md;
+        @extend .bg-primary-content, .rounded-md;
         z-index: 1;
         opacity: 0.0;
         position: absolute;
@@ -526,5 +526,33 @@
     .text {
         @extend .center-all;
         z-index: 2;
+    }
+}
+
+.num-input {
+    @extend .bg-base-100, .text-base-content, .border-primary, .w-full, .h-8;
+    font-size: 15px;
+    border-radius: 5px;
+
+    &::placeholder {
+        @extend .text-base-content;
+        padding-left: 10px;
+    }
+
+    &:focus-visible {
+        @extend .outline, .outline-base-content;
+    }
+}
+
+.no-spinner {
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
     }
 }

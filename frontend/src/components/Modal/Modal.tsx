@@ -10,7 +10,7 @@ interface Modal {
     title: string
 }
 
-export default function Modal({ open, handleClose, Content, title }: Modal) {
+export default function Modal({ open, handleClose, handleSubmit, Content, title }: Modal) {
     return (
         <React.Fragment>
             <div className={`lightbox ${open ? "" : "hide-lightbox"}`} onClick={handleClose} />
@@ -25,12 +25,12 @@ export default function Modal({ open, handleClose, Content, title }: Modal) {
                         {/* <Content /> */}
                     </div>
                     <div className='footer'>
-                        <div className='btn-error'>
+                        <div className='btn-error' onClick={handleClose}>
                             <div className='bg'></div>
                             <div className='text'>Discard</div>
                         </div>
                         <div className='w-4'></div>
-                        <div className='btn-primary'>
+                        <div className='btn-primary' onClick={handleSubmit}>
                             <div className='bg'></div>
                             <div className='text'>Save</div>
                         </div>

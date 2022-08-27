@@ -11,6 +11,8 @@ export default function EducationModal({ openModal, setOpenModal }: { openModal:
         const grade = parseFloat((document.getElementById("Grade-ced") as HTMLInputElement).value)
         const activities = (document.getElementById("Activities-ced") as HTMLInputElement).value
         const description = (document.getElementById("Description-ced") as HTMLInputElement).value
+
+        handleClose()
     }
 
     function handleClose() {
@@ -25,52 +27,50 @@ export default function EducationModal({ openModal, setOpenModal }: { openModal:
             handleSubmit={handleSubmit}
             Content=
             {
-                <div className='form'>
+                <div className='form pr-2'>
                     <div className='h-2'></div>
-                    <div className='w-full flex-col'>
-                        <p className='text-black text-s'>School</p>
-                        <input id='School-ced' type="text" className='text-input white-bg' placeholder='Ex: Binus University' />
+                    <div className='w-full flex flex-col'>
+                        <p className='text-s'>School</p>
+                        <input id='School-ced' type="text" className='text-input ' placeholder='Ex: Binus University' />
                     </div>
 
-                    <div className='w-full flex-col'>
-                        <p className='text-black text-s'>Degree</p>
-                        <input id='Degree-ced' type="text" className='text-input white-bg' placeholder="Ex: Bachelor's" />
+                    <div className='w-full flex flex-col'>
+                        <p className='text-s'>Degree</p>
+                        <input id='Degree-ced' type="text" className='text-input ' placeholder="Ex: Bachelor's" />
                     </div>
 
-                    <div className='w-full flex-col'>
-                        <p className='text-black text-s'>Field of Study</p>
-                        <input id='StudyField-ced' type="text" className='text-input white-bg' placeholder="Ex: Computer Science" />
+                    <div className='w-full flex flex-col'>
+                        <p className='text-s'>Field of Study</p>
+                        <input id='StudyField-ced' type="text" className='text-input ' placeholder="Ex: Computer Science" />
                     </div>
 
-                    <div className='w-full flex-row space-between mb-20'>
-                        <p className='text-black text-s'>Start Year</p>
-                        <input type="number" id='StartDate-ced' className='white-bg text-black text-s border-sering-pake' placeholder='2020' />
+                    <div className='w-full flex flex-row my-4 no-spinner'>
+                        <p className='text-s w-20'>Start Year</p>
+                        <div className='w-4'></div>
+                        <input type="number" id='StartDate-ced' className='num-input bg-base-100 text-s' placeholder='2020' defaultValue={2022} />
                     </div>
 
-                    <div className='w-full flex-row space-between mb-20'>
-                        <p className='text-black text-s'>End Year</p>
-                        <input type="number" id='EndDate-ced' className='white-bg text-black text-s border-sering-pake' placeholder='2022' />
+                    <div className='w-full flex flex-row center-all no-spinner'>
+                        <p className='text-s w-20'>End Year</p>
+                        <div className='w-4'></div>
+                        <input type="number" id='EndDate-ced' className='num-input bg-base-100 text-s' placeholder='2022' defaultValue={2022} />
                     </div>
 
-                    <div className='w-full flex-col'>
-                        <p className='text-black text-s'>Grade</p>
-                        <input id='Grade-ced' type="text" className='text-input white-bg' placeholder="" />
+                    <div className='w-full flex flex-col'>
+                        <p className='text-s'>Grade</p>
+                        <input id='Grade-ced' type="text" className='text-input ' placeholder="" />
                     </div>
 
-                    <div className='w-full flex-col'>
-                        <p className='text-black text-s'>Activities</p>
-                        <input id='Activities-ced' type="text" className='text-input white-bg' placeholder="Ex: Voleyball, Basketball" />
+                    <div className='w-full flex flex-col'>
+                        <p className='text-s'>Activities</p>
+                        <input id='Activities-ced' type="text" className='text-input ' placeholder="Ex: Voleyball, Basketball" />
                     </div>
 
-                    <div className='w-full flex-col'>
-                        <p className='text-black text-s'>Description</p>
-                        <input id='Description-ced' type="text" className='text-input white-bg' placeholder="" />
+                    <div className='w-full flex flex-col'>
+                        <p className='text-s'>Description</p>
+                        <input id='Description-ced' type="text" className='text-input ' placeholder="" />
                     </div>
-
-                    {/* <div className='w-full flex-row space-evenly'>
-                        <button onClick={handleSubmit} className='blue-button-smaller text-white'>Save</button>
-                        <button onClick={handleClose} className='red-button-smaller text-white'>Cancel</button>
-                    </div> */}
+                    <div className='h-2'></div>
                 </div>
             }
         />
