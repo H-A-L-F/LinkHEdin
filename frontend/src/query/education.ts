@@ -15,3 +15,20 @@ export const CREATE_EDUCATION_MUTATION = gql`
     })
   }
 `
+
+export const USER_EDUCATION_QUERY = gql`
+  query getUserEducation($UserID:ID!){
+    userEducation(userID:$UserID){
+      ID,
+      UserID,
+      School,
+      Degree,
+      FieldOfStudy,
+      StartDate,
+      EndDate,
+      Grade,
+      Activities,
+      Description
+    }
+  }
+`
