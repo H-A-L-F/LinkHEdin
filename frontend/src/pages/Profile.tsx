@@ -62,7 +62,7 @@ export default function Profile() {
                 </div>
             </div>
             <div className='h-4'></div>
-            <EducationModal openModal={openModal} setOpenModal={setOpenModal}/>
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id}/>
         </div>
     )
 }

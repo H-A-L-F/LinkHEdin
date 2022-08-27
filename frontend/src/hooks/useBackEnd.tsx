@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
+import { CREATE_EDUCATION_MUTATION } from "../query/education";
 import { UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
@@ -25,6 +26,7 @@ function useProvideBackEnd() {
     const { user, setUser } = useAuth()
     const { refetch } = useQuery(USER_FETCH_QUERY);
     const [updateFunc] = useMutation(UPDATE_USER_QUERY)
+    const [addEducationFunc] = useMutation(CREATE_EDUCATION_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -198,6 +200,30 @@ function useProvideBackEnd() {
         }
     }
 
+    async function addEducation(id: string, school: string, degree: string, field: string, start: Int32Array, end: Int32Array, grade: string, activities: string, desc: string) {
+        setLoading(true)
+
+        try {
+            const resAddEdu = await addEducationFunc({
+                variables: {
+                    UserID: id,
+                    School: school,
+                    Degree: degree,
+                    FieldOfStudy: field,
+                    StartDate: start,
+                    EndDate: end,
+                    Grade: grade,
+                    Activities: activities,
+                    Description: desc
+                }
+            })
+            console.log(resAddEdu)
+            successHandle("Successfully added education!")
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     return {
         login,
         register,
@@ -206,6 +232,7 @@ function useProvideBackEnd() {
         validateChangePassReq,
         changePass,
         setProfilePict,
-        setBgPict
+        setBgPict,
+        addEducation
     }
 }

@@ -1,6 +1,14 @@
+import { useBackEnd } from '../../hooks/useBackEnd'
 import Modal from '../Modal/Modal'
 
-export default function EducationModal({ openModal, setOpenModal }: { openModal: boolean, setOpenModal: React.Dispatch<React.SetStateAction<boolean>> }) {
+interface EducationModalInterface { 
+    openModal: boolean, 
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+    uid: string
+}
+
+export default function EducationModal({ openModal, setOpenModal, uid }: EducationModalInterface) {
+    const {addEducation} = useBackEnd()
 
     function handleSubmit() {
         const school = (document.getElementById("School-ced") as HTMLInputElement).value
@@ -11,6 +19,8 @@ export default function EducationModal({ openModal, setOpenModal }: { openModal:
         const grade = parseFloat((document.getElementById("Grade-ced") as HTMLInputElement).value)
         const activities = (document.getElementById("Activities-ced") as HTMLInputElement).value
         const description = (document.getElementById("Description-ced") as HTMLInputElement).value
+
+        addEducation(uid, school, degree, studyField, startDate, endDate, grade, activities, description)
 
         handleClose()
     }
