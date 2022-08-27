@@ -31,3 +31,15 @@ type ValidReq struct {
 	ID   string `json:"id"`
 	Code int    `json:"code"`
 }
+
+type NewEducation struct {
+	UserID       string  `json:"UserID"`
+	School       string  `json:"School"`
+	Degree       string  `json:"Degree"`
+	FieldOfStudy string  `json:"FieldOfStudy"`
+	StartDate    string  `json:"StartDate"`
+	EndDate      string  `json:"EndDate"`
+	Grade        float64 `json:"Grade"`
+	Activities   string  `json:"Activities"`
+	Description  string  `json:"Description"`
+}
