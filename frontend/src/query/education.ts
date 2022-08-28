@@ -39,7 +39,7 @@ export const DELETE_EDUCATION_MUTATION = gql`
   }
 `
 
-export const updateEducation = gql`
+export const UPDATE_EDUCATION_MUTATION = gql`
   mutation updateEducation ($id:String! $UserID:ID!, $School:String!, $Degree:String!, $FieldOfStudy:String!, $StartDate:String!, $EndDate:String!, $Grade:Float!, $Activities:String!, $Description:String!){
     updateEducation(id:$id,input:{
       UserID:$UserID,

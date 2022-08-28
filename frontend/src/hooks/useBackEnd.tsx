@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
-import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION } from "../query/education";
+import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
 import { UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
@@ -28,6 +28,7 @@ function useProvideBackEnd() {
     const [updateFunc] = useMutation(UPDATE_USER_QUERY)
     const [addEducationFunc] = useMutation(CREATE_EDUCATION_MUTATION)
     const [deleteEducationFunc] = useMutation(DELETE_EDUCATION_MUTATION)
+    const [updateEducationFunc] = useMutation(UPDATE_EDUCATION_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -238,6 +239,32 @@ function useProvideBackEnd() {
         }
     }
 
+    async function updateEducation(id: string, uid: string, school: string, degree: string, field: string, start: Int32Array, end: Int32Array, grade: string, activities: string, desc: string) {
+        setLoading(true)
+
+        try {
+            const resUd = await updateEducationFunc({
+                variables: {
+                    id: id,
+                    UserID: uid,
+                    School: school,
+                    Degree: degree,
+                    FieldOfStudy: field,
+                    StartDate: start,
+                    EndDate: end,
+                    Grade: grade,
+                    Activities: activities,
+                    Description: desc
+                }
+            })
+            successHandle("Successfully updated education")
+            return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+    }
+
     return {
         login,
         register,
@@ -248,6 +275,7 @@ function useProvideBackEnd() {
         setProfilePict,
         setBgPict,
         addEducation,
-        delEducation
+        delEducation,
+        updateEducation
     }
 }

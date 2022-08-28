@@ -8,12 +8,9 @@ import { USER_EDUCATION_QUERY } from '../../query/education';
 import Loading from '../LoadingOverlay/Loading';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import { toastError } from '../../config/toast';
+import { EducationInterface } from './EducationInterface';
 
-interface EducationInterface {
-    id: string | undefined
-}
-
-export default function Education({ id }: EducationInterface) {
+export default function Education({ id }: { id: string }) {
     const { user } = useAuth()
     const [openModal, setOpenModal] = useState(false)
     const { loading, data, error, refetch } = useQuery(USER_EDUCATION_QUERY, { variables: { UserID: id } })
@@ -49,21 +46,8 @@ interface BodyInterface {
     }> | undefined) => Promise<ApolloQueryResult<any>>,
 }
 
-interface Education {
-
-}
 
 function Body({ uid, loading, data, error, refetch }: BodyInterface) {
-    const { delEducation } = useBackEnd()
-
-    async function handleDelete(id: string) {
-        try {
-            const resDel = await delEducation(id)
-            refetch({ UserID: uid })
-        } catch (err: any) {
-            toastError(err)
-        }
-    }
 
     if (error) {
         console.log(error)
@@ -79,6 +63,51 @@ function Body({ uid, loading, data, error, refetch }: BodyInterface) {
     if (resLen == 1) {
         const ed = res[0]
         return (
+            <Content ed={ed} uid={uid} refetch={refetch} />
+        )
+    }
+
+    return (
+        res.map((ed: any, idx: number) => {
+            return (
+                <div key={"ed-" + idx}>
+                    <Content ed={ed} uid={uid} refetch={refetch} />
+                    {
+                        (idx < resLen - 1) && <div className='divider'></div>
+                    }
+                </div>
+            )
+        })
+    )
+}
+
+interface ContentInterface {
+    ed: EducationInterface,
+    uid: string
+    refetch: (variables?: Partial<{
+        UserID: string | undefined;
+    }> | undefined) => Promise<ApolloQueryResult<any>>,
+}
+
+function Content({ ed, uid, refetch }: ContentInterface) {
+    const { delEducation } = useBackEnd()
+    const [openModal, setOpenModal] = useState(false)
+
+    async function handleDelete(id: string) {
+        try {
+            const resDel = await delEducation(id)
+            refetch({ UserID: uid })
+        } catch (err: any) {
+            toastError(err)
+        }
+    }
+
+    function openEditModal() {
+        setOpenModal(true)
+    }
+
+    return (
+        <React.Fragment>
             <div className='education'>
                 <div className='info'>
                     <div className='font-semibold text-lg'>{ed.School}</div>
@@ -86,36 +115,12 @@ function Body({ uid, loading, data, error, refetch }: BodyInterface) {
                     <div className='text-sm'>{ed.StartDate} - {ed.EndDate}</div>
                 </div>
                 <div className='flex flex-row'>
-                    <IconButton Icon={HiTrash} />
+                    <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID) }} />
                     <div className='w-2'></div>
-                    <IconButton Icon={HiPencil} />
+                    <IconButton Icon={HiPencil} onClick={openEditModal}/>
                 </div>
             </div>
-        )
-    }
-
-    return (
-        res.map((ed: any, idx: number) => {
-            console.log(ed)
-            return (
-                <div key={"ed-" + idx}>
-                    <div className='education'>
-                        <div className='info'>
-                            <div className='font-semibold text-lg'>{ed.School}</div>
-                            <div className='text-md'>{ed.FieldOfStudy}</div>
-                            <div className='text-sm'>{ed.StartDate} - {ed.EndDate}</div>
-                        </div>
-                        <div className='flex flex-row'>
-                            <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID) }} />
-                            <div className='w-2'></div>
-                            <IconButton Icon={HiPencil} />
-                        </div>
-                    </div>
-                    {
-                        (idx < resLen - 1) && <div className='divider'></div>
-                    }
-                </div>
-            )
-        })
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={uid} refetch={refetch} ed={ed}/>
+        </React.Fragment>
     )
 }
