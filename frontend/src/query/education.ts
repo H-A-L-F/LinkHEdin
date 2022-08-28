@@ -32,3 +32,9 @@ export const USER_EDUCATION_QUERY = gql`
     }
   }
 `
+
+export const DELETE_EDUCATION_MUTATION = gql`
+  mutation deleteEducation($id:String!){
+    deleteEducation(id:$id)
+  }
+`

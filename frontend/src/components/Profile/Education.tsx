@@ -6,6 +6,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { ApolloError, ApolloQueryResult, useQuery } from '@apollo/client';
 import { USER_EDUCATION_QUERY } from '../../query/education';
 import Loading from '../LoadingOverlay/Loading';
+import { useBackEnd } from '../../hooks/useBackEnd';
+import { toastError } from '../../config/toast';
 
 interface EducationInterface {
     id: string | undefined
@@ -28,16 +30,17 @@ export default function Education({ id }: EducationInterface) {
                     <IconButton Icon={HiPlus} onClick={openEducationModal} />
                 </div>
                 <div className='content'>
-                    <Body loading={loading} data={data} error={error} refetch={refetch} />
+                    <Body uid={user.id} loading={loading} data={data} error={error} refetch={refetch} />
                 </div>
             </div>
             <div className='h-4'></div>
-            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id} refetch={refetch}/>
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id} refetch={refetch} />
         </React.Fragment>
     )
 }
 
 interface BodyInterface {
+    uid: string,
     loading: boolean,
     data: any,
     error: ApolloError | undefined
@@ -50,8 +53,17 @@ interface Education {
 
 }
 
-function Body({ loading, data, error, refetch }: BodyInterface) {
-    // const { loading, data, error, refetch } = useQuery(USER_EDUCATION_QUERY, { variables: { UserID: id } })
+function Body({ uid, loading, data, error, refetch }: BodyInterface) {
+    const { delEducation } = useBackEnd()
+
+    async function handleDelete(id: string) {
+        try {
+            const resDel = await delEducation(id)
+            refetch({ UserID: uid })
+        } catch (err: any) {
+            toastError(err)
+        }
+    }
 
     if (error) {
         console.log(error)
@@ -84,6 +96,7 @@ function Body({ loading, data, error, refetch }: BodyInterface) {
 
     return (
         res.map((ed: any, idx: number) => {
+            console.log(ed)
             return (
                 <div key={"ed-" + idx}>
                     <div className='education'>
@@ -93,7 +106,7 @@ function Body({ loading, data, error, refetch }: BodyInterface) {
                             <div className='text-sm'>{ed.StartDate} - {ed.EndDate}</div>
                         </div>
                         <div className='flex flex-row'>
-                            <IconButton Icon={HiTrash} />
+                            <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID)}} />
                             <div className='w-2'></div>
                             <IconButton Icon={HiPencil} />
                         </div>
