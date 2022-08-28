@@ -55,7 +55,9 @@ export const USER_FETCH_QUERY = gql`
       PhotoProfile,
       ConnectedUser,
       RequestConnect,
-      BgPhotoProfile
+      BgPhotoProfile,
+      Headline,
+      ProfileViews,
     }
   }
 `

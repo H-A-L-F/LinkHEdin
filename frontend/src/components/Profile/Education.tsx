@@ -19,6 +19,8 @@ export default function Education({ id }: { id: string }) {
         setOpenModal(true)
     }
 
+    console.log(user)
+
     return (
         <React.Fragment>
             <div className='box'>
