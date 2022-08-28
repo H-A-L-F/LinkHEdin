@@ -5,6 +5,7 @@ import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
 import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
+import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
@@ -29,6 +30,9 @@ function useProvideBackEnd() {
     const [addEducationFunc] = useMutation(CREATE_EDUCATION_MUTATION)
     const [deleteEducationFunc] = useMutation(DELETE_EDUCATION_MUTATION)
     const [updateEducationFunc] = useMutation(UPDATE_EDUCATION_MUTATION)
+    const [addExperienceFunc] = useMutation(CREATE_EXPERIENCE_MUTATION)
+    const [deleteExperienceFunc] = useMutation(DELETE_EXPERIENCE_MUTATION)
+    const [updateExperienceFunc] = useMutation(UPDATE_EXPERIENCE_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -265,6 +269,72 @@ function useProvideBackEnd() {
         }
     }
 
+    async function addExperience(uid: string, title: string, employmentType: string, companyName: string, location: string, active: boolean, startYear: string, endYear: string, industry: string, description: string) {
+        setLoading(true)
+
+        try {
+            const resC = await addExperienceFunc({
+                variables: {
+                    UserID: uid,
+                    Title: title,
+                    EmploymentType: employmentType,
+                    CompanyName: companyName,
+                    Location: location,
+                    Active: active,
+                    StartYear: startYear,
+                    EndYear: endYear,
+                    Industry: industry,
+                    Description: description
+                }
+            })
+            successHandle("Successfully added experience")
+            return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+    }
+
+    async function delExperience(id: string) {
+        setLoading(true)
+
+        try {
+            const resDel = await deleteExperienceFunc({ variables: { ID: id } })
+            successHandle("Succcessfully removed experience")
+            return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+    }
+
+    async function updateExperience(id: string, uid: string, title: string, employmentType: string, companyName: string, location: string, active: boolean, startYear: string, endYear: string, industry: string, description: string) {
+        setLoading(true)
+
+        try {
+            const resUd = await updateExperienceFunc({
+                variables: {
+                    id: id,
+                    UserID: uid,
+                    Title: title,
+                    EmploymentType: employmentType,
+                    CompanyName: companyName,
+                    Location: location,
+                    Active: active,
+                    StartYear: startYear,
+                    EndYear: endYear,
+                    Industry: industry,
+                    Description: description
+                }
+            })
+            successHandle("Successfully updated experience")
+            return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+    }
+
     return {
         login,
         register,
@@ -276,6 +346,9 @@ function useProvideBackEnd() {
         setBgPict,
         addEducation,
         delEducation,
-        updateEducation
+        updateEducation,
+        addExperience,
+        delExperience,
+        updateExperience
     }
 }

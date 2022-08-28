@@ -10,4 +10,5 @@ func MigrateTable() {
 	db.AutoMigrate(&model.UserValidation{})
 	db.AutoMigrate(&model.ChangePasswordRequest{})
 	db.AutoMigrate(&model.Education{})
+	db.AutoMigrate(&model.Experience{})
 }

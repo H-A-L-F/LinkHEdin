@@ -10,6 +10,7 @@ import IconButton from '../components/Buttons/IconButton';
 import EducationModal from '../components/Profile/EducationModal';
 import Modal from '../components/Modal/Modal';
 import Education from '../components/Profile/Education';
+import Experience from '../components/Profile/Experience';
 
 export default function Profile() {
     const { id } = useParams()
@@ -25,6 +26,7 @@ export default function Profile() {
             </div>
             <div className='h-4'></div>
             <Education id={id}/>
+            <Experience id={id}/>
         </div>
     )
 }
