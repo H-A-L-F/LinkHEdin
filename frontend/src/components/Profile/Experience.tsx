@@ -90,12 +90,12 @@ interface ContentInterface {
 }
 
 function Content({ ex, uid, refetch }: ContentInterface) {
-    const { delEducation } = useBackEnd()
+    const { delExperience } = useBackEnd()
     const [openModal, setOpenModal] = useState(false)
 
     async function handleDelete(id: string) {
         try {
-            const resDel = await delEducation(id)
+            const resDel = await delExperience(id)
             refetch({ UserID: uid })
         } catch (err: any) {
             toastError(err)

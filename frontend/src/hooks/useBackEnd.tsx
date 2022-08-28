@@ -299,7 +299,7 @@ function useProvideBackEnd() {
         setLoading(true)
 
         try {
-            const resDel = await deleteExperienceFunc({ variables: { ID: id } })
+            const resDel = await deleteExperienceFunc({ variables: { id: id } })
             successHandle("Succcessfully removed experience")
             return true
         } catch (err: any) {
