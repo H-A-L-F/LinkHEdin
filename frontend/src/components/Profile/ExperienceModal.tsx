@@ -51,15 +51,15 @@ export default function ExperienceModal({ openModal, setOpenModal, uid, refetch,
     }
 
     async function handleEdit(id: string) {
-        const title = (document.getElementById("Title") as HTMLInputElement).value
-        const employmentType = (document.getElementById("EmploymentType") as HTMLInputElement).value
-        const companyName = (document.getElementById("CompanyName") as HTMLInputElement).value
-        const location = (document.getElementById("Location") as HTMLInputElement).value
-        const active = (document.getElementById("Active") as HTMLInputElement).checked
-        const startYear = (document.getElementById("StartYear") as HTMLInputElement).value
-        const endYear = (document.getElementById("EndYear") as HTMLInputElement).value
-        const industry = (document.getElementById("Industry") as HTMLInputElement).value
-        const description = (document.getElementById("Description") as HTMLInputElement).value
+        const title = (document.getElementById("Title-udex") as HTMLInputElement).value
+        const employmentType = (document.getElementById("EmploymentType-udex") as HTMLInputElement).value
+        const companyName = (document.getElementById("CompanyName-udex") as HTMLInputElement).value
+        const location = (document.getElementById("Location-udex") as HTMLInputElement).value
+        const active = (document.getElementById("Active-udex") as HTMLInputElement).checked
+        const startYear = (document.getElementById("StartYear-udex") as HTMLInputElement).value
+        const endYear = (document.getElementById("EndYear-udex") as HTMLInputElement).value
+        const industry = (document.getElementById("Industry-udex") as HTMLInputElement).value
+        const description = (document.getElementById("Description-udex") as HTMLInputElement).value
 
         if (!validateInput(title, employmentType, companyName, location, active, startYear, endYear, industry, description)) return
 
@@ -135,44 +135,44 @@ export default function ExperienceModal({ openModal, setOpenModal, uid, refetch,
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Company Name</p>
-                            <input id='CompanyName-udex' type="text" className='text-input ' placeholder="Ex: SLC" />
+                            <input id='CompanyName-udex' type="text" className='text-input ' placeholder="Ex: SLC" defaultValue={ex.CompanyName}/>
                         </div>
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Location</p>
-                            <input id='Location-udex' type="text" className='text-input ' placeholder="Ex: Jakarta, Indonesia" />
+                            <input id='Location-udex' type="text" className='text-input ' placeholder="Ex: Jakarta, Indonesia" defaultValue={ex.Location}/>
                         </div>
 
                         <div className='w-full flex-row'>
                             <p className='text-s'>This is my current active job</p>
-                            <input onClick={() => { setActiveJob((document.getElementById("Active-udex") as HTMLInputElement).checked) }} id='Active-udex' type="checkbox" className='text-input ' />
+                            <input onClick={() => { setActiveJob((document.getElementById("Active-udex") as HTMLInputElement).checked) }} id='Active-udex' type="checkbox" className='text-input ' defaultChecked={ex.Active}/>
                         </div>
 
                         <div className='w-full flex-row space-between mb-20 no-spinner'>
                             <p className='text-s'>Start Year</p>
-                            <input type="number" id='StartYear-udex' className='num-input bg-base-100 text-s' defaultValue={2020} />
+                            <input type="number" id='StartYear-udex' className='num-input bg-base-100 text-s' defaultValue={ex.StartYear} />
                         </div>
                         {
                             activeJob ?
                                 <div className='w-full flex-row space-between mb-20'>
                                     <p className='text-s'>End Year</p>
-                                    <input disabled={activeJob} type="text" id='EndYear-udex' className=' text-s text-input' defaultValue="Present" />
+                                    <input disabled={activeJob} type="text" id='EndYear-udex' className=' text-s text-input' defaultValue={ex.EndYear}/>
                                 </div>
                                 :
                                 <div className='w-full flex-row space-between mb-20 no-spinner'>
                                     <p className='text-s'>End Year</p>
-                                    <input type="number" id='EndYear-udex' className='num-input bg-base-100 text-s' defaultValue={2022} />
+                                    <input type="number" id='EndYear-udex' className='num-input bg-base-100 text-s' defaultValue={ex.EndYear}/>
                                 </div>
                         }
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Industry</p>
-                            <input id='Industry-udex' type="text" className='text-input ' placeholder="Ex: Retail" />
+                            <input id='Industry-udex' type="text" className='text-input ' placeholder="Ex: Retail" defaultValue={ex.Industry}/>
                         </div>
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Profile Headline</p>
-                            <input id='Description-udex' type="text" className='text-input ' placeholder="" />
+                            <input id='Description-udex' type="text" className='text-input ' placeholder="" defaultValue={ex.Description}/>
                         </div>
                     </div>
                 }
