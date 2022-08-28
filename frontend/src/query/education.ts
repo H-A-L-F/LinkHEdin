@@ -34,7 +34,23 @@ export const USER_EDUCATION_QUERY = gql`
 `
 
 export const DELETE_EDUCATION_MUTATION = gql`
-  mutation deleteEducation($id:String!){
-    deleteEducation(id:$id)
+  mutation deleteEducation($ID:String!){
+    deleteEducation(id:$ID)
+  }
+`
+
+export const updateEducation = gql`
+  mutation updateEducation ($id:String! $UserID:ID!, $School:String!, $Degree:String!, $FieldOfStudy:String!, $StartDate:String!, $EndDate:String!, $Grade:Float!, $Activities:String!, $Description:String!){
+    updateEducation(id:$id,input:{
+      UserID:$UserID,
+      School:$School,
+      Degree:$Degree,
+      FieldOfStudy:$FieldOfStudy,
+      StartDate:$StartDate,
+      EndDate:$EndDate,
+      Grade:$Grade,
+      Activities:$Activities,
+      Description:$Description
+    })
   }
 `

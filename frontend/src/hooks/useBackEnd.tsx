@@ -229,7 +229,7 @@ function useProvideBackEnd() {
         setLoading(true)
 
         try {
-            const resDel = await deleteEducationFunc({ variables: { id: id } })
+            const resDel = await deleteEducationFunc({ variables: { ID: id } })
             successHandle("Succcessfully deleted education")
             return true
         } catch (err: any) {

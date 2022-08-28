@@ -1,5 +1,12 @@
 @use 'index' as i;
 
+.main {
+    @extend .bg-base-100;
+    min-height: 100vh;
+    min-width: 100vw;
+    overflow-x: hidden;
+}
+
 .btn {
     @extend .w-full, .h-12, .rounded-sm, .center-all, .font-bold, .text-xl, .cursor-pointer;
 
