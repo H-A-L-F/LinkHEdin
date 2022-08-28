@@ -53,7 +53,7 @@ export function App() {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <ToastContainer />
-        <div className="full-screen bg-base-100" data-theme={theme}>
+        <div className="bg-base-100" data-theme={theme}>
           <ProvideBackEnd>
 
             <Routes>
