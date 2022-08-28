@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloQueryResult } from '@apollo/client'
+import { toastError } from '../../config/toast';
 import { useBackEnd } from '../../hooks/useBackEnd'
 import Modal from '../Modal/Modal'
 
@@ -14,7 +15,7 @@ interface EducationModalInterface {
 export default function EducationModal({ openModal, setOpenModal, uid, refetch }: EducationModalInterface) {
     const { addEducation } = useBackEnd()
 
-    function handleSubmit() {
+    async function handleSubmit() {
         const school = (document.getElementById("School-ced") as HTMLInputElement).value
         const degree = (document.getElementById("Degree-ced") as HTMLInputElement).value
         const studyField = (document.getElementById("StudyField-ced") as HTMLInputElement).value
@@ -24,10 +25,42 @@ export default function EducationModal({ openModal, setOpenModal, uid, refetch }
         const activities = (document.getElementById("Activities-ced") as HTMLInputElement).value
         const description = (document.getElementById("Description-ced") as HTMLInputElement).value
 
-        addEducation(uid, school, degree, studyField, startDate, endDate, grade, activities, description)
-        refetch({ UserID: uid })
+        if (!validateInput(school, degree, studyField, startDate, endDate, grade, activities, description)) return
+
+        try {
+            const resAdd = await addEducation(uid, school, degree, studyField, startDate, endDate, grade, activities, description)
+            refetch({ UserID: uid })
+        } catch (err: any) {
+            toastError(err)
+        }
 
         handleClose()
+    }
+
+    function validateInput(school: string, degree: string, studyField: string, startDate: string, endDate: string, grade: number, activities: string, description: string) {
+        var start: number = +startDate
+        var end: number = +endDate
+        if (school === "" || degree === "" || studyField === "" || activities === "" || description === "") {
+            toastError("Please fill all the fields")
+            return false
+        }
+
+        if (startDate === undefined || endDate === undefined || grade === undefined) {
+            toastError("Please fill all the fields")
+            return false
+        }
+
+        if (start <= 0 || end <= 0) {
+            toastError("Date must atleast be 1")
+            return false
+        }
+
+        if (end < start) {
+            toastError("End date can't be less than start date")
+            return false
+        }
+
+        return true
     }
 
     function handleClose() {

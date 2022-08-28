@@ -106,7 +106,7 @@ function Body({ uid, loading, data, error, refetch }: BodyInterface) {
                             <div className='text-sm'>{ed.StartDate} - {ed.EndDate}</div>
                         </div>
                         <div className='flex flex-row'>
-                            <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID)}} />
+                            <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID) }} />
                             <div className='w-2'></div>
                             <IconButton Icon={HiPencil} />
                         </div>
