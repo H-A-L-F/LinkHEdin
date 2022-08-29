@@ -16,7 +16,7 @@ export default function Dropdown() {
         <div className='dropdown flex flex-col'>
             <Link text='Profile' link={ROUTE.ROUTE_PROFILE(user.id)}/>
             <p className='link' onClick={handleSignOut}>Sign Out</p>
-            <ThemeToggle />
+            
         </div>
     )
 }

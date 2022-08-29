@@ -8,15 +8,17 @@ export default function ThemeToggle() {
     const { changeTheme } = useAuth()
 
     return (
-        <div>
-            <input type="checkbox" className="checkbox" id="checkbox" onClick={changeTheme} />
-            <label htmlFor="checkbox" className="label">
-                {/* <i className="fas fa-moon"></i>
+        <div className='center-all'>
+            <div className='wrapper-theme'>
+                <input type="checkbox" className="checkbox-theme" id="checkbox" onClick={changeTheme} />
+                <label htmlFor="checkbox" className="label-theme">
+                    {/* <i className="fas fa-moon"></i>
                 <i className='fas fa-sun'></i> */}
-                <HiMoon className='fas fa-moon'/>
-                <HiSun className='fas fa-sun' />
-                <div className='ball' />
-            </label>
+                    <HiMoon className='fas fa-moon' />
+                    <HiSun className='fas fa-sun' />
+                    <div className='ball-theme' />
+                </label>
+            </div>
         </div>
     )
 }
