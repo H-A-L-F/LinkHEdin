@@ -13,10 +13,18 @@ export const useAuth = () => {
 };
 
 function useProvideAuth() {
+    const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
     const [user, setUser] = useLocalStorage("user", undefined)
+
+    function changeTheme() {
+        theme === "dark" ? setTheme("light") : setTheme("dark")
+    }
 
     return {
         user,
-        setUser
+        setUser,
+        theme,
+        changeTheme
     }
 }

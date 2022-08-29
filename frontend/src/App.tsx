@@ -22,9 +22,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 
 export function App() {
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
-  const { user } = useAuth()
+  const { user, theme } = useAuth()
 
   const main_url = "http://localhost:8080";
   const url = main_url + "/query";

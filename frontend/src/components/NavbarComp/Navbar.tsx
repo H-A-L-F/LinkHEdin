@@ -6,6 +6,7 @@ import { ROUTE } from '../../config/constants';
 import Avatar from './Avatar';
 import '../../styles/index.scss'
 import './navbar.scss'
+import ThemeToggle from '../ThemeSwitch/ThemeToggle';
 
 export default function Navbar() {
 
@@ -22,6 +23,8 @@ export default function Navbar() {
                     <HiSearch />
                     <input className='text-base-content' placeholder="Search" type="text" />
                 </div>
+                <div className='w-6'></div>
+                <ThemeToggle />
             </div>
 
             <div className='nav-item--container'>
