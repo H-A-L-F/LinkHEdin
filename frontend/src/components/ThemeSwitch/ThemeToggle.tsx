@@ -11,11 +11,9 @@ export default function ThemeToggle() {
         <div className='center-all'>
             <div className='wrapper-theme'>
                 <input type="checkbox" className="checkbox-theme" id="checkbox" onClick={changeTheme} />
-                <label htmlFor="checkbox" className="label-theme">
-                    {/* <i className="fas fa-moon"></i>
-                <i className='fas fa-sun'></i> */}
-                    <HiMoon className='fas fa-moon' />
+                <label htmlFor="checkbox" className="label-theme cursor-pointer">
                     <HiSun className='fas fa-sun' />
+                    <HiMoon className='fas fa-moon' />
                     <div className='ball-theme' />
                 </label>
             </div>
