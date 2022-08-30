@@ -2,6 +2,7 @@ import React from 'react'
 import AvatarProfile from '../components/Profile/AvatarProfile'
 import EditProfileBg from '../components/Profile/EditProfileBg'
 import { UserInterface } from '../components/Profile/UserInterface'
+import { useAuth } from '../hooks/useAuth'
 
 interface UserProfileInterface {
     id: string | undefined

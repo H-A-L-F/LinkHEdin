@@ -41,7 +41,7 @@ func UserRegister(ctx context.Context, newUser model.NewUser) (interface{}, erro
 
 	verification := &model.UserValidation{
 		ID:     newId,
-		Link:   "http://localhost:5173/verification/" + newId,
+		Link:   "http://localhost:5173/guest/verification/" + newId,
 		Code:   lib.RangeIn(1000, 9999),
 		UserID: createdUser.ID,
 	}

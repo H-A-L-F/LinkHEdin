@@ -25,6 +25,6 @@ function useProvideAuth() {
         user,
         setUser,
         theme,
-        changeTheme
+        changeTheme,
     }
 }

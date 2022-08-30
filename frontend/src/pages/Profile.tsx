@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AvatarProfile from '../components/Profile/AvatarProfile';
 import EditProfileBg from '../components/Profile/EditProfileBg';
@@ -17,10 +17,29 @@ import { FIND_USER_QUERY } from '../query/user';
 import { useLoading } from '../hooks/useLoading';
 import Loading from '../components/LoadingOverlay/Loading';
 
-export default function Profile() {
+const profileContext = createContext({} as any)
+
+export function provideUserProfile() {
+    const userProfile = useProvideUserProfile()
+    return (
+        <profileContext.Provider value={userProfile}>
+            <div>
+                <UserProfile id={id} isUser={isUser} user={currUser} />
+                <div className='h-4'></div>
+                <Education id={id} isUser={isUser} user={currUser} />
+                <Experience id={id} isUser={isUser} user={currUser} />
+            </div>
+        </profileContext.Provider>
+    )
+}
+
+export const useUserProfile = () => {
+    return useContext(profileContext)
+}
+
+function useProvideUserProfile() {
     const { id } = useParams()
     const { user } = useAuth()
-    const { setLoading } = useLoading()
     const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
 
     if (error) {
@@ -32,19 +51,39 @@ export default function Profile() {
         return <Loading loading={loading} />
     }
 
-    if (data.user) {
-        const currUser = data.user
-        const isUser = data.user.id === user.id
+    const currUser = data.user
+    const isUser = data.user.id === user.id
 
-        console.log(currUser)
-
-        return (
-            <div>
-                <UserProfile id={id} isUser={isUser} user={currUser} />
-                <div className='h-4'></div>
-                <Education id={id} isUser={isUser} user={currUser} />
-                <Experience id={id} isUser={isUser} user={currUser} />
-            </div>
-        )
+    return {
+        id,
+        currUser,
+        isUser
     }
+}
+
+export default function Profile() {
+    const { id } = useParams()
+    const { user } = useAuth()
+    const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
+
+    if (error) {
+        console.log(error)
+        return <div></div>
+    }
+
+    if (loading) {
+        return <Loading loading={loading} />
+    }
+
+    const currUser = data.user
+    const isUser = data.user.id === user.id
+
+    return (
+        <div>
+            <UserProfile id={id} isUser={isUser} user={currUser} />
+            <div className='h-4'></div>
+            <Education id={id} isUser={isUser} user={currUser} />
+            <Experience id={id} isUser={isUser} user={currUser} />
+        </div>
+    )
 }
