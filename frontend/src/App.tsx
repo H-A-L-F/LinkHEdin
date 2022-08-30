@@ -19,7 +19,7 @@ import MainLayout from "./layout/MainLayout";
 import GuestLayout from "./layout/GuestLayout";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Profile from "./pages/Profile";
+import { ProvideUserProfile } from "./pages/Profile";
 
 export function App() {
   const { user, theme } = useAuth()
@@ -57,7 +57,7 @@ export function App() {
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route path="home" element={<Home />} />
-                <Route path="profile/:id" element={<Profile />} />
+                <Route path="profile/:id" element={<ProvideUserProfile />} />
               </Route>
 
               <Route path="guest" element={<GuestLayout />}>

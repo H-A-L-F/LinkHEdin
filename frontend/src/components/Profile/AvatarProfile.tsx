@@ -2,9 +2,11 @@ import React from 'react'
 import { toastError } from '../../config/toast'
 import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
+import { useUserProfile } from '../../pages/Profile'
 
 export default function AvatarProfile() {
     const { user } = useAuth()
+    const { currUser, isUser } = useUserProfile()
     const { setProfilePict } = useBackEnd()
 
     function imageOnChange(e: any) {
@@ -23,20 +25,31 @@ export default function AvatarProfile() {
 
     return (
         <div className='avatar'>
-            <label htmlFor="input-file-ava">
+            {isUser ?
+                <div>
+                    <label htmlFor="input-file-ava">
+                        <img
+                            className="image"
+                            src={user.PhotoProfile}
+                            alt=""
+                        />
+                    </label>
+                    <input
+                        onChange={imageOnChange}
+                        className="none"
+                        id="input-file-ava"
+                        type="file"
+                        hidden={true}
+                    />
+                </div>
+                :
                 <img
                     className="image"
-                    src={user.PhotoProfile}
+                    src={currUser.PhotoProfile}
                     alt=""
                 />
-            </label>
-            <input
-                onChange={imageOnChange}
-                className="none"
-                id="input-file-ava"
-                type="file"
-                hidden={true}
-            />
+            }
+
         </div>
     )
 }

@@ -10,8 +10,11 @@ import ExperienceModal from './ExperienceModal';
 import { USER_EXPERIENCE_QUERY } from '../../query/experience';
 import { ExperienceInterface } from './ExperienceInterface';
 import { UserInterface } from './UserInterface';
+import { useUserProfile } from '../../pages/Profile';
 
-export default function Experience({ id, isUser, user }: { id: string | undefined, isUser: boolean, user: UserInterface }) {
+// export default function Experience({ id, isUser, user }: { id: string | undefined, isUser: boolean, user: UserInterface }) {
+export default function Experience() {
+    const { id, currUser, isUser } = useUserProfile()
     const { loading, data, error, refetch } = useQuery(USER_EXPERIENCE_QUERY, { variables: { UserID: id } })
     const [openModal, setOpenModal] = useState(false)
 
@@ -24,14 +27,14 @@ export default function Experience({ id, isUser, user }: { id: string | undefine
             <div className='box'>
                 <div className='header'>
                     Experience
-                    <IconButton Icon={HiPlus} onClick={openExperienceModal} />
+                    {isUser && <IconButton Icon={HiPlus} onClick={openExperienceModal} />}
                 </div>
                 <div className='content'>
-                    <Body uid={user.id} loading={loading} data={data} error={error} refetch={refetch} isUser={isUser} />
+                    <Body uid={currUser.id} loading={loading} data={data} error={error} refetch={refetch} isUser={isUser} />
                 </div>
             </div>
             <div className='h-4'></div>
-            <ExperienceModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id} refetch={refetch} isUser={isUser} />
+            <ExperienceModal openModal={openModal} setOpenModal={setOpenModal} uid={currUser.id} refetch={refetch} isUser={isUser} />
         </React.Fragment>
     )
 }
@@ -117,11 +120,14 @@ function Content({ ex, uid, refetch, isUser }: ContentInterface) {
                     <div className='text-sm'>{ex.StartYear} - {ex.EndYear}</div>
                     <div className='text-sm'>{ex.Location}</div>
                 </div>
-                <div className='flex flex-row'>
-                    <IconButton Icon={HiTrash} onClick={() => { handleDelete(ex.ID); console.log(ex.ID) }} />
-                    <div className='w-2'></div>
-                    <IconButton Icon={HiPencil} onClick={openEditModal} />
-                </div>
+                {
+                    isUser &&
+                    <div className='flex flex-row'>
+                        <IconButton Icon={HiTrash} onClick={() => { handleDelete(ex.ID); console.log(ex.ID) }} />
+                        <div className='w-2'></div>
+                        <IconButton Icon={HiPencil} onClick={openEditModal} />
+                    </div>
+                }
             </div>
             <ExperienceModal openModal={openModal} setOpenModal={setOpenModal} uid={uid} refetch={refetch} ex={ex} isUser={isUser} />
         </React.Fragment>

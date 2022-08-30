@@ -10,8 +10,11 @@ import { useBackEnd } from '../../hooks/useBackEnd';
 import { toastError } from '../../config/toast';
 import { EducationInterface } from './EducationInterface';
 import { UserInterface } from './UserInterface';
+import { useUserProfile } from '../../pages/Profile';
 
-export default function Education({ id, isUser, user }: { id: string | undefined, isUser: boolean, user: UserInterface }) {
+// export default function Education({ id, isUser, user }: { id: string | undefined, isUser: boolean, user: UserInterface }) {
+export default function Education() {
+    const { id, currUser, isUser } = useUserProfile()
     const [openModal, setOpenModal] = useState(false)
     const { loading, data, error, refetch } = useQuery(USER_EDUCATION_QUERY, { variables: { UserID: id } })
 
@@ -27,11 +30,11 @@ export default function Education({ id, isUser, user }: { id: string | undefined
                     {isUser && <IconButton Icon={HiPlus} onClick={openEducationModal} />}
                 </div>
                 <div className='content'>
-                    <Body uid={user.id} loading={loading} data={data} error={error} refetch={refetch} isUser={isUser} />
+                    <Body uid={currUser.id} loading={loading} data={data} error={error} refetch={refetch} isUser={isUser} />
                 </div>
             </div>
             <div className='h-4'></div>
-            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id} refetch={refetch} isUser={isUser} />
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={currUser.id} refetch={refetch} isUser={isUser} />
         </React.Fragment>
     )
 }
@@ -116,11 +119,13 @@ function Content({ ed, uid, refetch, isUser }: ContentInterface) {
                     <div className='text-md'>{ed.FieldOfStudy}</div>
                     <div className='text-sm'>{ed.StartDate} - {ed.EndDate}</div>
                 </div>
-                <div className='flex flex-row'>
-                    <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID) }} />
-                    <div className='w-2'></div>
-                    <IconButton Icon={HiPencil} onClick={openEditModal} />
-                </div>
+                {isUser &&
+                    <div className='flex flex-row'>
+                        <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID) }} />
+                        <div className='w-2'></div>
+                        <IconButton Icon={HiPencil} onClick={openEditModal} />
+                    </div>
+                }
             </div>
             <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={uid} refetch={refetch} ed={ed} isUser={isUser} />
         </React.Fragment>

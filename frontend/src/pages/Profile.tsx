@@ -19,15 +19,34 @@ import Loading from '../components/LoadingOverlay/Loading';
 
 const profileContext = createContext({} as any)
 
-export function provideUserProfile() {
-    const userProfile = useProvideUserProfile()
+export function ProvideUserProfile() {
+    // const userProfile = useProvideUserProfile()
+    // console.log("testing?")
+    // console.log(userProfile)
+
+    const { id } = useParams()
+    const { user } = useAuth()
+    const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
+
+    if (error) {
+        console.log(error)
+        return <div></div>
+    }
+
+    if (loading) {
+        return <Loading loading={loading} />
+    }
+
+    const currUser = data.user
+    const isUser = data.user.id === user.id
+
     return (
-        <profileContext.Provider value={userProfile}>
+        <profileContext.Provider value={{id, currUser, isUser}}>
             <div>
-                <UserProfile id={id} isUser={isUser} user={currUser} />
+                <UserProfile />
                 <div className='h-4'></div>
-                <Education id={id} isUser={isUser} user={currUser} />
-                <Experience id={id} isUser={isUser} user={currUser} />
+                <Education />
+                <Experience />
             </div>
         </profileContext.Provider>
     )
@@ -54,6 +73,9 @@ function useProvideUserProfile() {
     const currUser = data.user
     const isUser = data.user.id === user.id
 
+    console.log("masukkk")
+    console.log(data)
+
     return {
         id,
         currUser,
@@ -61,29 +83,29 @@ function useProvideUserProfile() {
     }
 }
 
-export default function Profile() {
-    const { id } = useParams()
-    const { user } = useAuth()
-    const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
+// export default function Profile() {
+//     const { id } = useParams()
+//     const { user } = useAuth()
+//     const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
 
-    if (error) {
-        console.log(error)
-        return <div></div>
-    }
+//     if (error) {
+//         console.log(error)
+//         return <div></div>
+//     }
 
-    if (loading) {
-        return <Loading loading={loading} />
-    }
+//     if (loading) {
+//         return <Loading loading={loading} />
+//     }
 
-    const currUser = data.user
-    const isUser = data.user.id === user.id
+//     const currUser = data.user
+//     const isUser = data.user.id === user.id
 
-    return (
-        <div>
-            <UserProfile id={id} isUser={isUser} user={currUser} />
-            <div className='h-4'></div>
-            <Education id={id} isUser={isUser} user={currUser} />
-            <Experience id={id} isUser={isUser} user={currUser} />
-        </div>
-    )
-}
+//     return (
+//         <div>
+//             <UserProfile id={id} isUser={isUser} user={currUser} />
+//             <div className='h-4'></div>
+//             <Education id={id} isUser={isUser} user={currUser} />
+//             <Experience id={id} isUser={isUser} user={currUser} />
+//         </div>
+//     )
+// }

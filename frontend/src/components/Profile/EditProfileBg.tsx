@@ -3,11 +3,13 @@ import { HiPencil } from "react-icons/hi";
 import { toastError } from '../../config/toast';
 import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
+import { useUserProfile } from '../../pages/Profile';
 import IconButton from '../Buttons/IconButton';
 
 export default function EditProfileBg() {
-    const {user} = useAuth()
-    const {setBgPict} = useBackEnd()
+    const { user } = useAuth()
+    const { currUser, isUser } = useUserProfile()
+    const { setBgPict } = useBackEnd()
 
     function imageOnChange(e: any) {
         if (!validateFile(e.target)) return
@@ -25,17 +27,21 @@ export default function EditProfileBg() {
 
     return (
         <div className='profile-bg'>
-            <img src={user.BgPhotoProfile} alt="" className='image' />
-            <label htmlFor="input-file-bg" className='edit'>
-                <IconButton Icon={HiPencil} />
-            </label>
-            <input
-                onChange={imageOnChange}
-                className="none"
-                id="input-file-bg"
-                type="file"
-                hidden={true}
-            />
+            <img src={currUser.BgPhotoProfile === "https://picsum.photos/seed/picsum/200/300" ? "" : currUser.BgPhotoProfile} alt="" className='image' />
+            {isUser &&
+                <div>
+                    <label htmlFor="input-file-bg" className='edit'>
+                        <IconButton Icon={HiPencil} />
+                    </label>
+                    <input
+                        onChange={imageOnChange}
+                        className="none"
+                        id="input-file-bg"
+                        type="file"
+                        hidden={true}
+                    />
+                </div>
+            }
         </div>
     )
 }

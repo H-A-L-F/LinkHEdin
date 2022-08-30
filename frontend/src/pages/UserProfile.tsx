@@ -3,6 +3,7 @@ import AvatarProfile from '../components/Profile/AvatarProfile'
 import EditProfileBg from '../components/Profile/EditProfileBg'
 import { UserInterface } from '../components/Profile/UserInterface'
 import { useAuth } from '../hooks/useAuth'
+import { useUserProfile } from './Profile'
 
 interface UserProfileInterface {
     id: string | undefined
@@ -10,7 +11,11 @@ interface UserProfileInterface {
     user: UserInterface
 }
 
-export default function UserProfile({ id, isUser, user }: UserProfileInterface) {
+// export default function UserProfile({ id, isUser, user }: UserProfileInterface) {
+export default function UserProfile() {
+    const { currUser } = useUserProfile()
+
+    console.log(currUser)
 
     return (
         <div className='box'>
@@ -21,10 +26,10 @@ export default function UserProfile({ id, isUser, user }: UserProfileInterface) 
                     <div className='personal-content'>
                         <div className='user'>
                             <div className='text-lg font-semibold'>
-                                {user.name}
+                                {currUser.name}
                             </div>
                             <div className='text-md font-medium'>
-                                {user.email}
+                                {currUser.email}
                             </div>
                         </div>
                     </div>
