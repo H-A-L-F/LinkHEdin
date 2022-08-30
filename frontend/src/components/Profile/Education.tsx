@@ -24,14 +24,14 @@ export default function Education({ id, isUser, user }: { id: string | undefined
             <div className='box'>
                 <div className='header'>
                     Education
-                    <IconButton Icon={HiPlus} onClick={openEducationModal} />
+                    {isUser && <IconButton Icon={HiPlus} onClick={openEducationModal} />}
                 </div>
                 <div className='content'>
-                    <Body uid={user.id} loading={loading} data={data} error={error} refetch={refetch} />
+                    <Body uid={user.id} loading={loading} data={data} error={error} refetch={refetch} isUser={isUser} />
                 </div>
             </div>
             <div className='h-4'></div>
-            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id} refetch={refetch} />
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={user.id} refetch={refetch} isUser={isUser} />
         </React.Fragment>
     )
 }
@@ -44,10 +44,11 @@ interface BodyInterface {
     refetch: (variables?: Partial<{
         UserID: string | undefined;
     }> | undefined) => Promise<ApolloQueryResult<any>>,
+    isUser: boolean
 }
 
 
-function Body({ uid, loading, data, error, refetch }: BodyInterface) {
+function Body({ uid, loading, data, error, refetch, isUser }: BodyInterface) {
 
     if (error) {
         console.log(error)
@@ -63,7 +64,7 @@ function Body({ uid, loading, data, error, refetch }: BodyInterface) {
     if (resLen == 1) {
         const ed = res[0]
         return (
-            <Content ed={ed} uid={uid} refetch={refetch} />
+            <Content ed={ed} uid={uid} refetch={refetch} isUser={isUser} />
         )
     }
 
@@ -71,7 +72,7 @@ function Body({ uid, loading, data, error, refetch }: BodyInterface) {
         res.map((ed: any, idx: number) => {
             return (
                 <div key={"ed-" + idx}>
-                    <Content ed={ed} uid={uid} refetch={refetch} />
+                    <Content ed={ed} uid={uid} refetch={refetch} isUser={isUser} />
                     {
                         (idx < resLen - 1) && <div className='divider'></div>
                     }
@@ -87,9 +88,10 @@ interface ContentInterface {
     refetch: (variables?: Partial<{
         UserID: string | undefined;
     }> | undefined) => Promise<ApolloQueryResult<any>>,
+    isUser: boolean,
 }
 
-function Content({ ed, uid, refetch }: ContentInterface) {
+function Content({ ed, uid, refetch, isUser }: ContentInterface) {
     const { delEducation } = useBackEnd()
     const [openModal, setOpenModal] = useState(false)
 
@@ -120,7 +122,7 @@ function Content({ ed, uid, refetch }: ContentInterface) {
                     <IconButton Icon={HiPencil} onClick={openEditModal} />
                 </div>
             </div>
-            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={uid} refetch={refetch} ed={ed} />
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={uid} refetch={refetch} ed={ed} isUser={isUser} />
         </React.Fragment>
     )
 }

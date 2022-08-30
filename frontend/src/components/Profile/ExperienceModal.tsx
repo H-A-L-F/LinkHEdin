@@ -12,7 +12,8 @@ interface ExperienceModalInterface {
     refetch: (variables?: Partial<{
         UserID: string | undefined;
     }> | undefined) => Promise<ApolloQueryResult<any>>,
-    ex?: ExperienceInterface
+    ex?: ExperienceInterface,
+    isUser: boolean
 }
 
 enum EMPLOYMENT_TYPE {
@@ -23,7 +24,7 @@ enum EMPLOYMENT_TYPE {
     CONTRACT = "Contract"
 }
 
-export default function ExperienceModal({ openModal, setOpenModal, uid, refetch, ex }: ExperienceModalInterface) {
+export default function ExperienceModal({ openModal, setOpenModal, uid, refetch, ex, isUser }: ExperienceModalInterface) {
     const { addExperience, updateExperience } = useBackEnd()
     const [activeJob, setActiveJob] = useState(false)
 
@@ -109,6 +110,7 @@ export default function ExperienceModal({ openModal, setOpenModal, uid, refetch,
             <Modal
                 title='Edit Experience'
                 open={openModal}
+                edit={isUser}
                 handleClose={handleClose}
                 handleSubmit={() => {
                     handleEdit(ex.ID)
@@ -135,17 +137,17 @@ export default function ExperienceModal({ openModal, setOpenModal, uid, refetch,
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Company Name</p>
-                            <input id='CompanyName-udex' type="text" className='text-input ' placeholder="Ex: SLC" defaultValue={ex.CompanyName}/>
+                            <input id='CompanyName-udex' type="text" className='text-input ' placeholder="Ex: SLC" defaultValue={ex.CompanyName} />
                         </div>
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Location</p>
-                            <input id='Location-udex' type="text" className='text-input ' placeholder="Ex: Jakarta, Indonesia" defaultValue={ex.Location}/>
+                            <input id='Location-udex' type="text" className='text-input ' placeholder="Ex: Jakarta, Indonesia" defaultValue={ex.Location} />
                         </div>
 
                         <div className='w-full flex-row'>
                             <p className='text-s'>This is my current active job</p>
-                            <input onClick={() => { setActiveJob((document.getElementById("Active-udex") as HTMLInputElement).checked) }} id='Active-udex' type="checkbox" className='text-input ' defaultChecked={ex.Active}/>
+                            <input onClick={() => { setActiveJob((document.getElementById("Active-udex") as HTMLInputElement).checked) }} id='Active-udex' type="checkbox" className='text-input ' defaultChecked={ex.Active} />
                         </div>
 
                         <div className='w-full flex-row space-between mb-20 no-spinner'>
@@ -156,23 +158,23 @@ export default function ExperienceModal({ openModal, setOpenModal, uid, refetch,
                             activeJob ?
                                 <div className='w-full flex-row space-between mb-20'>
                                     <p className='text-s'>End Year</p>
-                                    <input disabled={activeJob} type="text" id='EndYear-udex' className=' text-s text-input' defaultValue={ex.EndYear}/>
+                                    <input disabled={activeJob} type="text" id='EndYear-udex' className=' text-s text-input' defaultValue={ex.EndYear} />
                                 </div>
                                 :
                                 <div className='w-full flex-row space-between mb-20 no-spinner'>
                                     <p className='text-s'>End Year</p>
-                                    <input type="number" id='EndYear-udex' className='num-input bg-base-100 text-s' defaultValue={ex.EndYear}/>
+                                    <input type="number" id='EndYear-udex' className='num-input bg-base-100 text-s' defaultValue={ex.EndYear} />
                                 </div>
                         }
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Industry</p>
-                            <input id='Industry-udex' type="text" className='text-input ' placeholder="Ex: Retail" defaultValue={ex.Industry}/>
+                            <input id='Industry-udex' type="text" className='text-input ' placeholder="Ex: Retail" defaultValue={ex.Industry} />
                         </div>
 
                         <div className='w-full flex-col'>
                             <p className='text-s'>Profile Headline</p>
-                            <input id='Description-udex' type="text" className='text-input ' placeholder="" defaultValue={ex.Description}/>
+                            <input id='Description-udex' type="text" className='text-input ' placeholder="" defaultValue={ex.Description} />
                         </div>
                     </div>
                 }
@@ -184,6 +186,7 @@ export default function ExperienceModal({ openModal, setOpenModal, uid, refetch,
         <Modal
             title='Add Experience'
             open={openModal}
+            edit={isUser}
             handleClose={handleClose}
             handleSubmit={handleSubmit}
             Content=

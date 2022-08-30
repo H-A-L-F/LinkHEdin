@@ -11,10 +11,11 @@ interface EducationModalInterface {
     refetch: (variables?: Partial<{
         UserID: string | undefined;
     }> | undefined) => Promise<ApolloQueryResult<any>>,
-    ed?: EducationInterface
+    ed?: EducationInterface,
+    isUser: boolean
 }
 
-export default function EducationModal({ openModal, setOpenModal, uid, refetch, ed }: EducationModalInterface) {
+export default function EducationModal({ openModal, setOpenModal, uid, refetch, ed, isUser }: EducationModalInterface) {
     const { addEducation, updateEducation } = useBackEnd()
 
     async function handleSubmit() {
@@ -96,6 +97,7 @@ export default function EducationModal({ openModal, setOpenModal, uid, refetch, 
             <Modal
                 title='Edit Education'
                 open={openModal}
+                edit={isUser}
                 handleClose={handleClose}
                 handleSubmit={() => {
                     handleEdit(ed.ID)
@@ -156,6 +158,7 @@ export default function EducationModal({ openModal, setOpenModal, uid, refetch, 
         <Modal
             title='Add Education'
             open={openModal}
+            edit={isUser}
             handleClose={handleClose}
             handleSubmit={handleSubmit}
             Content=
