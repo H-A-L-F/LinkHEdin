@@ -65,11 +65,16 @@ export const USER_FETCH_QUERY = gql`
 export const FIND_USER_QUERY = gql`
   query User($id:ID!){
     user(id:$id){
-      id,
+      id
       name,
       email,
+      FollowedUser,
+      PhotoProfile,
+      ConnectedUser,
+      RequestConnect,
       BgPhotoProfile,
-      PhotoProfile
+      Headline,
+      ProfileViews,
     }
   }
 `;

@@ -9,11 +9,11 @@ import { toastError } from '../../config/toast';
 import ExperienceModal from './ExperienceModal';
 import { USER_EXPERIENCE_QUERY } from '../../query/experience';
 import { ExperienceInterface } from './ExperienceInterface';
+import { UserInterface } from './UserInterface';
 
-export default function Experience({ id }: { id: string | undefined }) {
+export default function Experience({ id, isUser, user }: { id: string | undefined, isUser: boolean, user: UserInterface }) {
     const { loading, data, error, refetch } = useQuery(USER_EXPERIENCE_QUERY, { variables: { UserID: id } })
     const [openModal, setOpenModal] = useState(false)
-    const { user } = useAuth()
 
     function openExperienceModal() {
         setOpenModal(true)

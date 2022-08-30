@@ -302,6 +302,29 @@
                 outline-color: var(--col-base-100);
             }
         }
+
+        .personal-position {
+            // @extend .w-full;
+            // @extend .bg-red-400;
+            // padding-left: $pad-x;
+            // padding-right: $pad-x;
+            // position: absolute;
+            position: absolute;
+            // left: 300px;
+            top: 65%;
+            overflow: hidden;
+            // border: 1px solid gold;
+            width: 97.5%;
+
+            .personal-content {
+                // @extend .w-full;
+
+                .user {
+                    @extend .flex, .flex-col;
+
+                }
+            }
+        }
     }
 }
 

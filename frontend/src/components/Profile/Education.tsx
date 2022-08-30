@@ -9,9 +9,9 @@ import Loading from '../LoadingOverlay/Loading';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import { toastError } from '../../config/toast';
 import { EducationInterface } from './EducationInterface';
+import { UserInterface } from './UserInterface';
 
-export default function Education({ id }: { id: string | undefined}) {
-    const { user } = useAuth()
+export default function Education({ id, isUser, user }: { id: string | undefined, isUser: boolean, user: UserInterface }) {
     const [openModal, setOpenModal] = useState(false)
     const { loading, data, error, refetch } = useQuery(USER_EDUCATION_QUERY, { variables: { UserID: id } })
 
@@ -117,10 +117,10 @@ function Content({ ed, uid, refetch }: ContentInterface) {
                 <div className='flex flex-row'>
                     <IconButton Icon={HiTrash} onClick={() => { handleDelete(ed.ID); console.log(ed.ID) }} />
                     <div className='w-2'></div>
-                    <IconButton Icon={HiPencil} onClick={openEditModal}/>
+                    <IconButton Icon={HiPencil} onClick={openEditModal} />
                 </div>
             </div>
-            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={uid} refetch={refetch} ed={ed}/>
+            <EducationModal openModal={openModal} setOpenModal={setOpenModal} uid={uid} refetch={refetch} ed={ed} />
         </React.Fragment>
     )
 }
