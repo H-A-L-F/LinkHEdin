@@ -6,13 +6,13 @@ export const CONNECT_REQUEST_MUTATION = gql`
   }
 `;
 
-export const IGNORE_REQUEST_QUERY = gql`
+export const IGNORE_REQUEST_MUTATION = gql`
   mutation IgnoreRequest($id: String!) {
     declineRequest(id: $id)
   }
 `;
 
-export const ACCEPT_REQUEST_QUERY = gql`
+export const ACCEPT_REQUEST_MUTATION = gql`
   mutation AcceptRequest($id: String!) {
     acceptRequest(id: $id)
   }
