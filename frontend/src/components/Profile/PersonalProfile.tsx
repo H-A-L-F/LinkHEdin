@@ -5,7 +5,7 @@ import { useUserProfile } from '../../pages/Profile'
 
 export default function PersonalProfile() {
     const { id, currUser } = useUserProfile()
-    const { followUser } = useBackEnd()
+    const { followUser, connectRequest } = useBackEnd()
     const { user } = useAuth()
 
     function handleFollow() {
@@ -13,7 +13,7 @@ export default function PersonalProfile() {
     }
 
     function handleConnect() {
-
+        connectRequest(id, user.name + " have sent you a connect request!")
     }
 
     console.log(user)
@@ -41,7 +41,7 @@ export default function PersonalProfile() {
                         </div>
                     </div>
                     <div className='w-4'></div>
-                    <div className='btn-primary'>
+                    <div className='btn-primary' onClick={handleConnect}>
                         <div className='bg'></div>
                         <div className='center-all py-2'>
                             Connect

@@ -1,3 +1,12 @@
+# type ConnectRequest {
+#   ID: ID!
+#   UserTo: String!
+#   UserFrom: String!
+#   IsAccepted: Bool!
+#   Text: String!
+
+# }
+
 extend type Mutation {
   createRequest(user_id: String!, text: String!): String!
   acceptRequest(id: String!): String!

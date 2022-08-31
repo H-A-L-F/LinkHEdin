@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
+import { CONNECT_REQUEST_MUTATION } from "../query/connect";
 import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
@@ -34,6 +35,7 @@ function useProvideBackEnd() {
     const [deleteExperienceFunc] = useMutation(DELETE_EXPERIENCE_MUTATION)
     const [updateExperienceFunc] = useMutation(UPDATE_EXPERIENCE_MUTATION)
     const [followUserFunc] = useMutation(FOLLOW_USER_QUERY)
+    const [connectRequestFunc] = useMutation(CONNECT_REQUEST_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -346,6 +348,16 @@ function useProvideBackEnd() {
         }
     }
 
+    async function connectRequest(id: string, text: string) {
+        try {
+            const resCon = await connectRequestFunc({ variables: { id: id, text: text } })
+            refetchUser()
+            successHandle("Connect request sent")
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     return {
         login,
         register,
@@ -361,6 +373,7 @@ function useProvideBackEnd() {
         addExperience,
         delExperience,
         updateExperience,
-        followUser
+        followUser,
+        connectRequest
     }
 }
