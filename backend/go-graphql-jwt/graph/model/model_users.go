@@ -10,6 +10,7 @@ type User struct {
 	Validate       bool           `json:"validate"`
 	FollowedUser   pq.StringArray `json:"followed_user" gorm:"type:text[]"`
 	RequestConnect pq.StringArray `json:"request_connect" gorm:"type:text[]"`
+	RequestConnectTxt pq.StringArray `json:"request_connect_txt" gorm:"type:text[]"`
 	ConnectedUser  pq.StringArray `json:"connected_user" gorm:"type:text[]"`
 	PhotoProfile   string         `json:"photo_profile"`
 	Headline       string         `json:"headline"`

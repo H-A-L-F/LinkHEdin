@@ -234,6 +234,11 @@ func (r *userResolver) RequestConnect(ctx context.Context, obj *model.User) ([]s
 	return obj.RequestConnect, nil
 }
 
+// RequestConnectTxt is the resolver for the RequestConnectTxt field.
+func (r *userResolver) RequestConnectTxt(ctx context.Context, obj *model.User) ([]string, error) {
+	return obj.RequestConnectTxt, nil
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 

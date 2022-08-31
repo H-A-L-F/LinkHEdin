@@ -14,6 +14,7 @@ type User {
   FollowedUser: [String!]!
   ConnectedUser: [String!]!
   RequestConnect: [String!]!
+  RequestConnectTxt: [String!]!
   Headline: String!
   ProfileViews: Int!
   BgPhotoProfile: String!
