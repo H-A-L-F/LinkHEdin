@@ -623,9 +623,19 @@
         width: 100%;
         transition: all 0.2s ease;
     }
+}
 
-    .content {
-        @extend .center-all;
-        z-index: 2;
+.add-outline {
+    outline-style: solid;
+    outline-color: var(--col-base-content);
+}
+
+.fill {
+    &-info {
+        fill: var(--col-info);
+    }
+
+    &-success {
+        fill: var(--col-success);
     }
 }
