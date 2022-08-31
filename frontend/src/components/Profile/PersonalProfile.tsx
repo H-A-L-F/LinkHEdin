@@ -4,7 +4,7 @@ import { useBackEnd } from '../../hooks/useBackEnd'
 import { useUserProfile } from '../../pages/Profile'
 
 export default function PersonalProfile() {
-    const { id, currUser } = useUserProfile()
+    const { id, currUser, isUser } = useUserProfile()
     const { followUser, connectRequest } = useBackEnd()
     const { user } = useAuth()
 
@@ -14,6 +14,10 @@ export default function PersonalProfile() {
 
     function handleConnect() {
         connectRequest(id, user.name + " have sent you a connect request!")
+    }
+
+    function handleBlock() {
+
     }
 
     console.log(user)
@@ -32,23 +36,36 @@ export default function PersonalProfile() {
                     </div>
                 </div>
             </div>
-            <div className='footer-position'>
-                <div className='flex flex-row'>
-                    <div className='btn-primary' onClick={handleFollow}>
-                        <div className='bg'></div>
-                        <div className='center-all py-2'>
-                            {user.FollowedUser.includes(id) ? "Unfollow" : "Follow"}
+            {isUser ?
+                <div>
+
+                </div>
+                :
+                <div className='footer-position'>
+                    <div className='flex flex-row'>
+                        <div className='btn-primary' onClick={handleFollow}>
+                            <div className='bg'></div>
+                            <div className='center-all py-2'>
+                                {user.FollowedUser.includes(id) ? "Unfollow" : "Follow"}
+                            </div>
                         </div>
-                    </div>
-                    <div className='w-4'></div>
-                    <div className='btn-primary' onClick={handleConnect}>
-                        <div className='bg'></div>
-                        <div className='center-all py-2'>
-                            Connect
+                        <div className='w-4'></div>
+                        <div className='btn-primary' onClick={handleConnect}>
+                            <div className='bg'></div>
+                            <div className='center-all py-2'>
+                                Connect
+                            </div>
+                        </div>
+                        <div className='w-4'></div>
+                        <div className='btn-primary' onClick={handleBlock}>
+                            <div className='bg'></div>
+                            <div className='center-all py-2'>
+                                Block
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </React.Fragment>
     )
 }
