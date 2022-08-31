@@ -1,8 +1,22 @@
 import React from 'react'
+import { useAuth } from '../../hooks/useAuth'
+import { useBackEnd } from '../../hooks/useBackEnd'
 import { useUserProfile } from '../../pages/Profile'
 
 export default function PersonalProfile() {
-    const { currUser } = useUserProfile()
+    const { id, currUser } = useUserProfile()
+    const { followUser } = useBackEnd()
+    const { user } = useAuth()
+
+    function handleFollow() {
+        followUser(id)
+    }
+
+    function handleConnect() {
+
+    }
+
+    console.log(user)
 
     return (
         <React.Fragment>
@@ -20,10 +34,10 @@ export default function PersonalProfile() {
             </div>
             <div className='footer-position'>
                 <div className='flex flex-row'>
-                    <div className='btn-primary'>
+                    <div className='btn-primary' onClick={handleFollow}>
                         <div className='bg'></div>
                         <div className='center-all py-2'>
-                            Follow
+                            {user.FollowedUser.includes(id) ? "Unfollow" : "Follow"}
                         </div>
                     </div>
                     <div className='w-4'></div>

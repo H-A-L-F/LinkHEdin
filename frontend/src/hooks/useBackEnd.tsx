@@ -6,7 +6,7 @@ import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
 import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
-import { UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
+import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
 
@@ -33,6 +33,7 @@ function useProvideBackEnd() {
     const [addExperienceFunc] = useMutation(CREATE_EXPERIENCE_MUTATION)
     const [deleteExperienceFunc] = useMutation(DELETE_EXPERIENCE_MUTATION)
     const [updateExperienceFunc] = useMutation(UPDATE_EXPERIENCE_MUTATION)
+    const [followUserFunc] = useMutation(FOLLOW_USER_QUERY)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -335,6 +336,16 @@ function useProvideBackEnd() {
         }
     }
 
+    async function followUser(id: string) {
+        try {
+            const resFol = await followUserFunc({ variables: { id: id } })
+            refetchUser()
+            successHandle("Success")
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     return {
         login,
         register,
@@ -349,6 +360,7 @@ function useProvideBackEnd() {
         updateEducation,
         addExperience,
         delExperience,
-        updateExperience
+        updateExperience,
+        followUser
     }
 }

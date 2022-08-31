@@ -92,6 +92,7 @@ func (r *mutationResolver) Follow(ctx context.Context, id string) (string, error
 		return "Not Found", err
 	}
 
+	// unfollow
 	for i, val := range user.FollowedUser {
 		if val == getUser.ID {
 			// Found
@@ -99,7 +100,8 @@ func (r *mutationResolver) Follow(ctx context.Context, id string) (string, error
 			return "Removed", r.DB.Save(user).Error
 		}
 	}
-	// Not Found
+
+	// follow
 	user.FollowedUser = append(user.FollowedUser, getUser.ID)
 	return "Added", r.DB.Save(user).Error
 }
