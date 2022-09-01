@@ -11,6 +11,7 @@ export default function StartAPost() {
     const [video, setVideo]: any = useState()
 
     const imgRef = createRef<HTMLInputElement>();
+    const vidRef = createRef<HTMLInputElement>();
 
     function handleClose() {
         setOpenModal(false)
@@ -41,12 +42,31 @@ export default function StartAPost() {
             setVideo(undefined)
             setImage(reader.result);
         };
-
     }
 
     function handleRemoveImage() {
-        (document.getElementById("file-input") as HTMLInputElement).value = ""
+        (document.getElementById("file-input-img") as HTMLInputElement).value = ""
         setImage(undefined)
+    }
+
+    function handleVideoOnChange() {
+        let vid = null;
+        if (vidRef?.current?.files?.length == 1) {
+            vid = vidRef?.current?.files[0];
+        }
+        if (vid === null) return;
+        let reader = new FileReader();
+
+        reader.readAsDataURL(vid);
+        reader.onload = () => {
+            setImage(undefined)
+            setVideo(reader.result);
+        };
+    }
+
+    function handleRemoveVideo() {
+        (document.getElementById("file-input-vid") as HTMLInputElement).value = ""
+        setVideo(undefined)
     }
 
     return (
@@ -116,6 +136,19 @@ export default function StartAPost() {
                                     </div>
                                 </div>
                             }
+                            {video &&
+                                <div className='preview'>
+                                    <div className='content-pos'>
+                                        <video src={image} className='content' controls/>
+                                    </div>
+                                    <div className='remove' onClick={handleRemoveVideo}>
+                                        <div className='btn-ghost w-fit h-fit py-2 px-2'>
+                                            <div className='bg'></div>
+                                            <HiX size={24} />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div className='h-2'></div>
                             <div className='btn-plain w-fit h-fit py-2'>
                                 <div className='bg'></div>
@@ -127,7 +160,6 @@ export default function StartAPost() {
                                     <label htmlFor="file-input-img" className="file-input-img">
                                         <div className='btn-plain w-fit h-fit'>
                                             <div className='bg'></div>
-
                                             <HiPhotograph size={24} />
                                         </div>
                                     </label>
@@ -140,10 +172,21 @@ export default function StartAPost() {
                                         onChange={handleImageOnChange}
                                         hidden
                                     />
-                                    <div className='btn-plain w-fit h-fit'>
-                                        <div className='bg'></div>
-                                        <HiVideoCamera size={24} />
-                                    </div>
+                                    <label htmlFor="file-input-vid" className="file-input-vid">
+                                        <div className='btn-plain w-fit h-fit'>
+                                            <div className='bg'></div>
+                                            <HiVideoCamera size={24} />
+                                        </div>
+                                    </label>
+                                    <input
+                                        ref={vidRef}
+                                        id="file-input-vid"
+                                        type="file"
+                                        name="media"
+                                        accept="video/*"
+                                        onChange={handleVideoOnChange}
+                                        hidden
+                                    />
                                 </div>
                                 <div className='btn-primary'>
                                     <div className='bg'></div>
