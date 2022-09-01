@@ -14,4 +14,6 @@ func MigrateTable() {
 	db.AutoMigrate(&model.ConnectRequest{})
 	db.AutoMigrate(&model.Notification{})
 	db.AutoMigrate(&model.Job{})
+	db.AutoMigrate(&model.Post{})
+	db.AutoMigrate(&model.PostLike{})
 }

@@ -23,6 +23,14 @@ type NewLink struct {
 	UserID string `json:"user_id"`
 }
 
+type NewPost struct {
+	Text           string   `json:"text"`
+	UserID         string   `json:"user_id"`
+	AttachmentLink string   `json:"attachment_link"`
+	Hashtag        []string `json:"hashtag"`
+	AttachmentType string   `json:"attachment_type"`
+}
+
 type NewUser struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`

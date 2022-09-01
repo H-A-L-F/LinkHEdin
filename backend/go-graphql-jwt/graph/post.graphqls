@@ -1,0 +1,35 @@
+scalar Upload
+scalar Byte
+
+input NewPost {
+  text: String!
+  user_id: String!
+  attachment_link: String!
+  hashtag: [String!]!
+  attachment_type: String!
+}
+
+type Post {
+  id: ID!
+  text: String!
+  AttachmentLink: String!
+  AttachmentType: String!
+  User: User!
+  likes: Int!
+  sends: Int!
+  comments: Int!
+  createdAt: Time!
+  hashtag: [String!]!
+}
+
+extend type Query {
+  post(id: String!): Post!
+  posts: [Post!]!
+  postInfinity(limit: Int!, offset: Int!): [Post!]!
+  getAllHashtag: [String!]!
+}
+
+extend type Mutation {
+  sendPost(id: String!): String!
+  createPost(input: NewPost!): String!
+}
