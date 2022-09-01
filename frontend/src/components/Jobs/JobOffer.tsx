@@ -12,7 +12,12 @@ interface JobOfferInterface {
 export default function JobOffer({ data, refetch }: JobOfferInterface) {
     const { user } = useAuth()
 
-    const len = data.length
+    const len: number = data.length
+
+    if (len === 0) {
+        return <div className='text-lg font-semibold py-4'>There are no job offer</div>
+    }
+
     return (
         <div className='box'>
             <div className='header'>

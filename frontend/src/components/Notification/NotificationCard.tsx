@@ -17,7 +17,14 @@ export default function NotificationCard({ data, refetch }: NotificationCardInte
         refetch()
     }
 
-    const len = data.length
+    
+
+    const len: number = data.length
+
+    if(len === 0) {
+        return <div className='text-lg font-semibold py-4'>There are no notifications</div>
+    }
+    
     return (
         <div className='content'>
             {data.map((e, idx) => {
