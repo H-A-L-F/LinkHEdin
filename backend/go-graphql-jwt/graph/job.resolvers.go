@@ -35,7 +35,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.JobInput) 
 			Text:           job.CompanyName + " has a new offer for " + job.Title + "!",
 			SenderName:     job.CompanyName,
 			SenderPhotoUrl: "",
-			Link:           "/job",
+			Link:           "/job/",
 		}
 		err = r.DB.Create(&notification).Error
 		if err != nil {
