@@ -683,3 +683,32 @@
     z-index: 105;
 
 }
+
+.preview {
+    @extend .rounded-md;
+    // @extend .bg-red-400;
+    @extend .w-full, .h-64;
+    position: relative;
+
+    .content-pos {
+        @extend .w-full, .h-64;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        .content {
+            @extend .w-full, .h-full;
+            @extend .rounded-md;
+            // object-fit: cover;
+            // height: 100%;
+            // width: 100%;
+        }
+    }
+
+    .remove {
+        position: absolute;
+        top: 4%;
+        right: 2%;
+        z-index: 5;
+    }
+}

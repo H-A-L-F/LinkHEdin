@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { createRef, useState } from 'react'
 import { HiPhotograph, HiPlay, HiVideoCamera, HiX } from "react-icons/hi";
 import { useAuth } from '../../hooks/useAuth';
 import Popup from '../Modal/Popup';
@@ -7,6 +7,10 @@ export default function StartAPost() {
     const { user } = useAuth()
     const [openModal, setOpenModal] = useState(false)
     const [value, setValue] = useState<any>("");
+    const [image, setImage]: any = useState()
+    const [video, setVideo]: any = useState()
+
+    const imgRef = createRef<HTMLInputElement>();
 
     function handleClose() {
         setOpenModal(false)
@@ -14,6 +18,34 @@ export default function StartAPost() {
 
     function handleOpen() {
         setOpenModal(true)
+    }
+
+    function handleSetImage() {
+
+    }
+
+    function handleSetVideo() {
+
+    }
+
+    function handleImageOnChange() {
+        let img = null;
+        if (imgRef?.current?.files?.length == 1) {
+            img = imgRef?.current?.files[0];
+        }
+        if (img === null) return;
+        let reader = new FileReader();
+
+        reader.readAsDataURL(img);
+        reader.onload = () => {
+            setVideo(undefined)
+            setImage(reader.result);
+        };
+
+    }
+
+    function handleRemoveImage() {
+        setImage(undefined)
     }
 
     return (
@@ -70,13 +102,43 @@ export default function StartAPost() {
                                 <div className='w-2'></div>
                                 <div className='text-md font-semibold'>{user.name}</div>
                             </div>
-                            
-                            <div className='flex flex-row justify-between bg-primary'>
-                                <div className='flex flex-row'>
-                                    <div className='btn-plain w-fit h-fit'>
-                                        <div className='bg'></div>
-                                        <HiPhotograph size={24} />
+                            {image &&
+                                <div className='preview'>
+                                    <div className='content-pos'>
+                                        <img src={image} className='content' />
                                     </div>
+                                    <div className='remove' onClick={handleRemoveImage}>
+                                        <div className='btn-ghost w-fit h-fit py-2 px-2'>
+                                            <div className='bg'></div>
+                                            <HiX size={24} />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div className='h-2'></div>
+                            <div className='btn-plain w-fit h-fit py-2'>
+                                <div className='bg'></div>
+                                <div className='text-info text-md font-semibold'>Add hashtag</div>
+                            </div>
+                            <div className='h-2'></div>
+                            <div className='flex flex-row justify-between'>
+                                <div className='flex flex-row'>
+                                    <label htmlFor="file-input" className="file-input">
+                                        <div className='btn-plain w-fit h-fit'>
+                                            <div className='bg'></div>
+
+                                            <HiPhotograph size={24} />
+                                        </div>
+                                    </label>
+                                    <input
+                                        ref={imgRef}
+                                        id="file-input"
+                                        type="file"
+                                        name="media"
+                                        accept="image/*"
+                                        onChange={handleImageOnChange}
+                                        hidden
+                                    />
                                     <div className='btn-plain w-fit h-fit'>
                                         <div className='bg'></div>
                                         <HiVideoCamera size={24} />

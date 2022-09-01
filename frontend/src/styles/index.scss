@@ -5370,6 +5370,12 @@ p.t-52 {
 
 .text {
   &-primary {
+    color: var(--col-primary-500);
+
+    &-400 {
+      color: var(--col-primary-400);
+    }
+    
     &-content {
       color: var(--col-primary-content);
     }
