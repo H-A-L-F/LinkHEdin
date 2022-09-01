@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
-import { HiPlus, HiDotsHorizontal } from "react-icons/hi";
+import { HiPlus, HiBookmark } from "react-icons/hi";
 import { JobInterface } from './JobInterface';
 
 interface JobOfferInterface {
@@ -32,13 +32,13 @@ export default function JobOffer({ data }: JobOfferInterface) {
                                         <div className='text-sm'>{e.location}</div>
                                     </div>
                                 </div>
-                                <div className='btn-plain w-fit h-fit'>
+                                <div className='btn-plain w-fit h-fit py-4 px-2'>
                                     <div className='bg'></div>
-                                    <HiDotsHorizontal size={24} />
+                                    <HiBookmark size={24} />
                                 </div>
                             </div>
                             {
-                                idx < len - 1 && <div className='divider'></div>
+                                idx < len - 1 && <div className='divider my-4'></div>
                             }
                         </React.Fragment>
                     )
