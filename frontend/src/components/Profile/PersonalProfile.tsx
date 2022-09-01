@@ -26,8 +26,6 @@ export default function PersonalProfile() {
 
     }
 
-    console.log(currUser)
-
     return (
         <React.Fragment>
             <div className='personal-position'>

@@ -47,6 +47,7 @@ export function ProvideUserProfile() {
             .then((resp) => {
                 const newUser = { ...resp.data.whoisme, token: user.token };
                 currUser = newUser
+                console.log(currUser)
                 setLoading(false)
             })
             .catch((err) => {

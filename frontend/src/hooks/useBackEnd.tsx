@@ -340,31 +340,41 @@ function useProvideBackEnd() {
     }
 
     async function followUser(id: string) {
+        setLoading(true)
         try {
             const resFol = await followUserFunc({ variables: { id: id } })
             refetchUser()
             successHandle("Success")
+            return true
         } catch (err: any) {
             errHandle(err)
+            return false
         }
     }
 
     async function connectRequest(id: string, text: string) {
+        setLoading(true)
         try {
             const resCon = await connectRequestFunc({ variables: { id: id, text: text } })
             refetchUser()
             successHandle("Connect request sent")
+            return true
         } catch (err: any) {
             errHandle(err)
+            return false
         }
     }
 
     async function cancelConnect(id: string, target: string) {
+        setLoading(true)
         try {
             const resCan = await cancelConnectFunc({variables: {id: id, target: target}})
+            refetchUser()
             successHandle("Canceled request")
+            return true
         } catch (err: any) {
             errHandle(err)
+            return false
         }
     }
 
