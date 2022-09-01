@@ -11,8 +11,13 @@ export default function Popup({ open, handleClose, Content }: PopupInterface) {
         <React.Fragment>
             <div className={`lightbox ${open ? "" : "hide-lightbox"}`} onClick={handleClose} />
             {open &&
-                <div className='modal'>
-                    <div className='content'>
+                // <div className='modal'>
+                //     <div className='content'>
+                //         {Content}
+                //     </div>
+                // </div>
+                <div className='center-all'>
+                    <div className='popup'>
                         {Content}
                     </div>
                 </div>

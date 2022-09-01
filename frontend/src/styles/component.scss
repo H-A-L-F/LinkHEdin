@@ -670,3 +670,16 @@
     }
     
 }
+
+.popup {
+    @extend .bg-base-300, .rounded-md, .text-base-content;
+    // @extend .w-96, .h-64;
+    width: 32rem;
+    height: 24rem;
+    $pad-y: 0.5rem;
+    $pad-x: 1rem;
+    position: relative;
+    padding: $pad-y $pad-x;
+    z-index: 105;
+
+}
