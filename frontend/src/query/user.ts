@@ -13,7 +13,7 @@ export const REGISTER_QUERY = gql`
 `;
 
 export const VALIDATE_USER_QUERY = gql`
-  mutation ValidateUser($input: ValidReq!){
+  mutation ValidateUser($input: ValidReq!) {
     validateUser(input: $input)
   }
 `;
@@ -22,65 +22,77 @@ export const REQ_CHANGE_PASS_QUERY = gql`
   mutation RequestChangePassword($email: String!) {
     requestChangePassword(email: $email)
   }
-`
+`;
 
 export const VALIDATE_CHANGE_PASS_QUERY = gql`
   mutation ValidateChangePass($input: ValidChangePass!) {
     validateChangePass(input: $input)
   }
-`
+`;
 
 export const CHANGE_PASS_QUERY = gql`
   mutation ChangePass($password: String!, $id: ID!) {
-      changePassword(password: $password, id: $id)
+    changePassword(password: $password, id: $id)
   }
-`
+`;
 
 export const UPDATE_USER_QUERY = gql`
-mutation UpdateUser($id:ID!, $input:UpdateUser!){
-  updateUser(id:$id, input:$input){
-    name
-    id
-  }
-}
-`
-
-export const USER_FETCH_QUERY = gql`
-  query Fetch{
-    whoisme{
+  mutation UpdateUser($id: ID!, $input: UpdateUser!) {
+    updateUser(id: $id, input: $input) {
+      name
       id
-      name,
-      email,
-      FollowedUser,
-      PhotoProfile,
-      ConnectedUser,
-      RequestConnect,
-      BgPhotoProfile,
-      Headline,
-      ProfileViews,
     }
   }
-`
+`;
+
+export const USER_FETCH_QUERY = gql`
+  query Fetch {
+    whoisme {
+      id
+      name
+      email
+      FollowedUser
+      PhotoProfile
+      ConnectedUser
+      RequestConnect
+      BgPhotoProfile
+      Headline
+      ProfileViews
+    }
+  }
+`;
 
 export const FIND_USER_QUERY = gql`
-  query User($id:ID!){
-    user(id:$id){
+  query User($id: ID!) {
+    user(id: $id) {
       id
-      name,
-      email,
-      FollowedUser,
-      PhotoProfile,
-      ConnectedUser,
-      RequestConnect,
-      BgPhotoProfile,
-      Headline,
-      ProfileViews,
+      name
+      email
+      FollowedUser
+      PhotoProfile
+      ConnectedUser
+      RequestConnect
+      BgPhotoProfile
+      Headline
+      ProfileViews
     }
   }
 `;
 
 export const FOLLOW_USER_QUERY = gql`
-  mutation Follow($id:ID!){
-    follow(id:$id)
+  mutation Follow($id: ID!) {
+    follow(id: $id)
+  }
+`;
+
+export const GET_USER_QUERY = gql`
+  query GetUser {
+    users {
+      name
+      id
+      email
+      PhotoProfile
+      RequestConnectTxt
+    }
   }
 `;

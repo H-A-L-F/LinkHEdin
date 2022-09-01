@@ -2,11 +2,13 @@ import React, { createRef, useState } from 'react'
 import { HiPhotograph, HiPlay, HiVideoCamera, HiX } from "react-icons/hi";
 import { useAuth } from '../../hooks/useAuth';
 import Popup from '../Modal/Popup';
+import StartAPostInput from './StartAPostInput';
 
 export default function StartAPost() {
     const { user } = useAuth()
     const [openModal, setOpenModal] = useState(false)
     const [value, setValue] = useState<any>("");
+    const [show, setShow] = useState(false)
     const [image, setImage]: any = useState()
     const [video, setVideo]: any = useState()
 
@@ -19,14 +21,6 @@ export default function StartAPost() {
 
     function handleOpen() {
         setOpenModal(true)
-    }
-
-    function handleSetImage() {
-
-    }
-
-    function handleSetVideo() {
-
     }
 
     function handleImageOnChange() {
@@ -67,6 +61,10 @@ export default function StartAPost() {
     function handleRemoveVideo() {
         (document.getElementById("file-input-vid") as HTMLInputElement).value = ""
         setVideo(undefined)
+    }
+
+    function addHashtag() {
+        setValue((prev: any) => prev + "#");
     }
 
     return (
@@ -123,6 +121,9 @@ export default function StartAPost() {
                                 <div className='w-2'></div>
                                 <div className='text-md font-semibold'>{user.name}</div>
                             </div>
+                            <div className='h-4'></div>
+                            <StartAPostInput value={value} setValue={setValue} setShow={setShow} />
+                            <div className='h-4'></div>
                             {image &&
                                 <div className='preview'>
                                     <div className='content-pos'>
@@ -139,7 +140,7 @@ export default function StartAPost() {
                             {video &&
                                 <div className='preview'>
                                     <div className='content-pos'>
-                                        <video src={image} className='content' controls/>
+                                        <video src={image} className='content' controls />
                                     </div>
                                     <div className='remove' onClick={handleRemoveVideo}>
                                         <div className='btn-ghost w-fit h-fit py-2 px-2'>
@@ -150,7 +151,7 @@ export default function StartAPost() {
                                 </div>
                             }
                             <div className='h-2'></div>
-                            <div className='btn-plain w-fit h-fit py-2'>
+                            <div className='btn-plain w-fit h-fit py-2' onClick={addHashtag}>
                                 <div className='bg'></div>
                                 <div className='text-info text-md font-semibold'>Add hashtag</div>
                             </div>
