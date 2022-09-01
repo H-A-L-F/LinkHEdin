@@ -19,7 +19,7 @@ export default function JobOffer({ data }: JobOfferInterface) {
             <div className='content'>
                 {data.map((e, idx) => {
                     return (
-                        <React.Fragment>
+                        <React.Fragment key={"job-" + idx}>
                             <div className='flex flex-row justify-between align-center center-all'>
                                 <div className='flex flex-row'>
                                     <div className='sq-avatar'>
