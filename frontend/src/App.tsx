@@ -20,6 +20,7 @@ import GuestLayout from "./layout/GuestLayout";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { ProvideUserProfile } from "./pages/Profile";
+import MyNetwork from "./pages/MyNetwork";
 
 export function App() {
   const { user, theme } = useAuth()
@@ -57,6 +58,7 @@ export function App() {
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route path="home" element={<Home />} />
+                <Route path="mynetwork" element={<MyNetwork />} />
                 <Route path="profile/:id" element={<ProvideUserProfile />} />
               </Route>
 
