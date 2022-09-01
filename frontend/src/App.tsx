@@ -21,6 +21,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { ProvideUserProfile } from "./pages/Profile";
 import MyNetwork from "./pages/MyNetwork";
+import Jobs from "./pages/Jobs";
 
 export function App() {
   const { user, theme } = useAuth()
@@ -59,6 +60,7 @@ export function App() {
               <Route path="/" element={<MainLayout />}>
                 <Route path="home" element={<Home />} />
                 <Route path="mynetwork" element={<MyNetwork />} />
+                <Route path="jobs" element={<Jobs />} />
                 <Route path="profile/:id" element={<ProvideUserProfile />} />
               </Route>
 

@@ -12,4 +12,6 @@ func MigrateTable() {
 	db.AutoMigrate(&model.Education{})
 	db.AutoMigrate(&model.Experience{})
 	db.AutoMigrate(&model.ConnectRequest{})
+	db.AutoMigrate(&model.Notification{})
+	db.AutoMigrate(&model.Job{})
 }
