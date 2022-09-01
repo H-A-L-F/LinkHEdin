@@ -8,6 +8,7 @@ import (
 	"LinkHEdin/lib"
 	middleware "LinkHEdin/middlewares"
 	"context"
+	"fmt"
 )
 
 // CreateRequest is the resolver for the createRequest field.
@@ -93,7 +94,9 @@ func (r *mutationResolver) DeclineRequest(ctx context.Context, id string) (strin
 
 	// REMOVING CONNECT_REQUEST
 	for i, val := range user.RequestConnect {
+		fmt.Print("lolos")
 		if val == getUser.ID {
+			fmt.Print(val, getUser.ID)
 			user.RequestConnect = lib.RemoveArrayByIndex(user.RequestConnect, i)
 			user.RequestConnectTxt = lib.RemoveArrayByIndex(user.RequestConnectTxt, i)
 		}
@@ -109,5 +112,46 @@ func (r *mutationResolver) DeclineRequest(ctx context.Context, id string) (strin
 		return "Error", err
 	}
 
-	return "Ok", nil
+	return "Ok", r.DB.Save(user).Error
+}
+
+// RemoveRequest is the resolver for the removeRequest field.
+func (r *mutationResolver) RemoveRequest(ctx context.Context, id string, target string) (string, error) {
+	var user *model.User
+	err := r.DB.First(&user, "id = ?", id).Error
+	if err != nil {
+		return "Error", err
+	}
+
+	var getUser *model.User
+	err = r.DB.First(&getUser, "id = ?", target).Error
+	if err != nil {
+		return "Error", err
+	}
+	fmt.Print("masuk")
+	// User -> Yang Decline Request
+	// Get User -> Yang Di Decline Requestnya
+
+	// REMOVING CONNECT_REQUEST
+	for i, val := range getUser.RequestConnect {
+		fmt.Print("lolos")
+		if val == user.ID {
+			fmt.Print(val, user.ID)
+			getUser.RequestConnect = lib.RemoveArrayByIndex(getUser.RequestConnect, i)
+			getUser.RequestConnectTxt = lib.RemoveArrayByIndex(getUser.RequestConnectTxt, i)
+			break
+		}
+	}
+
+	err = r.DB.Save(getUser).Error
+	if err != nil {
+		return "Error", err
+	}
+
+	err = r.DB.Save(user).Error
+	if err != nil {
+		return "Error", err
+	}
+
+	return "Ok", r.DB.Save(user).Error
 }

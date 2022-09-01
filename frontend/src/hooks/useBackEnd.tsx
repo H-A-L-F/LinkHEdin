@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
-import { CONNECT_REQUEST_MUTATION } from "../query/connect";
+import { CANCEL_REQUEST_MUTATION, CONNECT_REQUEST_MUTATION, IGNORE_REQUEST_MUTATION } from "../query/connect";
 import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
@@ -36,6 +36,7 @@ function useProvideBackEnd() {
     const [updateExperienceFunc] = useMutation(UPDATE_EXPERIENCE_MUTATION)
     const [followUserFunc] = useMutation(FOLLOW_USER_QUERY)
     const [connectRequestFunc] = useMutation(CONNECT_REQUEST_MUTATION)
+    const [cancelConnectFunc] = useMutation(CANCEL_REQUEST_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -339,22 +340,41 @@ function useProvideBackEnd() {
     }
 
     async function followUser(id: string) {
+        setLoading(true)
         try {
             const resFol = await followUserFunc({ variables: { id: id } })
             refetchUser()
             successHandle("Success")
+            return true
         } catch (err: any) {
             errHandle(err)
+            return false
         }
     }
 
     async function connectRequest(id: string, text: string) {
+        setLoading(true)
         try {
             const resCon = await connectRequestFunc({ variables: { id: id, text: text } })
             refetchUser()
             successHandle("Connect request sent")
+            return true
         } catch (err: any) {
             errHandle(err)
+            return false
+        }
+    }
+
+    async function cancelConnect(id: string, target: string) {
+        setLoading(true)
+        try {
+            const resCan = await cancelConnectFunc({variables: {id: id, target: target}})
+            refetchUser()
+            successHandle("Canceled request")
+            return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
         }
     }
 
@@ -374,6 +394,7 @@ function useProvideBackEnd() {
         delExperience,
         updateExperience,
         followUser,
-        connectRequest
+        connectRequest,
+        cancelConnect
     }
 }
