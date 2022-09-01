@@ -2,12 +2,14 @@ import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { HiPlus, HiBookmark } from "react-icons/hi";
 import { JobInterface } from './JobInterface';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 
 interface JobOfferInterface {
-    data: [JobInterface]
+    data: [JobInterface],
+    refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>,
 }
 
-export default function JobOffer({ data }: JobOfferInterface) {
+export default function JobOffer({ data, refetch }: JobOfferInterface) {
     const { user } = useAuth()
 
     const len = data.length

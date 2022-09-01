@@ -1,3 +1,4 @@
+import { ApolloQueryResult, OperationVariables } from '@apollo/client'
 import React from 'react'
 import { toastError } from '../../config/toast'
 import { useBackEnd } from '../../hooks/useBackEnd'
@@ -6,9 +7,10 @@ import Modal from '../Modal/Modal'
 interface JobModalInterface {
     openModal: boolean,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+    refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>,
 }
 
-export default function JobModal({ openModal, setOpenModal }: JobModalInterface) {
+export default function JobModal({ openModal, setOpenModal, refetch }: JobModalInterface) {
     const { postAJob } = useBackEnd()
 
     async function handleSubmit() {
@@ -24,6 +26,7 @@ export default function JobModal({ openModal, setOpenModal }: JobModalInterface)
             toastError(err)
         }
 
+        refetch()
         handleClose()
     }
 

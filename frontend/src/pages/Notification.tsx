@@ -4,7 +4,7 @@ import NotificationCard from '../components/Notification/NotificationCard'
 import { MY_NOTIFICATION_QUERY } from '../query/notification'
 
 export default function Notification() {
-    const { loading, data, error } = useQuery(MY_NOTIFICATION_QUERY)
+    const { loading, data, error, refetch } = useQuery(MY_NOTIFICATION_QUERY)
 
     if (error) {
         console.log(error)
@@ -18,7 +18,7 @@ export default function Notification() {
     const notification = data.myNotification
     return (
         <div className='box'>
-            <NotificationCard data={notification}/>
+            <NotificationCard data={notification} refetch={refetch}/>
         </div>
     )
 }

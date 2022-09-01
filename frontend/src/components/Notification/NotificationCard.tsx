@@ -2,16 +2,19 @@ import React from 'react'
 import { NotificationInterface } from './NotificationInterface'
 import { HiTrash } from "react-icons/hi";
 import { useBackEnd } from '../../hooks/useBackEnd';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 
 interface NotificationCardInterface {
-    data: [NotificationInterface]
+    data: [NotificationInterface],
+    refetch: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>
 }
 
-export default function NotificationCard({ data }: NotificationCardInterface) {
+export default function NotificationCard({ data, refetch }: NotificationCardInterface) {
     const {deleteNotification} = useBackEnd()
 
     function handleDelete(id: string) {
         deleteNotification(id)
+        refetch()
     }
 
     const len = data.length

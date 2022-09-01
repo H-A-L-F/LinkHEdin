@@ -38,9 +38,9 @@ export default function Jobs() {
                     </div>
                 </div>
                 <div className='h-4'></div>
-                <JobOffer data={data.jobs} />
+                <JobOffer data={data.jobs} refetch={refetch}/>
             </div>
-            <JobModal openModal={openModal} setOpenModal={setOpenModal} />
+            <JobModal openModal={openModal} setOpenModal={setOpenModal} refetch={refetch}/>
         </React.Fragment>
     )
 }
