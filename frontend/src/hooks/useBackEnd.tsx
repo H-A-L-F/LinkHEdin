@@ -8,6 +8,7 @@ import { CANCEL_REQUEST_MUTATION, CONNECT_REQUEST_MUTATION, IGNORE_REQUEST_MUTAT
 import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { CREATE_JOB_MUTATION } from "../query/job";
+import { DELETE_NOTIFICATION_MUTATION } from "../query/notification";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
@@ -39,6 +40,7 @@ function useProvideBackEnd() {
     const [connectRequestFunc] = useMutation(CONNECT_REQUEST_MUTATION)
     const [cancelConnectFunc] = useMutation(CANCEL_REQUEST_MUTATION)
     const [postAJobFunc] = useMutation(CREATE_JOB_MUTATION)
+    const [deleteNotificationFunc] = useMutation(DELETE_NOTIFICATION_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -392,8 +394,23 @@ function useProvideBackEnd() {
                 }
             })
             successHandle("Job posted!")
+            return true
         } catch (err: any) {
             errHandle(err)
+            return false
+        }
+    }
+
+    async function deleteNotification(id: string) {
+        setLoading(true)
+
+        try {
+            const resDel = await deleteNotificationFunc({variables: {id: id}})
+            successHandle("Notification removed")
+            return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
         }
     }
 
@@ -415,6 +432,7 @@ function useProvideBackEnd() {
         followUser,
         connectRequest,
         cancelConnect,
-        postAJob
+        postAJob,
+        deleteNotification
     }
 }

@@ -21,6 +21,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { ProvideUserProfile } from "./pages/Profile";
 import MyNetwork from "./pages/MyNetwork";
+import Notification from "./pages/Notification";
 import Jobs from "./pages/Jobs";
 
 export function App() {
@@ -61,6 +62,7 @@ export function App() {
                 <Route path="home" element={<Home />} />
                 <Route path="mynetwork" element={<MyNetwork />} />
                 <Route path="jobs" element={<Jobs />} />
+                <Route path="notifications" element={<Notification />} />
                 <Route path="profile/:id" element={<ProvideUserProfile />} />
               </Route>
 
