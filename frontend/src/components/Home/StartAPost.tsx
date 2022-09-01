@@ -45,6 +45,7 @@ export default function StartAPost() {
     }
 
     function handleRemoveImage() {
+        (document.getElementById("file-input") as HTMLInputElement).value = ""
         setImage(undefined)
     }
 
@@ -123,7 +124,7 @@ export default function StartAPost() {
                             <div className='h-2'></div>
                             <div className='flex flex-row justify-between'>
                                 <div className='flex flex-row'>
-                                    <label htmlFor="file-input" className="file-input">
+                                    <label htmlFor="file-input-img" className="file-input-img">
                                         <div className='btn-plain w-fit h-fit'>
                                             <div className='bg'></div>
 
@@ -132,7 +133,7 @@ export default function StartAPost() {
                                     </label>
                                     <input
                                         ref={imgRef}
-                                        id="file-input"
+                                        id="file-input-img"
                                         type="file"
                                         name="media"
                                         accept="image/*"
