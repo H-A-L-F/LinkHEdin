@@ -1,19 +1,11 @@
-import React from 'react'
+import React from "react";
+import Invitation from "../components/MyNetwork/Invitation";
+import { useAuth } from "../hooks/useAuth";
 
 export default function MyNetwork() {
+  const { user } = useAuth()
+
   return (
-    <div className='box'>
-        <div className='header'>
-            Invitations
-            <div className='btn-plain'>
-                <div className='bg'></div>
-                <div className='text-sm font-medium py-2'>See all 4</div>
-            </div>
-        </div>
-        <div className='divider'></div>
-        <div className='flex flex-row'>
-            
-        </div>
-    </div>
-  )
+    <Invitation />
+  );
 }
