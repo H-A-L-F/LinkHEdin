@@ -69,9 +69,7 @@ export default function StartAPost() {
                                 <div className='w-2'></div>
                                 <div className='text-md font-semibold'>{user.name}</div>
                             </div>
-                            <div className='w-full h-full'>
-                                asd
-                            </div>
+                            
                             <div className='flex flex-row justify-between bg-primary'>
                                 <div className='flex flex-row'>
                                     <div className='btn-plain w-fit h-fit'>
