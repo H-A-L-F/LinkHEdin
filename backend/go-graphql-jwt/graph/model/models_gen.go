@@ -2,6 +2,21 @@
 
 package model
 
+type InputNotification struct {
+	UserID         string `json:"userId"`
+	Text           string `json:"text"`
+	SenderName     string `json:"senderName"`
+	SenderPhotoURL string `json:"senderPhotoUrl"`
+	Link           string `json:"link"`
+}
+
+type JobInput struct {
+	Title        string `json:"title"`
+	CompanyName  string `json:"companyName"`
+	Location     string `json:"location"`
+	PhotoProfile string `json:"photoProfile"`
+}
+
 type NewLink struct {
 	Link   string `json:"link"`
 	Code   int    `json:"code"`
