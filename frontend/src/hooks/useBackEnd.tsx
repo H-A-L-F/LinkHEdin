@@ -9,6 +9,7 @@ import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { CREATE_JOB_MUTATION } from "../query/job";
 import { DELETE_NOTIFICATION_MUTATION } from "../query/notification";
+import { CREATE_POST_QUERY } from "../query/post";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
@@ -41,6 +42,7 @@ function useProvideBackEnd() {
     const [cancelConnectFunc] = useMutation(CANCEL_REQUEST_MUTATION)
     const [postAJobFunc] = useMutation(CREATE_JOB_MUTATION)
     const [deleteNotificationFunc] = useMutation(DELETE_NOTIFICATION_MUTATION)
+    const [createPostFunc] = useMutation(CREATE_POST_QUERY);
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -405,9 +407,35 @@ function useProvideBackEnd() {
         setLoading(true)
 
         try {
-            const resDel = await deleteNotificationFunc({variables: {id: id}})
+            const resDel = await deleteNotificationFunc({ variables: { id: id } })
             successHandle("Notification removed")
             return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+    }
+
+    async function createPost(img: any, uid: string, value: string, type: string, hashtag: string) {
+        setLoading(true)
+        try {
+            const resUrl = await sendImage(img)
+            try {
+                const resCre = await createPostFunc({
+                    variables: {
+                        userId: uid,
+                        text: value,
+                        attachment: resUrl,
+                        attachment_type: type,
+                        hashtag: hashtag,
+                    }
+                })
+                successHandle("Post created!")
+                return true
+            } catch (err: any) {
+                errHandle(err)
+                return false
+            }
         } catch (err: any) {
             errHandle(err)
             return false
@@ -433,6 +461,7 @@ function useProvideBackEnd() {
         connectRequest,
         cancelConnect,
         postAJob,
-        deleteNotification
+        deleteNotification,
+        createPost
     }
 }

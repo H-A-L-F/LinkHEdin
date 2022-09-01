@@ -1,6 +1,8 @@
 import React, { createRef, useState } from 'react'
 import { HiPhotograph, HiPlay, HiVideoCamera, HiX } from "react-icons/hi";
+import { toastError } from '../../config/toast';
 import { useAuth } from '../../hooks/useAuth';
+import { useBackEnd } from '../../hooks/useBackEnd';
 import Popup from '../Modal/Popup';
 import StartAPostInput from './StartAPostInput';
 
@@ -14,6 +16,8 @@ export default function StartAPost() {
 
     const imgRef = createRef<HTMLInputElement>();
     const vidRef = createRef<HTMLInputElement>();
+
+    const { createPost } = useBackEnd()
 
     function handleClose() {
         setOpenModal(false)
@@ -65,6 +69,32 @@ export default function StartAPost() {
 
     function addHashtag() {
         setValue((prev: any) => prev + "#");
+    }
+
+    function handleSubmit(e: any) {
+        if (value == "" || !value) {
+            toastError("You cannot create a empty post!");
+            return;
+        }
+
+        if (image !== undefined) {
+            let img = null;
+            if (imgRef?.current?.files?.length == 1) {
+                img = imgRef?.current?.files[0];
+            }
+
+            createPost(img, user.id, value, "image", "")
+        } else if (video !== undefined) {
+            let vid = null;
+            if (vidRef?.current?.files?.length == 1) {
+                vid = vidRef?.current?.files[0];
+            }
+
+            createPost(vid, user.id, value, "video", "")
+        }
+
+
+        createPost("", user.id, value, "", "")
     }
 
     return (
@@ -189,7 +219,7 @@ export default function StartAPost() {
                                         hidden
                                     />
                                 </div>
-                                <div className='btn-primary'>
+                                <div className='btn-primary' onClick={handleSubmit}>
                                     <div className='bg'></div>
                                     <div className=''>Post</div>
                                 </div>
