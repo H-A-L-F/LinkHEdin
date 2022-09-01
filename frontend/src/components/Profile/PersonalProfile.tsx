@@ -4,8 +4,8 @@ import { useBackEnd } from '../../hooks/useBackEnd'
 import { useUserProfile } from '../../pages/Profile'
 
 export default function PersonalProfile() {
-    const { id, currUser, isUser } = useUserProfile()
-    const { followUser, connectRequest } = useBackEnd()
+    const { id, currUser, isUser, refetchCurrUser } = useUserProfile()
+    const { followUser, connectRequest, cancelConnect } = useBackEnd()
     const { user } = useAuth()
 
     function handleFollow() {
@@ -14,13 +14,19 @@ export default function PersonalProfile() {
 
     function handleConnect() {
         connectRequest(id, user.name + " have sent you a connect request!")
+        refetchCurrUser()
+    }
+
+    function handleCancel() {
+        cancelConnect(user.id, id)
+        refetchCurrUser()
     }
 
     function handleBlock() {
 
     }
 
-    console.log(user)
+    console.log(currUser)
 
     return (
         <React.Fragment>
@@ -50,12 +56,22 @@ export default function PersonalProfile() {
                             </div>
                         </div>
                         <div className='w-4'></div>
-                        <div className='btn-primary' onClick={handleConnect}>
-                            <div className='bg'></div>
-                            <div className='center-all py-2'>
-                                Connect
+                        {currUser.RequestConnect.includes(user.id) ?
+                            <div className='btn-error' onClick={handleCancel}>
+                                <div className='bg'></div>
+                                <div className='center-all py-2'>
+                                    Cancel
+                                </div>
                             </div>
-                        </div>
+                            :
+                            <div className='btn-primary' onClick={handleConnect}>
+                                <div className='bg'></div>
+                                <div className='center-all py-2'>
+                                    Connect
+                                </div>
+                            </div>
+                        }
+
                         <div className='w-4'></div>
                         <div className='btn-primary' onClick={handleBlock}>
                             <div className='bg'></div>

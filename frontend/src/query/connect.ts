@@ -17,3 +17,9 @@ export const ACCEPT_REQUEST_MUTATION = gql`
     acceptRequest(id: $id)
   }
 `;
+
+export const CANCEL_REQUEST_MUTATION = gql`
+  mutation RemoveRequest($id: String!, $target: String!) {
+    removeRequest(id: $id, target: $target)
+  }
+`;

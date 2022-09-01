@@ -11,18 +11,19 @@ import (
 func UserCreate(ctx context.Context, newUser model.NewUser) (*model.User, error) {
 	db := database.GetDB()
 	newUser.Password = HashPassword(newUser.Password)
-	var emptyArrString []string
+	var emptyArrString = []string{}
 	user := model.User{
-		Name:           newUser.Name,
-		Email:          newUser.Email,
-		Password:       newUser.Password,
-		Validate:       false,
-		PhotoProfile:   "https://picsum.photos/id/237/200/300",
-		RequestConnect: emptyArrString,
-		FollowedUser:   emptyArrString,
-		ConnectedUser:  emptyArrString,
-		Headline:       "",
-		ProfileViews:   0,
+		Name:              newUser.Name,
+		Email:             newUser.Email,
+		Password:          newUser.Password,
+		Validate:          false,
+		PhotoProfile:      "https://picsum.photos/id/237/200/300",
+		RequestConnect:    emptyArrString,
+		RequestConnectTxt: emptyArrString,
+		FollowedUser:      emptyArrString,
+		ConnectedUser:     emptyArrString,
+		Headline:          "",
+		ProfileViews:      0,
 	}
 	if err := db.Model(user).Create(&user).Error; err != nil {
 		return nil, err

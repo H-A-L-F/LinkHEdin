@@ -23,10 +23,11 @@ export function ProvideUserProfile() {
     // const userProfile = useProvideUserProfile()
     // console.log("testing?")
     // console.log(userProfile)
-
+    const {setLoading} = useLoading()
+    
     const { id } = useParams()
     const { user } = useAuth()
-    const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
+    const { loading, data, error, refetch } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
 
     if (error) {
         console.log(error)
@@ -37,11 +38,26 @@ export function ProvideUserProfile() {
         return <Loading loading={loading} />
     }
 
-    const currUser = data.user
+    let currUser = data.user
     const isUser = data.user.id === user.id
 
+    function refetchCurrUser() {
+        setLoading(true)
+        refetch()
+            .then((resp) => {
+                const newUser = { ...resp.data.whoisme, token: user.token };
+                currUser = newUser
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+                toastError(err.message);
+            });
+    }
+
     return (
-        <profileContext.Provider value={{id, currUser, isUser}}>
+        <profileContext.Provider value={{ id, currUser, isUser, refetchCurrUser }}>
             <div>
                 <UserProfile />
                 <div className='h-4'></div>
@@ -59,7 +75,7 @@ export const useUserProfile = () => {
 function useProvideUserProfile() {
     const { id } = useParams()
     const { user } = useAuth()
-    const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
+    const { loading, data, error, refetch } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
 
     if (error) {
         console.log(error)
@@ -79,7 +95,8 @@ function useProvideUserProfile() {
     return {
         id,
         currUser,
-        isUser
+        isUser,
+        refetch
     }
 }
 

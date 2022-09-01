@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
-import { CONNECT_REQUEST_MUTATION } from "../query/connect";
+import { CANCEL_REQUEST_MUTATION, CONNECT_REQUEST_MUTATION, IGNORE_REQUEST_MUTATION } from "../query/connect";
 import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
@@ -36,6 +36,7 @@ function useProvideBackEnd() {
     const [updateExperienceFunc] = useMutation(UPDATE_EXPERIENCE_MUTATION)
     const [followUserFunc] = useMutation(FOLLOW_USER_QUERY)
     const [connectRequestFunc] = useMutation(CONNECT_REQUEST_MUTATION)
+    const [cancelConnectFunc] = useMutation(CANCEL_REQUEST_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -358,6 +359,15 @@ function useProvideBackEnd() {
         }
     }
 
+    async function cancelConnect(id: string, target: string) {
+        try {
+            const resCan = await cancelConnectFunc({variables: {id: id, target: target}})
+            successHandle("Canceled request")
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     return {
         login,
         register,
@@ -374,6 +384,7 @@ function useProvideBackEnd() {
         delExperience,
         updateExperience,
         followUser,
-        connectRequest
+        connectRequest,
+        cancelConnect
     }
 }
