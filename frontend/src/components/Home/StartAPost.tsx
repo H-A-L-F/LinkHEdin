@@ -84,6 +84,7 @@ export default function StartAPost() {
             }
 
             createPost(img, user.id, value, "image", "")
+            return
         } else if (video !== undefined) {
             let vid = null;
             if (vidRef?.current?.files?.length == 1) {
@@ -91,6 +92,7 @@ export default function StartAPost() {
             }
 
             createPost(vid, user.id, value, "video", "")
+            return
         }
 
 
