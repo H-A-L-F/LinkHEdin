@@ -6,6 +6,7 @@ import Popup from '../Modal/Popup';
 export default function StartAPost() {
     const { user } = useAuth()
     const [openModal, setOpenModal] = useState(false)
+    const [value, setValue] = useState<any>("");
 
     function handleClose() {
         setOpenModal(false)
