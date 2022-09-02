@@ -59,7 +59,7 @@ export function ProvideUserProfile() {
 
     return (
         <profileContext.Provider value={{ id, currUser, isUser, refetchCurrUser }}>
-            <div>
+            <div className='w-full h-full'>
                 <UserProfile />
                 <div className='h-4'></div>
                 <Education />

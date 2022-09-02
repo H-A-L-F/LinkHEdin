@@ -23,11 +23,18 @@ export default function MainLayout() {
                 <div className='h-8'></div>
                 <div className='flex flex-row w-full h-full'>
                     {
-                        location.pathname === "/home" && <Left />
+                        location.pathname === "/home" && <Left /> ||
+                        location.pathname === "/mynetwork" && <Left /> ||
+                        location.pathname === "/jobs" && <Left /> ||
+                        location.pathname === "/notifications" && <Left />
                     }
                     {outlet}
                     {
-                        location.pathname === "/home" && <Right />
+                        location.pathname === "/home" && <Right /> ||
+                        location.pathname === "/jobs" && <Right /> ||
+                        location.pathname === "/messages" && <Right /> ||
+                        location.pathname === "/notifications" && <Right /> ||
+                        location.pathname.startsWith("/profile") && <Right /> 
                     }
                 </div>
             </div>
