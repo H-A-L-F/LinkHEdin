@@ -23,6 +23,7 @@ import { ProvideUserProfile } from "./pages/Profile";
 import MyNetwork from "./pages/MyNetwork";
 import Jobs from "./pages/Jobs";
 import Notification from "./pages/Notification";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 
 export function App() {
   const { user, theme } = useAuth()
@@ -47,7 +48,15 @@ export function App() {
 
   const client = new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache({}),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            postInfinity: offsetLimitPagination(),
+          },
+        },
+      },
+    }),
   });
 
   return (
