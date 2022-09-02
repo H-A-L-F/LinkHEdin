@@ -713,3 +713,13 @@
         z-index: 5;
     }
 }
+
+.left-box {
+    @extend .box, .mr-4;
+    width: 26rem;
+}
+
+.right-box {
+    @extend .box, .ml-4;
+    width: 32rem;
+}
