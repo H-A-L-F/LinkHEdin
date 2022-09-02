@@ -21,8 +21,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { ProvideUserProfile } from "./pages/Profile";
 import MyNetwork from "./pages/MyNetwork";
-import Notification from "./pages/Notification";
 import Jobs from "./pages/Jobs";
+import Notification from "./pages/Notification";
 
 export function App() {
   const { user, theme } = useAuth()
