@@ -32,11 +32,8 @@ export default function Post() {
                     </div>
                 </div>
                 <div className='divider'></div>
-                {/* <div className='preview'>
-                    <div className='content-pos'>
-                        <img src={user.PhotoProfile} className='content' />
-                    </div>
-                </div> */}
+                <div className='text-sm font-normal'>{user.email}</div>
+                <div className='h-2'></div>
                 <img src={user.PhotoProfile} className='w-full h-96 rounded-md' />
                 <div className='flex flex-row justify-between'>
                     <div></div>
