@@ -26,7 +26,7 @@ export default function Jobs() {
 
     return (
         <React.Fragment>
-            <div className='flex flex-col'>
+            <div className='flex flex-col w-full h-full'>
                 <div className='btn-plain w-fit py-4 px-4' onClick={handleOpenModal}>
                     <div className='bg'></div>
                     <div className='flex flex-row'>

@@ -9,7 +9,7 @@ export default function Invitation() {
 
     const len = user.RequestConnect.length
     return (
-        <div className="box">
+        <div className="box w-full h-full">
             <div className="header">
                 Invitations
                 {/* <div className='btn-plain'>

@@ -17,7 +17,7 @@ export default function Notification() {
 
     const notification = data.myNotification
     return (
-        <div className='box'>
+        <div className='box w-full h-full'>
             <NotificationCard data={notification} refetch={refetch}/>
         </div>
     )
