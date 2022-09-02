@@ -67,9 +67,14 @@ $col-primary-600: darken($col-primary, 10%);
     --col-neutral-focus: #131420;
     --col-neutral-content: #EDF2F6;
 
-    --col-base-100: #FFFFFF;
-    --col-base-200: #E6E6E6;
-    --col-base-300: #CFCFCF;
+    // --col-base-100: #FFFFFF;
+    // --col-base-200: #E6E6E6;
+    // --col-base-300: #CFCFCF;
+    // --col-base-content: #181A2A;
+
+    --col-base-100: #CFCFCF;
+    --col-base-200: #FFFFFF;
+    --col-base-300: #E6E6E6;
     --col-base-content: #181A2A;
 
     --col-info: #3ABFF8;
