@@ -9,9 +9,8 @@ import InView from '../components/Home/InView';
 
 
 export default function Home() {
-  const { loading, error, fetchMore, data, networkStatus } = useQuery(INFINITY_QUERY, {
-    variables: { offset: 0, limit: 4 },
-    notifyOnNetworkStatusChange: true,
+  const { loading, error, fetchMore, data } = useQuery(INFINITY_QUERY, {
+    variables: { offset: 0, limit: 4 }
   });
   const [isLoading, setIsLoading] = useState(false)
 
@@ -28,6 +27,7 @@ export default function Home() {
         },
       })
       setIsLoading(false)
+      console.log(data.postInfinity.hasMore)
     } catch (err: any) {
       console.log(err)
       toastError(err)
@@ -37,6 +37,7 @@ export default function Home() {
   if (loading) {
     return <p>Loading...</p>
   }
+
   if (error) {
     console.log(error)
     return <div>Error</div>
