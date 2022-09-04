@@ -5,18 +5,33 @@ import { useInView, useInViewEffect } from 'react-hook-inview'
 import { useQuery } from '@apollo/client';
 import { INFINITY_QUERY } from '../query/post';
 import { PostInterface } from '../components/Home/PostInterface';
+import { toastError } from '../config/toast';
 
 
 export default function Home() {
   const { loading, error, fetchMore, data } = useQuery(INFINITY_QUERY, {
-    variables: { offset: 0, limit: 8 },
+    variables: { offset: 0, limit: 4 },
   });
   const [isVisible, setIsVisible] = useState(false)
+  const [currData, setCurrData] = useState([])
+  const [currLen, setCurrLen] = useState(0)
 
   const ref = useInViewEffect(
-    ([entry], observer) => {
+    async ([entry], observer) => {
       if (entry.isIntersecting) {
-        console.log("Refetch")
+        console.log("Refetch: " + currLen)
+        try {
+          const resFet = await fetchMore({
+            variables: {
+              offset: currLen,
+              limit: currLen * 2,
+            },
+          })
+
+        } catch (err: any) {
+          toastError(err)
+        }
+
       } else if (!entry.isIntersecting) {
         console.log("Baca dlu")
       }
@@ -34,9 +49,10 @@ export default function Home() {
 
   if (data) {
     console.log(data.postInfinity)
+    setCurrData(data.postInfinity)
+    setCurrLen(currData.length)
+    console.log("test" + currLen)
   }
-  let currData = data.postInfinity
-  let currLen = currData.length
 
   return (
     <div className='flex flex-col w-full h-full'>

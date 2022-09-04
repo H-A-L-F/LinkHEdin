@@ -52,7 +52,14 @@ export function App() {
       typePolicies: {
         Query: {
           fields: {
-            postInfinity: offsetLimitPagination(),
+            // postInfinity: offsetLimitPagination(),
+            postInfinity: {
+              keyArgs: false,
+
+              merge(existing = [], incoming) {
+                return [...existing, ...incoming]
+              }
+            }
           },
         },
       },
