@@ -27,7 +27,7 @@ export default function Home() {
         },
       })
       setIsLoading(false)
-      console.log(data.postInfinity.hasMore)
+      console.log(resFet)
     } catch (err: any) {
       console.log(err)
       toastError(err)
