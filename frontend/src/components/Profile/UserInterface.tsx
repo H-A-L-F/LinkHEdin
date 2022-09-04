@@ -9,4 +9,5 @@ export interface UserInterface {
     BgPhotoProfile: string,
     Headline: string,
     ProfileViews: number,
+    __typename: string
 }

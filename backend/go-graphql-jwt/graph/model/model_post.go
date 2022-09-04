@@ -13,6 +13,7 @@ type Post struct {
 	AttachmentLink string         `json:"attachment_link"`
 	Sends          int            `json:"sends"`
 	Comments       int            `json:"comments"`
+	Likes          int            `json:"likes"`
 	CreatedAt      time.Time      `json:"created_at"`
 	Hashtag        pq.StringArray `json:"hashtag" gorm:"type:text[]"`
 	AttachmentType string         `json:"attachment_type"`

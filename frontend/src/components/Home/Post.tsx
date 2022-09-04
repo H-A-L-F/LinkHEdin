@@ -1,9 +1,13 @@
 import React from 'react'
 import { HiPlus, HiThumbUp, HiChatAlt, HiShare, HiPaperAirplane } from "react-icons/hi";
 import { useAuth } from '../../hooks/useAuth';
+import { PostInterface } from './PostInterface';
 
-export default function Post() {
-    const { user } = useAuth()
+interface PostCompInterface {
+    ps: PostInterface,
+}
+
+export default function Post({ ps }: PostCompInterface) {
 
     return (
         <div className='box'>
@@ -11,13 +15,13 @@ export default function Post() {
                 <div className='flex flex-row justify-between center-all'>
                     <div className='flex flex-row center-all'>
                         <div className='sq-avatar'>
-                            <img src={user.PhotoProfile} className='sq-avatar-image' />
+                            <img src={ps.User.PhotoProfile} className='sq-avatar-image' />
                         </div>
                         <div className='w-2'></div>
                         <div className='flex flex-col'>
-                            <div className='text-md font-semibold'>{user.name}</div>
-                            <div className='text-sm font-normal'>{user.email}</div>
-                            <div className='text-sm font-normal'>{user.FollowedUser.length}</div>
+                            <div className='text-md font-semibold'>{ps.User.name}</div>
+                            <div className='text-sm font-normal'>{ps.User.email}</div>
+                            <div className='text-sm font-normal'>{ps.User.FollowedUser.length}</div>
                         </div>
                     </div>
                     <div className='btn-plain w-fit h-fit py-2'>
@@ -32,15 +36,20 @@ export default function Post() {
                     </div>
                 </div>
                 <div className='divider'></div>
-                <div className='text-sm font-normal'>{user.email}</div>
+                <div className='text-sm font-normal'>{ps.text}</div>
                 <div className='h-2'></div>
-                <img src={user.PhotoProfile} className='w-full h-96 rounded-md' />
+                {ps.AttachmentType === "image" &&
+                    <img src={ps.AttachmentLink} className='w-full h-96 rounded-md' />
+                }
+                {ps.AttachmentType === "video" &&
+                    <video src={ps.AttachmentLink} className='w-full h-96 rounded-md' controls />
+                }
                 <div className='flex flex-row justify-between'>
                     <div></div>
                     <div className='flex flex-row'>
-                        <div className='text-sm font-normal'>{user.name}</div>
+                        <div className='text-sm font-normal'>{ps.comments} comments</div>
                         <div className='w-2'></div>
-                        <div className='text-sm font-normal'>{user.name}</div>
+                        <div className='text-sm font-normal'>{ps.sends} shares</div>
                     </div>
                 </div>
                 <div className='divider'></div>

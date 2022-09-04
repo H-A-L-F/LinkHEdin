@@ -71,7 +71,7 @@ export default function StartAPost() {
         setValue((prev: any) => prev + "#");
     }
 
-    function handleSubmit(e: any) {
+    function upload() {
         if (value == "" || !value) {
             toastError("You cannot create a empty post!");
             return;
@@ -97,6 +97,11 @@ export default function StartAPost() {
 
 
         createPost("", user.id, value, "", "")
+    }
+
+    function handleSubmit(e: any) {
+        upload()
+        handleClose()
     }
 
     return (
