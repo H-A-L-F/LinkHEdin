@@ -9,10 +9,13 @@ import InView from '../components/Home/InView';
 
 
 export default function Home() {
+  const LIMIT = 4
   const { loading, error, fetchMore, data } = useQuery(INFINITY_QUERY, {
-    variables: { offset: 0, limit: 4 }
+    variables: { offset: 0, limit: LIMIT }
   });
   const [isLoading, setIsLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  let currentLength = LIMIT
 
   async function temp() {
     if (data.postInfinity === undefined) {
@@ -23,11 +26,16 @@ export default function Home() {
       setIsLoading(true)
       const resFet = await fetchMore({
         variables: {
-          offset: data.postInfinity.length,
+          offset: currentLength,
         },
       })
       setIsLoading(false)
-      console.log(resFet)
+      console.log(resFet.data.postInfinity.length)
+      currentLength += resFet.data.postInfinity.length
+      if(resFet.data.postInfinity.length === 0) {
+        console.log("habis")
+        setHasMore(false)
+      }
     } catch (err: any) {
       console.log(err)
       toastError(err)
@@ -62,7 +70,7 @@ export default function Home() {
         )
       })}
       <div className='h-64'></div>
-      <InView callback={temp} isLoading={isLoading} />
+      <InView callback={temp} isLoading={isLoading} hasMore={hasMore}/>
     </div>
   )
 }

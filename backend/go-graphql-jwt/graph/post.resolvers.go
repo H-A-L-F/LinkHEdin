@@ -36,6 +36,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) 
 		CreatedAt:      time.Now(),
 		Hashtag:        input.Hashtag,
 		AttachmentType: input.AttachmentType,
+		Likes:          0,
 	}
 
 	err := r.DB.Create(model).Error

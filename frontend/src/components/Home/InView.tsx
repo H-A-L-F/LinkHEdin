@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useInView, useInViewEffect } from 'react-hook-inview'
+import ReactLoading from "react-loading";
 
 interface InViewInterface {
     callback: () => Promise<void>,
     isLoading: boolean,
+    hasMore: boolean
 }
 
-export default function InView({ callback, isLoading }: InViewInterface) {
+export default function InView({ callback, isLoading, hasMore }: InViewInterface) {
     const [isVisible, setIsVisible] = useState(false)
 
     const ref = useInViewEffect(
@@ -22,7 +24,20 @@ export default function InView({ callback, isLoading }: InViewInterface) {
     )
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return (
+            <div className='center-all'>
+                <ReactLoading
+                    type="balls"
+                    color="gray"
+                    height={"10%"}
+                    width={"10%"}
+                ></ReactLoading>
+            </div>
+        )
+    }
+
+    if (!hasMore) {
+        return <div className='center-all text-lg font-bold'>No more post...</div>
     }
 
     return (
