@@ -99,3 +99,5 @@ export default function Post({ ps }: PostCompInterface) {
         </div>
     )
 }
+
+export const MemoizedPost = React.memo(Post)
