@@ -738,3 +738,48 @@
 .flex-grow {
     flex: 1 1 auto;
 }
+
+.chat-item {
+    @extend .flex, .flex-row, .p-2, .rounded-md, .cursor-pointer;
+    @extend .bg-base-300;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s ease;
+    position: absolute;
+    overflow: visible;
+
+    &::before {
+        @extend .bg-primary, .rounded-md;
+        content: "";
+        display: block;
+        position: absolute;
+        width: calc(100% + 4px);
+        height: 100%;
+        position: absolute;
+        z-index: -1;
+        left: -4px;
+        top: 0;
+        transform: scaleY(0);
+        transition: transform 0.1s ease-out;
+    }
+
+    &:hover, &:focus {
+        &::before {
+            @extend .bg-primary, .rounded-md;
+            content: "";
+            display: block;
+            position: absolute;
+            width: calc(100% + 4px);
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+            left: -4px;
+            top: 0;
+            transform: scaleY(1);
+        }
+    }
+}
+
+.outline-holder {
+    position: relative;
+    z-index: 1;
+}
