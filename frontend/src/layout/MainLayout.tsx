@@ -17,11 +17,11 @@ export default function MainLayout() {
     console.log(location.pathname)
 
     return (
-        <div>
+        <React.Fragment>
             <Navbar />
             <div className='main-layout'>
                 <div className='h-8'></div>
-                <div className='flex flex-row w-full h-full'>
+                <div className='flex flex-row flex-grow w-full h-full'>
                     {
                         location.pathname === "/home" && <Left /> ||
                         location.pathname === "/mynetwork" && <Left /> ||
@@ -34,10 +34,11 @@ export default function MainLayout() {
                         location.pathname === "/jobs" && <Right /> ||
                         location.pathname === "/messages" && <Right /> ||
                         location.pathname === "/notifications" && <Right /> ||
-                        location.pathname.startsWith("/profile") && <Right /> 
+                        location.pathname.startsWith("/profile") && <Right />
                     }
                 </div>
+                <div className='h-8'></div>
             </div>
-        </div>
+        </React.Fragment>
     )
 }

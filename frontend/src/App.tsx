@@ -24,6 +24,7 @@ import MyNetwork from "./pages/MyNetwork";
 import Jobs from "./pages/Jobs";
 import Notification from "./pages/Notification";
 import { offsetLimitPagination, Reference } from "@apollo/client/utilities";
+import Message from "./pages/Message";
 
 export function App() {
   const { user, theme } = useAuth()
@@ -73,6 +74,7 @@ export function App() {
                 <Route path="jobs" element={<Jobs />} />
                 <Route path="notifications" element={<Notification />} />
                 <Route path="profile/:id" element={<ProvideUserProfile />} />
+                <Route path="messages" element={<Message />} />
               </Route>
 
               <Route path="guest" element={<GuestLayout />}>

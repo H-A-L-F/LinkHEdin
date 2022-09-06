@@ -5,6 +5,8 @@
     min-height: 100vh;
     min-width: 100vw;
     overflow-x: hidden;
+    display: flex;
+    flex-flow: column;
 }
 
 .btn {
@@ -234,11 +236,20 @@
 
 .main-layout {
     padding: 0 15%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    flex: 1 1 auto;
 }
 
 .divider {
     @extend .w-full, .bg-base-100, .my-2;
     height: 0.2rem;
+}
+
+.divider-h {
+    @extend .h-full, .bg-base-100, .mx-2;
+    width: 0.2rem;
 }
 
 .box {
@@ -722,4 +733,8 @@
 .right-box {
     @extend .box, .ml-4;
     width: 32rem;
+}
+
+.flex-grow {
+    flex: 1 1 auto;
 }

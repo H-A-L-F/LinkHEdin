@@ -5247,6 +5247,14 @@ p.t-52 {
   text-decoration-line: none;
 }
 
+.grow {
+  flex-grow: 1;
+
+  &-0 {
+    flex-grow: 0;
+  }
+}
+
 .place-self {
   &-auto {
     place-self: auto;
