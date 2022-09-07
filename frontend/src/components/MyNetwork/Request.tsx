@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import { useBackEnd } from '../../hooks/useBackEnd'
 import { FIND_USER_QUERY } from '../../query/user'
 
 interface RequestInterface {
@@ -8,18 +9,30 @@ interface RequestInterface {
 }
 
 export default function Request({ id }: RequestInterface) {
-    const {loading, data, error} = useQuery(FIND_USER_QUERY, {variables: {id: id}})
+    const { user } = useAuth()
+    const { loading, data, error } = useQuery(FIND_USER_QUERY, { variables: { id: id } })
+    const { accConnect, cancelConnect } = useBackEnd()
 
-    if(error) {
+    function handleAccept() {
+        accConnect(user.id, currUser)
+    }
+
+    function handleDecline() {
+        cancelConnect(id, user.id)
+    }
+
+    if (error) {
         console.log(error)
         return <div></div>
     }
 
-    if(loading) {
+    if (loading) {
         return <div>Loading...</div>
     }
 
     const currUser = data.user
+
+    console.log(id)
 
     return (
         <div className="flex flex-row justify-between">
@@ -34,12 +47,12 @@ export default function Request({ id }: RequestInterface) {
                 </div>
             </div>
             <div className="flex flex-row py-4">
-                <div className="btn-error">
+                <div className="btn-error" onClick={handleDecline}>
                     <div className="bg"></div>
                     <div className="py-2">Ignore</div>
                 </div>
                 <div className="w-4"></div>
-                <div className="btn-primary">
+                <div className="btn-primary" onClick={handleAccept}>
                     <div className="bg"></div>
                     <div className="py-2">Accept</div>
                 </div>
