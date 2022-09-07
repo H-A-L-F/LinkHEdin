@@ -1,5 +1,6 @@
 import React from 'react'
 import { HiPencilAlt, HiOutlineDotsHorizontal } from "react-icons/hi";
+import UserChatRoom from '../components/Message/UserChatRoom';
 import { useAuth } from '../hooks/useAuth';
 
 export default function Message() {
@@ -26,19 +27,8 @@ export default function Message() {
                 </div>
                 <div className='divider'></div>
                 <div className='flex flex-row center-all w-full h-full justify-start'>
-                    <div className='flex flex-col w-96 h-full'>
-                        <div className='outline-holder'>
-                            <div className='chat-item' tabIndex={1}>
-                                <div className='inv-avatar'>
-                                    <img src={user.PhotoProfile} className='inv-avatar-image' />
-                                </div>
-                                <div className='w-2'></div>
-                                <div className='flex flex-col'>
-                                    <div className='text-md font-semibold'>{user.name}</div>
-                                    <div className='text-sm font-medium'>{user.email}</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className='flex flex-col w-96 h-full bg-red-400'>
+                        <UserChatRoom />
                     </div>
                     <div className='divider-h'></div>
                     <div className='flex flex-row justify-between w-full'>
