@@ -748,7 +748,6 @@
     position: absolute;
     overflow: visible;
     width: calc(100% - 1rem);
-    margin-right: 4px;
 
     &::before {
         @extend .bg-primary, .rounded-md;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
-import { CANCEL_REQUEST_MUTATION, CONNECT_REQUEST_MUTATION, IGNORE_REQUEST_MUTATION } from "../query/connect";
+import { ACCEPT_REQUEST_MUTATION, CANCEL_REQUEST_MUTATION, CONNECT_REQUEST_MUTATION, IGNORE_REQUEST_MUTATION } from "../query/connect";
 import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_MUTATION } from "../query/education";
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { CREATE_JOB_MUTATION } from "../query/job";
@@ -40,6 +40,7 @@ function useProvideBackEnd() {
     const [followUserFunc] = useMutation(FOLLOW_USER_QUERY)
     const [connectRequestFunc] = useMutation(CONNECT_REQUEST_MUTATION)
     const [cancelConnectFunc] = useMutation(CANCEL_REQUEST_MUTATION)
+    const [acceptConnectFunc] = useMutation(ACCEPT_REQUEST_MUTATION)
     const [postAJobFunc] = useMutation(CREATE_JOB_MUTATION)
     const [deleteNotificationFunc] = useMutation(DELETE_NOTIFICATION_MUTATION)
     const [createPostFunc] = useMutation(CREATE_POST_QUERY);
@@ -384,6 +385,18 @@ function useProvideBackEnd() {
         }
     }
 
+    async function accConnect(id: string) {
+        setLoading(true)
+        try {
+            const resAcc = await acceptConnectFunc({ variables: { id: id } })
+            refetchUser()
+            successHandle("Accepted request")
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+    }
+
     async function postAJob(title: string, companyName: string, location: string) {
         setLoading(true)
         try {
@@ -460,6 +473,7 @@ function useProvideBackEnd() {
         followUser,
         connectRequest,
         cancelConnect,
+        accConnect,
         postAJob,
         deleteNotification,
         createPost

@@ -20,8 +20,8 @@ export default function Invitation() {
             <div className="divider"></div>
             {user.RequestConnect.map((e: string, idx: number) => {
                 return (
-                    <React.Fragment>
-                        <Request id={e} key={e + "-" + idx} />
+                    <React.Fragment key={"inv-" + idx}>
+                        <Request id={e} />
                         {
                             idx < len - 1 && <div className='divider'></div>
                         }
