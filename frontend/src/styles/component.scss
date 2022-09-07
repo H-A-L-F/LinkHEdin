@@ -248,7 +248,7 @@
 }
 
 .divider-h {
-    @extend .h-full, .bg-base-100, .mx-2;
+    @extend .h-full, .bg-base-100, .mx-2, .rounded-md;
     width: 0.2rem;
 }
 
