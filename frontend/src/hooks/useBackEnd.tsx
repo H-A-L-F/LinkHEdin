@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserInterface } from "../components/Profile/UserInterface";
 import { ROUTE } from "../config/constants";
 import { toastError, toastSuccess } from "../config/toast";
 import { sendImage } from "../lib/image";
@@ -385,10 +386,14 @@ function useProvideBackEnd() {
         }
     }
 
-    async function accConnect(id: string) {
+    function createRoom() {
+        
+    }
+
+    async function accConnect(id: string, targetUser: UserInterface) {
         setLoading(true)
         try {
-            const resAcc = await acceptConnectFunc({ variables: { id: id } })
+            const resAcc = await acceptConnectFunc({ variables: { id: targetUser.id } })
             refetchUser()
             successHandle("Accepted request")
         } catch (err: any) {

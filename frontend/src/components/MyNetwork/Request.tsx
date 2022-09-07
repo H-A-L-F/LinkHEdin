@@ -14,7 +14,7 @@ export default function Request({ id }: RequestInterface) {
     const { accConnect, cancelConnect } = useBackEnd()
 
     function handleAccept() {
-        accConnect(id)
+        accConnect(user.id, currUser)
     }
 
     function handleDecline() {

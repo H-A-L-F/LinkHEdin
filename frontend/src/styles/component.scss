@@ -742,7 +742,7 @@
 
 .chat-item {
     @extend .flex, .flex-row, .p-2, .rounded-md, .cursor-pointer;
-    @extend .bg-red-300;
+    @extend .bg-base-300;
     -webkit-tap-highlight-color: transparent;
     transition: all 0.2s ease;
     position: absolute;

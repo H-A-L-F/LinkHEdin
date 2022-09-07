@@ -27,7 +27,7 @@ export default function Message() {
                 </div>
                 <div className='divider'></div>
                 <div className='flex flex-row center-all w-full h-full justify-start'>
-                    <div className='flex flex-col w-96 h-full bg-red-400'>
+                    <div className='flex flex-col w-96 h-full'>
                         <UserChatRoom />
                     </div>
                     <div className='divider-h'></div>
