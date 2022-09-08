@@ -771,7 +771,7 @@
             content: "";
             display: block;
             position: absolute;
-            width: calc(100% + 4px);
+            width: calc(100%);
             height: 100%;
             position: absolute;
             z-index: -1;
@@ -785,4 +785,35 @@
 .outline-holder {
     position: relative;
     z-index: 1;
+}
+
+.chat-box {
+    @extend .w-full, .h-full, .bg-red-400;
+    position: relative;
+
+    .chat {
+        @extend .flex, .flex-col, .bg-blue-300;
+        @extend .w-full;
+        height: calc(100% - 2.5rem);
+        position: absolute;
+    }
+
+    .footer {
+        @extend .flex, .flex-row, .justify-between, .bg-base-300;
+        @extend .w-full, .h-10;
+        position: absolute;
+        bottom: 0;
+
+        .input {
+            @extend .bg-base-200, .rounded-xl, .p-2;
+            @extend .w-full;
+
+            &-real {
+                @extend .w-full, .h-full, .rounded-xl;
+                padding: 0;
+                border: none;
+                outline: none;
+            }
+        }
+    }
 }

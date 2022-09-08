@@ -3,6 +3,7 @@ import { HiPencilAlt, HiOutlineDotsHorizontal } from "react-icons/hi";
 import ChatRooms from '../components/Message/ChatRooms';
 import UserChatRoom from '../components/Message/UserChatRoom';
 import { useAuth } from '../hooks/useAuth';
+import { HiPaperAirplane } from "react-icons/hi";
 
 export default function Message() {
     const { user } = useAuth()
@@ -30,7 +31,18 @@ export default function Message() {
                 <div className='flex flex-row center-all w-full h-full justify-start'>
                     <ChatRooms />
                     <div className='divider-h'></div>
-                    <div className='flex flex-col w-full h-full bg-red-400'>
+                    <div className='chat-box'>
+                        <div className='chat'></div>
+                        <div className='footer'>
+                            <div className='input'>
+                                <input type="text" className='input-real' placeholder='Message...' />
+                            </div>
+                            <div className='w-10'></div>
+                            <div className='btn-plain px-2 rounded-xl'>
+                                <div className='bg'></div>
+                                <HiPaperAirplane size={24} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
