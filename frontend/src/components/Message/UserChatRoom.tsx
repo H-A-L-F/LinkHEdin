@@ -1,8 +1,12 @@
 import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
 
-export default function UserChatRoom() {
-    const {user} = useAuth()
+interface UserChatRoomInterface {
+    name: string
+}
+
+export default function UserChatRoom({ name }: UserChatRoomInterface) {
+    const { user } = useAuth()
 
     return (
         <div className='outline-holder'>
@@ -12,7 +16,7 @@ export default function UserChatRoom() {
                 </div>
                 <div className='w-2'></div>
                 <div className='flex flex-col'>
-                    <div className='text-md font-semibold'>{user.name}</div>
+                    <div className='text-md font-semibold'>{name}</div>
                     <div className='text-sm font-medium'>{user.email}</div>
                 </div>
             </div>
