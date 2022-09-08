@@ -26,6 +26,8 @@ export default function PersonalProfile() {
 
     }
 
+    console.log(user, id, user.ConnectedUser.includes(id), user.ConnectedUser.includes(id) !== true)
+
     return (
         <React.Fragment>
             <div className='personal-position'>
@@ -54,23 +56,29 @@ export default function PersonalProfile() {
                             </div>
                         </div>
                         <div className='w-4'></div>
-                        {currUser.RequestConnect.includes(user.id) ?
-                            <div className='btn-error' onClick={handleCancel}>
-                                <div className='bg'></div>
-                                <div className='center-all py-2'>
-                                    Cancel
-                                </div>
-                            </div>
-                            :
-                            <div className='btn-primary' onClick={handleConnect}>
-                                <div className='bg'></div>
-                                <div className='center-all py-2'>
-                                    Connect
-                                </div>
-                            </div>
+                        {
+                            user.ConnectedUser.includes(id) !== true ?
+                                <React.Fragment>
+                                    {currUser.RequestConnect.includes(user.id)
+                                        ?
+                                        <div className='btn-error' onClick={handleCancel}>
+                                            <div className='bg'></div>
+                                            <div className='center-all py-2'>
+                                                Cancel
+                                            </div>
+                                        </div>
+                                        :
+                                        <div className='btn-primary' onClick={handleConnect}>
+                                            <div className='bg'></div>
+                                            <div className='center-all py-2'>
+                                                Connect
+                                            </div>
+                                        </div>}
+                                    <div className='w-4'></div>
+                                </React.Fragment>
+                                :
+                                <div></div>
                         }
-
-                        <div className='w-4'></div>
                         <div className='btn-primary' onClick={handleBlock}>
                             <div className='bg'></div>
                             <div className='center-all py-2'>
