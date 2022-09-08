@@ -30,7 +30,7 @@ export default function Message() {
                 <div className='flex flex-row center-all w-full h-full justify-start'>
                     <ChatRooms />
                     <div className='divider-h'></div>
-                    <div className='flex flex-row justify-between w-full'>
+                    <div className='flex flex-col w-full h-full bg-red-400'>
                     </div>
                 </div>
             </div>

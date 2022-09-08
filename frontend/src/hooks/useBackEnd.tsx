@@ -16,7 +16,8 @@ import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
 import { addDoc, collection, doc, query, where } from 'firebase/firestore'
 import { db } from "../config/firebase";
-import { usersCol } from "../query/FirestoreCollection";
+import { genUserMessageCol, usersCol } from "../query/FirestoreCollection";
+import { ChatInterface } from "../components/Message/room";
 
 const backEndContext = createContext({} as any)
 
@@ -396,7 +397,6 @@ function useProvideBackEnd() {
                 userIds: [user.id, targetUser.id],
                 userNames: [user.name, targetUser.name]
             })
-            console.log([user.id, targetUser.id], [user.name, targetUser.name])
             successHandle("Added data to database")
             return true
         } catch (err: any) {
