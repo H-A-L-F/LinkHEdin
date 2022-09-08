@@ -14,7 +14,7 @@ import { CREATE_POST_QUERY } from "../query/post";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
-import { addDoc, collection, doc, query, where } from 'firebase/firestore'
+import { addDoc, collection, doc, query, Timestamp, where } from 'firebase/firestore'
 import { db } from "../config/firebase";
 import { genUserMessageCol, usersCol } from "../query/FirestoreCollection";
 import { ChatInterface } from "../components/Message/room";
@@ -397,12 +397,24 @@ function useProvideBackEnd() {
                 userIds: [user.id, targetUser.id],
                 userNames: [user.name, targetUser.name]
             })
-            successHandle("Added data to database")
-            return true
+            // try {
+            //     const data: ChatInterface = {
+            //         content: "",
+            //         idFrom: user.id,
+            //         idTo: targetUser.id,
+            //         timestamp: Timestamp.now().toDate()
+            //     }
+            //     const refChat = await addDoc(genUserMessageCol(ref.id), data)
+            // } catch (err: any) {
+            //     errHandle(err)
+            //     return false
+            // }
         } catch (err: any) {
             errHandle(err)
             return false
         }
+        successHandle("Added data to database")
+        return true
     }
 
     async function accConnect(user: UserInterface, targetUser: UserInterface) {
@@ -477,6 +489,22 @@ function useProvideBackEnd() {
         }
     }
 
+    async function sendMessage(docId: string, fromId: string, toId: string, text: string) {
+        try {
+            const data: ChatInterface = {
+                content: text,
+                idFrom: fromId,
+                idTo: toId,
+                timestamp: Timestamp.now().toDate()
+            }
+            const ref = await addDoc(genUserMessageCol(docId), data)
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+        return true
+    }
+
     return {
         login,
         register,
@@ -498,6 +526,7 @@ function useProvideBackEnd() {
         accConnect,
         postAJob,
         deleteNotification,
-        createPost
+        createPost,
+        sendMessage,
     }
 }

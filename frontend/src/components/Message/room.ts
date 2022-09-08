@@ -1,11 +1,20 @@
 export interface RoomInterface {
-    userIds: string[],
-    userNames: string[]
+  id: string;
+  userIds: string[];
+  userNames: string[];
 }
 
 export interface ChatInterface {
-    content: string,
-    idFrom: string,
-    idTo: string,
-    timestamp: Date
+  content: string;
+  idFrom: string;
+  idTo: string;
+  timestamp: Date;
+}
+
+export interface TidyRoomInterface {
+  ref: string;
+  fromId: string;
+  toId: string;
+  fromName: string;
+  toName: string;
 }
