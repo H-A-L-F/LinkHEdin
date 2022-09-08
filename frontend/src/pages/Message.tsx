@@ -32,7 +32,10 @@ export default function Message() {
                     <ChatRooms />
                     <div className='divider-h'></div>
                     <div className='chat-box'>
-                        <div className='chat'></div>
+                        <div className='chat'>
+                            <div className='bubble place-self-end'>adsdass</div>
+                            <div className='bubble place-self-start'>adsdass</div>
+                        </div>
                         <div className='footer'>
                             <div className='input'>
                                 <input type="text" className='input-real' placeholder='Message...' />

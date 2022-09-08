@@ -788,14 +788,32 @@
 }
 
 .chat-box {
-    @extend .w-full, .h-full, .bg-red-400;
+    @extend .w-full, .h-full;
     position: relative;
 
     .chat {
-        @extend .flex, .flex-col, .bg-blue-300;
+        @extend .flex, .flex-col;
         @extend .w-full;
         height: calc(100% - 2.5rem);
         position: absolute;
+        overflow-y: scroll;
+        
+        .bubble {
+            @extend .rounded-lg, .bg-base-100, .px-4, .py-2;
+            @extend .w-fit, .h-fit;
+
+            &-left {
+                @extend .bubble;
+                position: absolute;
+                left: 0;
+            }
+
+            &-right {
+                @extend .bubble;
+                position: absolute;
+                right: 0;
+            }
+        }
     }
 
     .footer {
