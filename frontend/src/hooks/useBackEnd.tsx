@@ -14,6 +14,9 @@ import { CREATE_POST_QUERY } from "../query/post";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
+import { addDoc, collection, doc, query, where } from 'firebase/firestore'
+import { db } from "../config/firebase";
+import { usersCol } from "../query/FirestoreCollection";
 
 const backEndContext = createContext({} as any)
 
@@ -386,16 +389,30 @@ function useProvideBackEnd() {
         }
     }
 
-    function createRoom() {
-        const docRef = 
+    async function createRoom(user: UserInterface, targetUser: UserInterface) {
+        setLoading(true)
+        try {
+            const ref = await addDoc(usersCol, {
+                userIds: [user.id, targetUser.id],
+                userNames: [user.name, targetUser.name]
+            })
+            console.log([user.id, targetUser.id], [user.name, targetUser.name])
+            successHandle("Added data to database")
+            return true
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
     }
 
-    async function accConnect(id: string, targetUser: UserInterface) {
+    async function accConnect(user: UserInterface, targetUser: UserInterface) {
         setLoading(true)
         try {
             const resAcc = await acceptConnectFunc({ variables: { id: targetUser.id } })
             refetchUser()
             successHandle("Accepted request")
+            createRoom(user, targetUser)
+            return true
         } catch (err: any) {
             errHandle(err)
             return false
