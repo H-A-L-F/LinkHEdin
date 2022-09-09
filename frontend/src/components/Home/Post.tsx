@@ -50,7 +50,7 @@ export default function Post({ ps }: PostCompInterface) {
                     <div className='flex flex-row justify-between'>
                         <div></div>
                         <div className='flex flex-row'>
-                            <div className='text-sm font-normal'>{ps.comments} comments</div>
+                            <div className='text-sm font-normal link'>{ps.comments} comments</div>
                             <div className='w-2'></div>
                             <div className='text-sm font-normal'>{ps.sends} shares</div>
                         </div>
@@ -101,7 +101,7 @@ export default function Post({ ps }: PostCompInterface) {
                 </div>
             </div>
             <div className='h-2'></div>
-            <Comment />
+            {openComment && <Comment />}
         </React.Fragment>
     )
 }
