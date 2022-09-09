@@ -797,7 +797,7 @@
         height: calc(100% - 2.5rem);
         position: absolute;
         overflow-y: scroll;
-        
+
         .bubble {
             @extend .rounded-lg, .bg-base-100, .px-4, .py-2;
             @extend .w-fit, .h-fit;
@@ -833,5 +833,22 @@
                 outline: none;
             }
         }
+    }
+}
+
+.comment-box {
+    @extend .rounded-lg;
+    @extend .w-full, .h-20;
+    outline-style: solid;
+
+    .input {
+        @extend .bg-base-300, .m-2;
+        @extend .rounded-lg;
+        width: calc(100% - 1rem);
+        height: calc(100% - 1rem);
+        padding: 0;
+        border: none;
+        outline: none;
+        resize: none;
     }
 }
