@@ -2,6 +2,15 @@
 
 package model
 
+type Comment struct {
+	PostID  string          `json:"PostID"`
+	ID      string          `json:"ID"`
+	User    *User           `json:"User"`
+	Text    string          `json:"Text"`
+	Likes   int             `json:"Likes"`
+	Replies []*ReplyComment `json:"Replies"`
+}
+
 type InputNotification struct {
 	UserID         string `json:"userId"`
 	Text           string `json:"text"`
@@ -37,6 +46,14 @@ type NewUser struct {
 	Email    string `json:"email"`
 }
 
+type ReplyComment struct {
+	ID        string `json:"ID"`
+	User      *User  `json:"User"`
+	Text      string `json:"Text"`
+	Likes     int    `json:"Likes"`
+	CommentID string `json:"CommentId"`
+}
+
 type UpdateUser struct {
 	Name           string `json:"Name"`
 	Email          string `json:"Email"`
@@ -53,6 +70,12 @@ type ValidChangePass struct {
 type ValidReq struct {
 	ID   string `json:"id"`
 	Code int    `json:"code"`
+}
+
+type NewComment struct {
+	UserID string `json:"UserId"`
+	Text   string `json:"Text"`
+	PostID string `json:"PostId"`
 }
 
 type NewEducation struct {
@@ -78,4 +101,10 @@ type NewExperience struct {
 	EndYear        string `json:"EndYear"`
 	Industry       string `json:"Industry"`
 	Description    string `json:"Description"`
+}
+
+type NewRepliesComment struct {
+	CommendID string `json:"CommendId"`
+	Text      string `json:"Text"`
+	UserID    string `json:"UserId"`
 }

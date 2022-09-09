@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { HiPlus, HiThumbUp, HiChatAlt, HiShare, HiPaperAirplane } from "react-icons/hi";
 import { useAuth } from '../../hooks/useAuth';
+import { useBackEnd } from '../../hooks/useBackEnd';
 import Comment from './Comment';
 import { PostInterface } from './PostInterface';
 
@@ -101,7 +102,7 @@ export default function Post({ ps }: PostCompInterface) {
                 </div>
             </div>
             <div className='h-2'></div>
-            {openComment && <Comment />}
+            {openComment && <Comment ps={ps} />}
         </React.Fragment>
     )
 }

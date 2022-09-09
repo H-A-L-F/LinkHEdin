@@ -18,6 +18,7 @@ import { addDoc, collection, doc, query, Timestamp, where } from 'firebase/fires
 import { db } from "../config/firebase";
 import { genUserMessageCol, usersCol } from "../query/FirestoreCollection";
 import { ChatInterface } from "../components/Message/room";
+import { CREATE_COMMENT_MUTATION } from "../query/comment";
 
 const backEndContext = createContext({} as any)
 
@@ -49,6 +50,7 @@ function useProvideBackEnd() {
     const [postAJobFunc] = useMutation(CREATE_JOB_MUTATION)
     const [deleteNotificationFunc] = useMutation(DELETE_NOTIFICATION_MUTATION)
     const [createPostFunc] = useMutation(CREATE_POST_QUERY);
+    const [commentPostFunc] = useMutation(CREATE_COMMENT_MUTATION)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -505,6 +507,22 @@ function useProvideBackEnd() {
         return true
     }
 
+    async function commentPost(uid: string, pid: string, text: string) {
+        try {
+            const resCr = await commentPostFunc({
+                variables: {
+                    userId: uid,
+                    text: text,
+                    postId: pid
+                }
+            })
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+        return true
+    }
+
     return {
         login,
         register,
@@ -528,5 +546,6 @@ function useProvideBackEnd() {
         deleteNotification,
         createPost,
         sendMessage,
+        commentPost,
     }
 }
