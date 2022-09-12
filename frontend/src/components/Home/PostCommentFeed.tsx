@@ -5,6 +5,7 @@ import { PostInterface } from './PostInterface';
 import { SEE_COMMENT_QUERY } from '../../query/comment';
 import { toastError } from '../../config/toast';
 import { PostCommentInterface } from './postComment';
+import ReactLoading from "react-loading";
 
 export default function PostCommentFeed({ ps }: { ps: PostInterface }) {
     const LIMIT = 4
@@ -77,7 +78,19 @@ export default function PostCommentFeed({ ps }: { ps: PostInterface }) {
             {data.seeCommentOnPost.length < ps.comments &&
                 <div className='btn-plain' onClick={temp}>
                     <div className='bg'></div>
-                    <div className='text-md font-semibold'>Load more</div>
+                    {
+                        isLoading ?
+                            <div className='center-all'>
+                                <ReactLoading
+                                    type="balls"
+                                    color="gray"
+                                    height={"10%"}
+                                    width={"10%"}
+                                ></ReactLoading>
+                            </div>
+                            :
+                            <div className='text-md font-semibold'>Load more</div>
+                    }
                 </div>
             }
         </div>
