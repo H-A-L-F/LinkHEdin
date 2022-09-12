@@ -101,6 +101,7 @@ function Post({ ps }: PostCompInterface) {
                             </div>
                         </div>
                     </div>
+                    <div className='h-2'></div>
                     {openCommentSection && <PostCommentFeed ps={ps} />}
                 </div>
             </div>

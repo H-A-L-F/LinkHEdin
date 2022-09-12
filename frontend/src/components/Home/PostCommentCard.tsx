@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import { useBackEnd } from '../../hooks/useBackEnd'
 import { PostCommentInterface } from './postComment'
 
 interface PostCommentCardInterface {
@@ -8,6 +9,12 @@ interface PostCommentCardInterface {
 
 function PostCommentCard({ pc }: PostCommentCardInterface) {
     const { user } = useAuth()
+    const { commentLike } = useBackEnd()
+
+    function handleLike() {
+        commentLike(pc.ID)
+    }
+
     return (
         <div className='flex flex-row'>
             <div className='inv-avatar'>
@@ -25,7 +32,7 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                 </div>
                 <div className='h-2'></div>
                 <div className='flex flex-row w-full'>
-                    <div className='btn-plain'>
+                    <div className='btn-plain' onClick={handleLike}>
                         <div className='bg'></div>
                         <div className='text-sm font-medium'>Like</div>
                     </div>
