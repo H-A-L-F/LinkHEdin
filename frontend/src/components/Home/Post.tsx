@@ -13,8 +13,7 @@ interface PostCompInterface {
 function Post({ ps }: PostCompInterface) {
     const [openComment, setOpenComment] = useState(false)
     const [openCommentSection, setopenCommentSection] = useState(false)
-    const { postLike } = useBackEnd()
-    const { followUser } = useBackEnd()
+    const { postLike, followUser } = useBackEnd()
 
     function handleFollow() {
         followUser(ps.User.id)
@@ -116,7 +115,7 @@ function Post({ ps }: PostCompInterface) {
                 </div>
             </div>
             <div className='h-2'></div>
-            {openComment && <Comment ps={ps} />}
+            {openComment && <Comment ps={ps}/>}
         </React.Fragment>
     )
 }
