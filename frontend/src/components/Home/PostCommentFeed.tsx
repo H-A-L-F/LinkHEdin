@@ -16,10 +16,6 @@ export default function PostCommentFeed({ ps }: { ps: PostInterface }) {
         },
     });
     const [isLoading, setIsLoading] = useState(false)
-    const [hasMore, setHasMore] = useState(true)
-    let currentLength = LIMIT
-
-    console.log(ps)
 
     async function temp() {
         if (data.seeCommentOnPost === undefined) {
@@ -46,13 +42,6 @@ export default function PostCommentFeed({ ps }: { ps: PostInterface }) {
                 },
             })
             setIsLoading(false)
-            console.log(resFet.data.seeCommentOnPost.length)
-            currentLength += resFet.data.seeCommentOnPost.length
-            console.log(currentLength)
-            if (resFet.data.seeCommentOnPost.length === 0) {
-                console.log("habis")
-                setHasMore(false)
-            }
         } catch (err: any) {
             console.log(err)
             toastError(err)
@@ -69,11 +58,11 @@ export default function PostCommentFeed({ ps }: { ps: PostInterface }) {
     }
 
     if (data) {
-        console.log(data.seeCommentOnPost, data.seeCommentOnPost.length)
+        // console.log(data.seeCommentOnPost, data.seeCommentOnPost.length)
     }
 
     return (
-        <div className='box'>
+        <div className=''>
             {data.seeCommentOnPost?.map((e: PostCommentInterface, idx: number) => {
                 return (
                     <React.Fragment key={"post-cmt-" + idx} >
@@ -85,10 +74,12 @@ export default function PostCommentFeed({ ps }: { ps: PostInterface }) {
                 )
             })}
             <div className='h-2'></div>
-            <div className='btn-plain' onClick={temp}>
-                <div className='bg'></div>
-                <div className='text-md font-semibold'>Load more</div>
-            </div>
+            {data.seeCommentOnPost.length < ps.comments &&
+                <div className='btn-plain' onClick={temp}>
+                    <div className='bg'></div>
+                    <div className='text-md font-semibold'>Load more</div>
+                </div>
+            }
         </div>
     )
 }

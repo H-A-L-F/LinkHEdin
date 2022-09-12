@@ -14,12 +14,25 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                 <img src={user.PhotoProfile} alt="" className='inv-avatar-image' />
             </div>
             <div className='w-2'></div>
-            <div className='box bg-base-100 w-full'>
-                <div className='flex flex-col'>
-                    <div className='text-md font-bold'>{pc.User.name}</div>
-                    <div className='text-sm font-medium'>{pc.User.email}</div>
-                    <div className='h-2'></div>
-                    <div className='text-sm font-medium'>{pc.Text}</div>
+            <div className='flex flex-col w-full'>
+                <div className='box bg-base-100'>
+                    <div className='flex flex-col'>
+                        <div className='text-md font-bold'>{pc.User.name}</div>
+                        <div className='text-sm font-medium'>{pc.User.email}</div>
+                        <div className='h-2'></div>
+                        <div className='text-sm font-medium'>{pc.Text}</div>
+                    </div>
+                </div>
+                <div className='h-2'></div>
+                <div className='flex flex-row w-full'>
+                    <div className='btn-plain'>
+                        <div className='bg'></div>
+                        <div className='text-sm font-medium'>Like</div>
+                    </div>
+                    <div className='btn-plain'>
+                        <div className='bg'></div>
+                        <div className='text-sm font-medium'>Reply</div>
+                    </div>
                 </div>
             </div>
         </div>
