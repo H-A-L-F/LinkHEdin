@@ -15,19 +15,41 @@ import (
 func (r *mutationResolver) LikePost(ctx context.Context, id string) (string, error) {
 	val := *middleware.CtxValue(ctx)
 
-	var model *model.PostLike
-	err := r.DB.Where("post_id = ? AND user_id = ?", id, val.ID).Take(&model).Error
+	var postLike *model.PostLike
+	err := r.DB.Where("post_id = ? AND user_id = ?", id, val.ID).Take(&postLike).Error
 
 	if err == nil {
 		// Dislike
-		model.IsLike = !model.IsLike
-		return "Ok", r.DB.Save(&model).Error
+
+		// Decrement like di post
+		// var post *model.Post
+
+		// if err := r.DB.First(&post, "id = ?", id).Error; err != nil {
+		// 	return "Fail", err
+		// }
+
+		// post.Likes--
+		// r.DB.Save(&post)
+
+		postLike.IsLike = !postLike.IsLike
+		return "Ok", r.DB.Save(&postLike).Error
 	} else {
 		// Like
-		model.ID = uuid.NewString()
-		model.PostID = id
-		model.UserID = val.ID
-		model.IsLike = true
-		return "Ok", r.DB.Create(&model).Error
+
+		// Increment like di post
+		// var post *model.Post
+
+		// if err := r.DB.First(&post, "id = ?", id).Error; err != nil {
+		// 	return "Fail", err
+		// }
+
+		// post.Likes++
+		// r.DB.Save(&post)
+
+		postLike.ID = uuid.NewString()
+		postLike.PostID = id
+		postLike.UserID = val.ID
+		postLike.IsLike = true
+		return "Ok", r.DB.Create(&postLike).Error
 	}
 }

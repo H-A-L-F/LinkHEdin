@@ -68,7 +68,7 @@ function Post({ ps }: PostCompInterface) {
                         <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>
-                                <HiThumbUp size={20} />
+                                <HiThumbUp size={20} className=''/>
                                 <div className='w-2'></div>
                                 <div className='font-semibold'>
                                     Like
