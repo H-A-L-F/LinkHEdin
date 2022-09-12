@@ -114,6 +114,7 @@ type ComplexityRoot struct {
 		DeleteNotification    func(childComplexity int, id string) int
 		DeleteUser            func(childComplexity int, id string) int
 		Follow                func(childComplexity int, id string) int
+		LikePost              func(childComplexity int, id string) int
 		LikeReplyComment      func(childComplexity int, replycommentID string) int
 		Login                 func(childComplexity int, email string, password string) int
 		NewLikeComment        func(childComplexity int, commentID string) int
@@ -229,6 +230,7 @@ type MutationResolver interface {
 	DeleteNotification(ctx context.Context, id string) (string, error)
 	SendPost(ctx context.Context, id string) (string, error)
 	CreatePost(ctx context.Context, input model.NewPost) (string, error)
+	LikePost(ctx context.Context, id string) (string, error)
 	CreateUserValidation(ctx context.Context, input model.NewLink) (string, error)
 }
 type NotificationResolver interface {
@@ -716,6 +718,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.Follow(childComplexity, args["id"].(string)), true
+
+	case "Mutation.likePost":
+		if e.complexity.Mutation.LikePost == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_likePost_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.LikePost(childComplexity, args["id"].(string)), true
 
 	case "Mutation.likeReplyComment":
 		if e.complexity.Mutation.LikeReplyComment == nil {
@@ -1535,6 +1549,10 @@ extend type Mutation {
   createPost(input: NewPost!): String!
 }
 `, BuiltIn: false},
+	{Name: "../postLike.graphqls", Input: `extend type Mutation {
+  likePost(id: String!): String!
+}
+`, BuiltIn: false},
 	{Name: "../user.graphqls", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
@@ -1882,6 +1900,21 @@ func (ec *executionContext) field_Mutation_follow_args(ctx context.Context, rawA
 	if tmp, ok := rawArgs["id"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_likePost_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5659,6 +5692,61 @@ func (ec *executionContext) fieldContext_Mutation_createPost(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createPost_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_likePost(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_likePost(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().LikePost(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_likePost(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_likePost_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -11484,6 +11572,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createPost(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "likePost":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_likePost(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {
