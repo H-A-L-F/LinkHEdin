@@ -51,36 +51,40 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                     <Reply cid={pc.ID} />
                 </div>
             }
-            <div className='flex flex-row ml-16 mt-2'>
-                <div className='inv-avatar'>
-                    <img src={user.PhotoProfile} alt="" className='inv-avatar-image' />
-                </div>
-                <div className='w-2'></div>
-                <div className='flex flex-col w-full'>
-                    <div className='box bg-base-100'>
-                        <div className='flex flex-col'>
-                            <div className='text-md font-bold'>{pc.User.name}</div>
-                            <div className='text-sm font-medium'>{pc.User.email}</div>
+            {pc.Replies.map((reply: any, idx: number) => {
+                return (
+                    <div className='flex flex-row ml-16 mt-2' key={"reply-" + idx}>
+                        <div className='inv-avatar'>
+                            <img src={user.PhotoProfile} alt="" className='inv-avatar-image' />
+                        </div>
+                        <div className='w-2'></div>
+                        <div className='flex flex-col w-full'>
+                            <div className='box bg-base-100'>
+                                <div className='flex flex-col'>
+                                    <div className='text-md font-bold'>{reply.User.name}</div>
+                                    <div className='text-sm font-medium'>{reply.User.email}</div>
+                                    <div className='h-2'></div>
+                                    <div className='text-sm font-medium'>
+                                        <span className='font-semibold'>@{reply.User.name + " "}</span>
+                                        {reply.Text}
+                                    </div>
+                                </div>
+                            </div>
                             <div className='h-2'></div>
-                            <div className='text-sm font-medium'>
-                                <span className='font-semibold'>@{pc.User.name + " "}</span>
-                                {pc.Text}
+                            <div className='flex flex-row w-full'>
+                                <div className='btn-plain' onClick={handleLike}>
+                                    <div className='bg'></div>
+                                    <div className='text-sm font-medium'>Like</div>
+                                </div>
+                                <div className='btn-plain'>
+                                    <div className='bg'></div>
+                                    <div className='text-sm font-medium'>Reply</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className='h-2'></div>
-                    <div className='flex flex-row w-full'>
-                        <div className='btn-plain' onClick={handleLike}>
-                            <div className='bg'></div>
-                            <div className='text-sm font-medium'>Like</div>
-                        </div>
-                        <div className='btn-plain'>
-                            <div className='bg'></div>
-                            <div className='text-sm font-medium'>Reply</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                )
+            })}
         </div>
     )
 }
