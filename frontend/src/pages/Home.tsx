@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Post, { MemoizedPost } from '../components/Home/Post'
+import { MemoizedPost } from '../components/Home/Post'
 import StartAPost from '../components/Home/StartAPost'
 import { useQuery } from '@apollo/client';
 import { INFINITY_QUERY } from '../query/post';

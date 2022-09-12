@@ -3,13 +3,14 @@ import { HiPlus, HiThumbUp, HiChatAlt, HiShare, HiPaperAirplane } from "react-ic
 import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import Comment from './Comment';
+import PostComment from './PostComment';
 import { PostInterface } from './PostInterface';
 
 interface PostCompInterface {
     ps: PostInterface,
 }
 
-export default function Post({ ps }: PostCompInterface) {
+function Post({ ps }: PostCompInterface) {
     const [openComment, setOpenComment] = useState(false)
 
     return (
@@ -99,6 +100,7 @@ export default function Post({ ps }: PostCompInterface) {
                             </div>
                         </div>
                     </div>
+                    <PostComment />
                 </div>
             </div>
             <div className='h-2'></div>
