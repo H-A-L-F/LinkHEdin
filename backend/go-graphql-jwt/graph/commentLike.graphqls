@@ -1,0 +1,4 @@
+extend type Mutation {
+  newLikeComment(commentId: String!): String!
+  likeReplyComment(replycommentId: String!): String!
+}

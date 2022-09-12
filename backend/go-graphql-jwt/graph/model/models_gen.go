@@ -2,15 +2,6 @@
 
 package model
 
-type Comment struct {
-	PostID  string          `json:"PostID"`
-	ID      string          `json:"ID"`
-	User    *User           `json:"User"`
-	Text    string          `json:"Text"`
-	Likes   int             `json:"Likes"`
-	Replies []*ReplyComment `json:"Replies"`
-}
-
 type InputNotification struct {
 	UserID         string `json:"userId"`
 	Text           string `json:"text"`
@@ -44,14 +35,6 @@ type NewUser struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
-}
-
-type ReplyComment struct {
-	ID        string `json:"ID"`
-	User      *User  `json:"User"`
-	Text      string `json:"Text"`
-	Likes     int    `json:"Likes"`
-	CommentID string `json:"CommentId"`
 }
 
 type UpdateUser struct {
