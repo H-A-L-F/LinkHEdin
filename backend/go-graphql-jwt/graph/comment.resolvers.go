@@ -59,7 +59,7 @@ func (r *mutationResolver) CreateComment(ctx context.Context, input model.NewCom
 func (r *mutationResolver) RepliesComment(ctx context.Context, input model.NewRepliesComment) (string, error) {
 	model := &model.ReplyComment{
 		ID:        uuid.NewString(),
-		CommentID: input.CommendID,
+		CommentID: input.CommentID,
 		Text:      input.Text,
 		UserID:    input.UserID,
 	}

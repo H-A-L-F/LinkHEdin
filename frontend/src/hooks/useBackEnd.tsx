@@ -18,7 +18,7 @@ import { addDoc, collection, doc, query, Timestamp, where } from 'firebase/fires
 import { db } from "../config/firebase";
 import { genUserMessageCol, usersCol } from "../query/FirestoreCollection";
 import { ChatInterface } from "../components/Message/room";
-import { CREATE_COMMENT_MUTATION, LIKE_COMMENT_QUERY } from "../query/comment";
+import { CREATE_COMMENT_MUTATION, LIKE_COMMENT_QUERY, REPLY_COMMENT_QUERY } from "../query/comment";
 
 const backEndContext = createContext({} as any)
 
@@ -53,6 +53,7 @@ function useProvideBackEnd() {
     const [commentPostFunc] = useMutation(CREATE_COMMENT_MUTATION)
     const [commentLikeFunc] = useMutation(LIKE_COMMENT_QUERY)
     const [postLikeFunc] = useMutation(LIKE_POST_QUERY)
+    const [commentReplyFunc] = useMutation(REPLY_COMMENT_QUERY)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -548,6 +549,27 @@ function useProvideBackEnd() {
         return true
     }
 
+    async function commentReply(cid: string, uid: string, text: string) {
+        try {
+            const input = {
+                CommentId: cid,
+                Text: text,
+                UserId: uid,
+            }
+            console.log(input)
+            const resRep = await commentReplyFunc({
+                variables: {
+                    input: input
+                }
+            })
+            successHandle("Comment replied")
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+        return true
+    }
+
     return {
         login,
         register,
@@ -573,6 +595,7 @@ function useProvideBackEnd() {
         sendMessage,
         commentPost,
         commentLike,
-        postLike
+        postLike,
+        commentReply
     }
 }

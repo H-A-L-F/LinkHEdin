@@ -1355,7 +1355,7 @@ input newComment {
 }
 
 input newRepliesComment {
-  CommendId: String!
+  CommentId: String!
   Text: String!
   UserId: String!
 }
@@ -10889,18 +10889,18 @@ func (ec *executionContext) unmarshalInputnewRepliesComment(ctx context.Context,
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"CommendId", "Text", "UserId"}
+	fieldsInOrder := [...]string{"CommentId", "Text", "UserId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "CommendId":
+		case "CommentId":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CommendId"))
-			it.CommendID, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CommentId"))
+			it.CommentID, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}

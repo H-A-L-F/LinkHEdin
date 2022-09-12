@@ -87,7 +87,7 @@ type NewExperience struct {
 }
 
 type NewRepliesComment struct {
-	CommendID string `json:"CommendId"`
+	CommentID string `json:"CommentId"`
 	Text      string `json:"Text"`
 	UserID    string `json:"UserId"`
 }

@@ -22,7 +22,7 @@ input newComment {
 }
 
 input newRepliesComment {
-  CommendId: String!
+  CommentId: String!
   Text: String!
   UserId: String!
 }
