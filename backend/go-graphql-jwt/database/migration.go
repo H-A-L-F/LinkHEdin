@@ -17,6 +17,7 @@ func MigrateTable() {
 	db.AutoMigrate(&model.Post{})
 	db.AutoMigrate(&model.PostLike{})
 	db.AutoMigrate(&model.Comment{})
+	db.AutoMigrate(&model.ReplyComment{})
 	db.AutoMigrate(&model.CommentLike{})
 	db.AutoMigrate(&model.CommentLikeReply{})
 }

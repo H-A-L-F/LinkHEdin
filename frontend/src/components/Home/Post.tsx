@@ -3,7 +3,7 @@ import { HiPlus, HiThumbUp, HiChatAlt, HiShare, HiPaperAirplane } from "react-ic
 import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import Comment from './Comment';
-import PostComment from './PostComment';
+import PostCommentFeed from './PostCommentFeed';
 import { PostInterface } from './PostInterface';
 
 interface PostCompInterface {
@@ -12,6 +12,7 @@ interface PostCompInterface {
 
 function Post({ ps }: PostCompInterface) {
     const [openComment, setOpenComment] = useState(false)
+    const [openCommentSection, setopenCommentSection] = useState(false)
 
     return (
         <React.Fragment>
@@ -52,7 +53,7 @@ function Post({ ps }: PostCompInterface) {
                     <div className='flex flex-row justify-between'>
                         <div></div>
                         <div className='flex flex-row'>
-                            <div className='text-sm font-normal link'>{ps.comments} comments</div>
+                            <div className='text-sm font-normal link' onClick={() => { setopenCommentSection((prev) => !prev) }}>{ps.comments} comments</div>
                             <div className='w-2'></div>
                             <div className='text-sm font-normal'>{ps.sends} shares</div>
                         </div>
@@ -100,7 +101,7 @@ function Post({ ps }: PostCompInterface) {
                             </div>
                         </div>
                     </div>
-                    <PostComment />
+                    {openCommentSection && <PostCommentFeed ps={ps} />}
                 </div>
             </div>
             <div className='h-2'></div>

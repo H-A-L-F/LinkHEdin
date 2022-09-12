@@ -52,7 +52,7 @@ export default function Home() {
   }
 
   if (data) {
-    console.log(data.postInfinity)
+    // console.log(data.postInfinity)
   }
 
   return (

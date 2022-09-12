@@ -1,11 +1,12 @@
 import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import { PostCommentInterface } from './postComment'
 
 interface PostCommentCardInterface {
-
+    pc: PostCommentInterface
 }
 
-function PostCommentCard({ }: PostCommentCardInterface) {
+function PostCommentCard({ pc }: PostCommentCardInterface) {
     const { user } = useAuth()
     return (
         <div className='flex flex-row'>
@@ -15,10 +16,10 @@ function PostCommentCard({ }: PostCommentCardInterface) {
             <div className='w-2'></div>
             <div className='box bg-base-100 w-full'>
                 <div className='flex flex-col'>
-                    <div className='text-md font-bold'>{user.name}</div>
-                    <div className='text-sm font-medium'>{user.email}</div>
+                    <div className='text-md font-bold'>{pc.User.name}</div>
+                    <div className='text-sm font-medium'>{pc.User.email}</div>
                     <div className='h-2'></div>
-                    <div className='text-sm font-medium'>{"ASDAASDDSADAADSS"}</div>
+                    <div className='text-sm font-medium'>{pc.Text}</div>
                 </div>
             </div>
         </div>
