@@ -13,6 +13,11 @@ interface PostCompInterface {
 function Post({ ps }: PostCompInterface) {
     const [openComment, setOpenComment] = useState(false)
     const [openCommentSection, setopenCommentSection] = useState(false)
+    const { postLike } = useBackEnd()
+
+    function handleLike() {
+        postLike(ps.id)
+    }
 
     return (
         <React.Fragment>
@@ -60,7 +65,7 @@ function Post({ ps }: PostCompInterface) {
                     </div>
                     <div className='divider'></div>
                     <div className='flex flex-row justify-around'>
-                        <div className='btn-plain w-fit h-fit py-2'>
+                        <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>
                                 <HiThumbUp size={20} />

@@ -10,7 +10,7 @@ import { CREATE_EDUCATION_MUTATION, DELETE_EDUCATION_MUTATION, UPDATE_EDUCATION_
 import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIENCE_MUTATION } from "../query/experience";
 import { CREATE_JOB_MUTATION } from "../query/job";
 import { DELETE_NOTIFICATION_MUTATION } from "../query/notification";
-import { CREATE_POST_QUERY } from "../query/post";
+import { CREATE_POST_QUERY, LIKE_POST_QUERY } from "../query/post";
 import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
@@ -52,6 +52,7 @@ function useProvideBackEnd() {
     const [createPostFunc] = useMutation(CREATE_POST_QUERY);
     const [commentPostFunc] = useMutation(CREATE_COMMENT_MUTATION)
     const [commentLikeFunc] = useMutation(LIKE_COMMENT_QUERY)
+    const [postLikeFunc] = useMutation(LIKE_POST_QUERY)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -537,6 +538,17 @@ function useProvideBackEnd() {
         return true
     }
 
+    async function postLike(pid: string) {
+        try {
+            const resLike = await postLikeFunc({ variables: { id: pid } })
+            // successHandle("Post liked")
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+        return true
+    }
+
     return {
         login,
         register,
@@ -561,6 +573,7 @@ function useProvideBackEnd() {
         createPost,
         sendMessage,
         commentPost,
-        commentLike
+        commentLike,
+        postLike
     }
 }
