@@ -508,6 +508,7 @@ function useProvideBackEnd() {
     }
 
     async function commentPost(uid: string, pid: string, text: string) {
+        console.log("masuk")
         try {
             const resCr = await commentPostFunc({
                 variables: {
@@ -516,6 +517,7 @@ function useProvideBackEnd() {
                     postId: pid
                 }
             })
+            successHandle("Comment sent")
         } catch (err: any) {
             errHandle(err)
             return false
@@ -546,6 +548,6 @@ function useProvideBackEnd() {
         deleteNotification,
         createPost,
         sendMessage,
-        commentPost,
+        commentPost
     }
 }

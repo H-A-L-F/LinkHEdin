@@ -16,11 +16,13 @@ export default function Comment({ ps }: CommentInterface) {
         if (event.key === 'Enter') handleComment()
     }
 
-    function handleComment() {
+    async function handleComment() {
         const text = cmtRef.current?.value
-        commentPost(user.id, ps.id, text)
-        (document.getElementById('cmt-input') as HTMLInputElement).value = null
+        await commentPost(user.id, ps.id, text);
+        (document.getElementById('cmt-input') as HTMLInputElement).value = ""
     }
+
+    console.log(commentPost)
 
     return (
         <div className='box py-4'>
