@@ -78,8 +78,7 @@ function useProvideBackEnd() {
 
         loginFunc.catch((err) => {
             setLoading(false)
-            console.log(err)
-            toastError(err)
+            toastError(err.message)
         })
     }
 
