@@ -38,7 +38,7 @@ export default function ResetPassword() {
     }
 
     useEffect(() => {
-        console.log("Panggil", authorized)
+        console.log("Panggil", authorized, id)
     }, [authorized])
 
     if (!authorized) return <ResetPassCode setAuthorized={setAuthorized} />
