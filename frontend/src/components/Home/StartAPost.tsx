@@ -9,7 +9,7 @@ import StartAPostInput from './StartAPostInput';
 export default function StartAPost() {
     const { user } = useAuth()
     const [openModal, setOpenModal] = useState(false)
-    const [value, setValue] = useState<any>("");
+    const [value, setValue] = useState("");
     const [show, setShow] = useState(false)
     const [image, setImage]: any = useState()
     const [video, setVideo]: any = useState()
