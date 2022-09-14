@@ -3,6 +3,7 @@ import { HiPhotograph, HiPlay, HiVideoCamera, HiX } from "react-icons/hi";
 import { toastError } from '../../config/toast';
 import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
+import { findHashtags } from '../../lib/function';
 import Popup from '../Modal/Popup';
 import StartAPostInput from './StartAPostInput';
 
@@ -13,11 +14,13 @@ export default function StartAPost() {
     const [show, setShow] = useState(false)
     const [image, setImage]: any = useState()
     const [video, setVideo]: any = useState()
+    const { createPost } = useBackEnd()
 
     const imgRef = createRef<HTMLInputElement>();
     const vidRef = createRef<HTMLInputElement>();
 
-    const { createPost } = useBackEnd()
+    let hashtag = findHashtags(value)
+    hashtag = [...new Set(hashtag)]
 
     function handleClose() {
         setOpenModal(false)
@@ -83,7 +86,7 @@ export default function StartAPost() {
                 img = imgRef?.current?.files[0];
             }
 
-            createPost(img, user.id, value, "image", "")
+            createPost(img, user.id, value, "image", hashtag)
             return
         } else if (video !== undefined) {
             let vid = null;
@@ -91,12 +94,12 @@ export default function StartAPost() {
                 vid = vidRef?.current?.files[0];
             }
 
-            createPost(vid, user.id, value, "video", "")
+            createPost(vid, user.id, value, "video", hashtag)
             return
         }
 
 
-        createPost("", user.id, value, "", "")
+        createPost("", user.id, value, "", hashtag)
     }
 
     function handleSubmit(e: any) {

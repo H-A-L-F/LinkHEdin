@@ -10,43 +10,6 @@ export function findHashtags(searchText: string) {
     }
 }
 
-export function removeDuplicates(arr: any) {
-    return arr.filter((item: any,
-        index: any) => arr.indexOf(item) === index);
-}
-
-export function removeDuplicatesObjectId(arr: any) {
-    const temp = []
-    for (let i = 0; i < arr.length; i++) {
-        let isSame = false;
-        const obj = arr[i];
-        for (let j = 0; j < temp.length; j++) {
-            const secObj = temp[j]
-            if (obj.id === secObj.id) {
-                isSame = true;
-            }
-        }
-        if (!isSame) temp.push(obj)
-    }
-    return temp;
-}
-
-export function removeDuplicatesObjectID(arr: any) {
-    const temp = []
-    for (let i = 0; i < arr.length; i++) {
-        let isSame = false;
-        const obj = arr[i];
-        for (let j = 0; j < temp.length; j++) {
-            const secObj = temp[j]
-            if (obj.ID === secObj.ID) {
-                isSame = true;
-            }
-        }
-        if (!isSame) temp.push(obj)
-    }
-    return temp;
-}
-
 export function findAtTags(searchText: string) {
     var regexp = /\B\@\w\w+\b/g
     const result = searchText.match(regexp);
@@ -72,10 +35,6 @@ export function sortAtMention(str: string) {
 
 export function replaceAt(str: any, index: any, length: any, replacement: any) {
     return str.substring(0, index) + replacement + str.substring(index + length);
-}
-
-export function addString(str: string, idx: number, add: string) {
-    return str.slice(0, idx) + add + str.slice(idx);
 }
 
 export function appendDivString(str: string, idx: number, end: number, div: string, lastDiv: string) {
@@ -138,27 +97,11 @@ export function RichTextPost(str: string, idx: any) {
                     break;
                 }
             }
-
         }
-
-        //    if(idxHttp === -1 || str.charAt(idxHttp - 1) === '>') break;
-        //   let end :number = 0;
-        //   let text = ""
-        //   for(let i = idxHttp;i < str.length;i++){
-        //     const char = str.charAt(i);
-        //     text += char;
-        //     if(char === ' ' || i === str.length - 1)
-        //     {
-        //       end = i;
-        //       break;
-        //     }
-        //   }
-
     }
 
     return str;
 }
-
 
 export function filteringAtMention(str: string) {
     for (var i = 0; i < str.length; i++) {
