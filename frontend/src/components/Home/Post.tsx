@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { HiPlus, HiThumbUp, HiChatAlt, HiShare, HiPaperAirplane } from "react-icons/hi";
-import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import Comment from './Comment';
 import PostCommentFeed from './PostCommentFeed';
 import { PostInterface } from './PostInterface';
+import RichComment from './RichComment';
 
 interface PostCompInterface {
     ps: PostInterface,
@@ -115,7 +115,8 @@ function Post({ ps }: PostCompInterface) {
                 </div>
             </div>
             <div className='h-2'></div>
-            {openComment && <Comment ps={ps}/>}
+            {/* {openComment && <Comment ps={ps}/>} */}
+            {openComment && <RichComment ps={ps}/>}
         </React.Fragment>
     )
 }

@@ -1,18 +1,14 @@
-export default {
-  overflowWrap: "break-word",
-  wordWrap: "break-word",
-  border: "none",
-  outline: "none",
-  padding: 0,
-  width: "calc(100 % - 1rem)",
-  height: "calc(100 % - 1rem)",
-  resize: "none",
-  suggestions: {
-      list: {
-          fontSize: 14,
-      },
-      item: {
-          padding: "5px 15px",
-      },
-  }
+import { CSSProperties } from "react";
+
+export const RichInputStyle: CSSProperties = {
+    backgroundColor: "transparent",
+    // margin: 2,
+    margin: 0,
+    borderRadius: "0.5rem",
+    padding: 0,
+    border: "none",
+    outline: "none",
+    resize: "none",
+    width: "100%",
+    height: "100%",
 };

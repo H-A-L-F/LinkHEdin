@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Mention, MentionsInput } from 'react-mentions';
 import { GET_HASHTAG_QUERY } from '../../query/hashtag';
 import { GET_USER_QUERY } from '../../query/user';
-import mentionInputStyle from './mentionInputStyle';
-import mentionStyle from './mentionStyle';
+import { RichInputStyle } from './mentionInputStyle';
+import { defaultMentionStyle } from './mentionStyle';
 
 interface RichInputInterface {
     value: string,
@@ -40,7 +40,7 @@ export default function RichInput({value, setValue}: RichInputInterface) {
 
     return (
         <MentionsInput
-            style={mentionInputStyle}
+            style={RichInputStyle}
             className="mention-input"
             value={value}
             onChange={(e: any) => {
@@ -49,12 +49,12 @@ export default function RichInput({value, setValue}: RichInputInterface) {
         >
             <Mention
                 trigger="@"
-                style={mentionStyle}
+                style={defaultMentionStyle}
                 data={users}
             />
             <Mention
                 trigger="#"
-                style={mentionStyle}
+                style={defaultMentionStyle}
                 data={hashtag}
             />
         </MentionsInput>
