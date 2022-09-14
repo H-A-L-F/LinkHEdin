@@ -31,6 +31,7 @@ export default function Comment({ ps }: CommentInterface) {
         // await commentPost(user.id, ps.id, text);
         await commentPost(user.id, ps.id, value);
         (document.getElementById('cmt-input') as HTMLInputElement).value = ""
+        setValue("")
     }
 
     console.log(commentPost)
