@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Mention, MentionsInput } from 'react-mentions';
 import { GET_HASHTAG_QUERY } from '../../query/hashtag';
 import { GET_USER_QUERY } from '../../query/user';
-import mentionInputStyle from '../Home/mentionInputStyle';
-import mentionStyle from '../Home/mentionStyle';
+import mentionInputStyle from './mentionInputStyle';
+import mentionStyle from './mentionStyle';
 
 interface RichInputInterface {
     value: string,
