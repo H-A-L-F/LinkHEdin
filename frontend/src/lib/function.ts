@@ -64,10 +64,6 @@ function regexGetId(input: string) {
 
 export function RichTextPost(str: string, idx: any, raw: string) {
     for (let i = 0; i < str.length; i++) {
-        if (i >= 500) {
-            toastError("There are error in loading data!")
-            return "";
-        }
         if (str.charAt(i) === '@') {
             let text = ""
             for (let j = i; j < str.length; j++) {
@@ -97,6 +93,7 @@ export function RichTextPost(str: string, idx: any, raw: string) {
                     const lenDiv = div.length + 1;
                     str = appendDivString(str, i, j + 2, div, endDiv)
                     i += lenDiv;
+                    console.log("<a>::::", str)
                     break;
                 }
             }
