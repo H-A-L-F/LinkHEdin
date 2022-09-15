@@ -5,6 +5,7 @@ import Comment from './Comment';
 import PostCommentFeed from './PostCommentFeed';
 import { PostInterface } from './PostInterface';
 import RichComment from './RichComment';
+import RichText from './RichText';
 
 interface PostCompInterface {
     ps: PostInterface,
@@ -51,7 +52,8 @@ function Post({ ps }: PostCompInterface) {
                         </div>
                     </div>
                     <div className='divider'></div>
-                    <div className='text-sm font-normal'>{ps.text}</div>
+                    {/* <div className='text-sm font-normal'>{ps.text}</div> */}
+                    <RichText text={ps.text} />
                     <div className='h-2'></div>
                     {ps.AttachmentType === "image" &&
                         <img src={ps.AttachmentLink} className='w-full h-96 rounded-md' />
@@ -72,7 +74,7 @@ function Post({ ps }: PostCompInterface) {
                         <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>
-                                <HiThumbUp size={20} className=''/>
+                                <HiThumbUp size={20} className='' />
                                 <div className='w-2'></div>
                                 <div className='font-semibold'>
                                     Like
@@ -116,7 +118,7 @@ function Post({ ps }: PostCompInterface) {
             </div>
             <div className='h-2'></div>
             {/* {openComment && <Comment ps={ps}/>} */}
-            {openComment && <RichComment ps={ps}/>}
+            {openComment && <RichComment ps={ps} />}
         </React.Fragment>
     )
 }
