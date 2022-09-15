@@ -4,6 +4,7 @@ import { toastError } from '../../config/toast';
 import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import { findHashtags } from '../../lib/function';
+import RichInput from '../Input/RichInput';
 import Popup from '../Modal/Popup';
 import StartAPostInput from './StartAPostInput';
 
@@ -11,7 +12,6 @@ export default function StartAPost() {
     const { user } = useAuth()
     const [openModal, setOpenModal] = useState(false)
     const [value, setValue] = useState("");
-    const [show, setShow] = useState(false)
     const [image, setImage]: any = useState()
     const [video, setVideo]: any = useState()
     const { createPost } = useBackEnd()
@@ -162,7 +162,10 @@ export default function StartAPost() {
                                 <div className='text-md font-semibold'>{user.name}</div>
                             </div>
                             <div className='h-4'></div>
-                            <StartAPostInput value={value} setValue={setValue} setShow={setShow} />
+                            {/* <StartAPostInput value={value} setValue={setValue} setShow={setShow} /> */}
+                            <div className="h-32 text-base-content">
+                                <RichInput value={value} setValue={setValue} />
+                            </div>
                             <div className='h-4'></div>
                             {image &&
                                 <div className='preview'>
