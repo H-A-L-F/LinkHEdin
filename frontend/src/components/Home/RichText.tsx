@@ -5,17 +5,14 @@ interface RichTextInterface {
     text: string
 }
 
-export default function RichText({text}: RichTextInterface) {
-    let a: string = ""
-
+export default function RichText({ text }: RichTextInterface) {
     function genRichText() {
-        let res = filteringAtMention(a)
+        let res = filteringAtMention(text)
         return RichTextPost(res, 99)
     }
 
     return (
-        <div className=''>
-            {genRichText()}
+        <div dangerouslySetInnerHTML={{ __html: genRichText() }}>
         </div>
     )
 }

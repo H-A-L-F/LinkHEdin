@@ -3,6 +3,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
 import { PostCommentInterface } from './postComment'
 import Reply from './Reply'
+import RichText from './RichText'
 
 interface PostCommentCardInterface {
     pc: PostCommentInterface
@@ -30,7 +31,9 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                             <div className='text-md font-bold'>{pc.User.name}</div>
                             <div className='text-sm font-medium'>{pc.User.email}</div>
                             <div className='h-2'></div>
-                            <div className='text-sm font-medium'>{pc.Text}</div>
+                            <div className='text-sm font-medium'>
+                                <RichText text={pc.Text} />
+                            </div>
                         </div>
                     </div>
                     <div className='h-2'></div>
