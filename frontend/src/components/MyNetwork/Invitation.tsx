@@ -5,8 +5,6 @@ import Request from './Request'
 export default function Invitation() {
     const { user } = useAuth()
 
-    console.log(user)
-
     const len = user.RequestConnect.length
     return (
         <div className="box w-full h-full">

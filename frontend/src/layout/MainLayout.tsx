@@ -14,8 +14,6 @@ export default function MainLayout() {
         return <Navigate to={"/guest/login"} state={{ from: location }} replace />
     }
 
-    console.log(location.pathname)
-
     return (
         <React.Fragment>
             <Navbar />

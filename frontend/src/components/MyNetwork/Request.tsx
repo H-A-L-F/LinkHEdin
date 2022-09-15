@@ -32,8 +32,6 @@ export default function Request({ id }: RequestInterface) {
 
     const currUser = data.user
 
-    console.log(id)
-
     return (
         <div className="flex flex-row justify-between">
             <div className="flex flex-row">

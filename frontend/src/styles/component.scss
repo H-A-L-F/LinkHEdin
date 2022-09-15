@@ -778,6 +778,7 @@
             left: -4px;
             top: 0;
             transform: scaleY(1);
+            transition: transform 0.1s ease-out;
         }
     }
 }

@@ -10,26 +10,26 @@ interface NotificationCardInterface {
 }
 
 export default function NotificationCard({ data, refetch }: NotificationCardInterface) {
-    const {deleteNotification} = useBackEnd()
+    const { deleteNotification } = useBackEnd()
 
     function handleDelete(id: string) {
         deleteNotification(id)
         refetch()
     }
 
-    
+
 
     const len: number = data.length
 
-    if(len === 0) {
+    if (len === 0) {
         return <div className='text-lg font-semibold py-4'>There are no notifications</div>
     }
-    
+
     return (
         <div className='content'>
             {data.map((e, idx) => {
                 return (
-                    <React.Fragment>
+                    <React.Fragment key={'req-' + idx}>
                         <div className='flex flex-row justify-between center-all'>
                             <div className='flex flex-row'>
                                 <div className='inv-avatar'>
@@ -41,7 +41,7 @@ export default function NotificationCard({ data, refetch }: NotificationCardInte
                                     <div className='text-sm font-normal'>{e.text}</div>
                                 </div>
                             </div>
-                            <div className='btn-plain w-fit h-fit py-2 px-2' onClick={() => {handleDelete(e.id)}}>
+                            <div className='btn-plain w-fit h-fit py-2 px-2' onClick={() => { handleDelete(e.id) }}>
                                 <div className='bg'></div>
                                 <HiTrash size={24} />
                             </div>

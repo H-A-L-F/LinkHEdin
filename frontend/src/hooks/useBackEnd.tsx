@@ -596,6 +596,7 @@ function useProvideBackEnd() {
         commentPost,
         commentLike,
         postLike,
-        commentReply
+        commentReply,
+        refetchUser
     }
 }
