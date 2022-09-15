@@ -44,7 +44,25 @@ export function appendDivString(str: string, idx: number, end: number, div: stri
     return str;
 }
 
-export function RichTextPost(str: string, idx: any) {
+function regexGetId(input: string) {
+    console.log("input: " + input)
+    let regex = /@\[[^\]]*\]\(\d\)/i;
+    let regex2 = /\([0-9]+\)/i;
+    let res1 = input.match(regex)
+    if (res1 !== null) {
+        let res2 = res1[0].match(regex2)
+        let str = res2?.toString()
+        if (str !== undefined) {
+            let final = str.substring(1, str.length - 1)
+            console.log(final)
+            return final
+        }
+    }
+    toastError("fail to get ID")
+    return false
+}
+
+export function RichTextPost(str: string, idx: any, raw: string) {
     for (let i = 0; i < str.length; i++) {
         if (i >= 500) {
             toastError("There are error in loading data!")
@@ -57,10 +75,12 @@ export function RichTextPost(str: string, idx: any) {
                     text += str.charAt(j)
                 text = text.trim()
                 if (str.charAt(j) == ' ' || j == str.length - 1) {
-                    const div = `<a href="/profile/${text}" value="${text}" id="rich-tag${"-" + idx}" class='richat ri-class-${idx}'>`
+                    const id = regexGetId(raw)
+                    const div = `<a href="/profile/${id}" value="${text}" id="rich-tag${"-" + idx}" class='richat ri-class-${idx}'>`
                     const endDiv = '</a>'
                     const lenDiv = div.length + 1;
-                    str = appendDivString(str, i, j + 1, div, endDiv)
+                    str = appendDivString(str, i, j + 2, div, endDiv)
+                    // str = div + "@" + text + endDiv
                     i += lenDiv;
                     break;
                 }
@@ -75,7 +95,7 @@ export function RichTextPost(str: string, idx: any) {
                     const div = `<a href='/search/${text}' class='richhashtag'>`
                     const endDiv = '</a>'
                     const lenDiv = div.length + 1;
-                    str = appendDivString(str, i, j + 1, div, endDiv)
+                    str = appendDivString(str, i, j + 2, div, endDiv)
                     i += lenDiv;
                     break;
                 }
@@ -92,7 +112,7 @@ export function RichTextPost(str: string, idx: any) {
                     const div = `<a href=${text}>`
                     const endDiv = `</a>`
                     const lenDiv = div.length + 1;
-                    str = appendDivString(str, i, j + 1, div, endDiv);
+                    str = appendDivString(str, i, j + 2, div, endDiv);
                     i += lenDiv;
                     break;
                 }
@@ -103,7 +123,8 @@ export function RichTextPost(str: string, idx: any) {
     return str;
 }
 
-export function filteringAtMention(str: string) {
+export function filteringAtMention(str: string): string[] {
+    let raw = str
     for (var i = 0; i < str.length; i++) {
         if (str.charAt(i) === '@') {
             let j = i;
@@ -121,5 +142,5 @@ export function filteringAtMention(str: string) {
             str = replaceAt(str, obj.index, obj.end - obj.index, newStr)
         }
     }
-    return str;
+    return [str, raw];
 }

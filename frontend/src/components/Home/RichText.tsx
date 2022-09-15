@@ -8,7 +8,8 @@ interface RichTextInterface {
 export default function RichText({ text }: RichTextInterface) {
     function genRichText() {
         let res = filteringAtMention(text)
-        return RichTextPost(res, 99)
+        console.log(RichTextPost(res[0], 99, res[1]))
+        return RichTextPost(res[0], 99, res[1])
     }
 
     return (
