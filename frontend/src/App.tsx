@@ -25,6 +25,7 @@ import Jobs from "./pages/Jobs";
 import Notification from "./pages/Notification";
 import { offsetLimitPagination, Reference } from "@apollo/client/utilities";
 import Message from "./pages/Message";
+import Search from "./pages/Search";
 
 export function App() {
   const { user, theme } = useAuth()
@@ -75,6 +76,9 @@ export function App() {
                 <Route path="notifications" element={<Notification />} />
                 <Route path="profile/:id" element={<ProvideUserProfile />} />
                 <Route path="messages" element={<Message />} />
+                <Route path="search/:input" element={<Search />} />
+                <Route path="search/people/:input" element={<Search />} />
+                <Route path="search/hashtags/:input" element={<Search />} />
               </Route>
 
               <Route path="guest" element={<GuestLayout />}>

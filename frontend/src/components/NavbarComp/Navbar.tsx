@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { HiSearch, HiHome, HiUserGroup, HiBriefcase, HiChatAlt, HiBell } from "react-icons/hi";
 import NavbarLink from './NavbarLink';
 import linkedinlogo from '../../assets/LinkedInIcon.png'
@@ -8,12 +8,25 @@ import '../../styles/index.scss'
 import './navbar.scss'
 import ThemeToggle from '../ThemeSwitch/ThemeToggle';
 import { useBackEnd } from '../../hooks/useBackEnd';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
     const { refetchUser } = useBackEnd()
+    const navigate = useNavigate()
+    const searchRef = createRef<HTMLInputElement>()
 
     function handleNetwork() {
         refetchUser()
+    }
+
+    function handleEnter(event: any) {
+        if (event.key === 'Enter') handleSearch()
+    }
+
+    function handleSearch() {
+        if (searchRef.current === null) return
+        const input = searchRef.current.value
+        navigate("/search/" + input)
     }
 
     return (
@@ -23,7 +36,7 @@ export default function Navbar() {
 
                 <div className="header__search">
                     <HiSearch />
-                    <input className='text-base-content' placeholder="Search" type="text" />
+                    <input className='text-base-content' placeholder="Search" type="text" ref={searchRef} onKeyDown={handleEnter} />
                 </div>
                 <div className='w-6'></div>
                 <ThemeToggle />

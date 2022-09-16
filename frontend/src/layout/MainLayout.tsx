@@ -32,7 +32,8 @@ export default function MainLayout() {
                         location.pathname === "/jobs" && <Right /> ||
                         location.pathname === "/messages" && <Right /> ||
                         location.pathname === "/notifications" && <Right /> ||
-                        location.pathname.startsWith("/profile") && <Right />
+                        location.pathname.startsWith("/profile") && <Right /> ||
+                        location.pathname.startsWith("/search") && <Right />
                     }
                 </div>
                 <div className='h-8'></div>
