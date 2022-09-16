@@ -37,6 +37,11 @@ type NewUser struct {
 	Email    string `json:"email"`
 }
 
+type Search struct {
+	Post []*Post `json:"post"`
+	User []*User `json:"user"`
+}
+
 type UpdateUser struct {
 	Name           string `json:"Name"`
 	Email          string `json:"Email"`
