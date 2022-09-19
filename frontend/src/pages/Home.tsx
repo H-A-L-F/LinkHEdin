@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { MemoizedPost } from '../components/Home/Post'
 import StartAPost from '../components/Home/StartAPost'
 import { useQuery } from '@apollo/client';
@@ -7,10 +7,11 @@ import { PostInterface } from '../components/Home/PostInterface';
 import { toastError } from '../config/toast';
 import InView from '../components/Home/InView';
 
+const homeContext = createContext({} as any);
 
 export default function Home() {
   const LIMIT = 4
-  const { loading, error, fetchMore, data } = useQuery(INFINITY_QUERY, {
+  const { loading, error, fetchMore, refetch, data } = useQuery(INFINITY_QUERY, {
     variables: { offset: 0, limit: LIMIT }
   });
   const [isLoading, setIsLoading] = useState(false)
@@ -32,7 +33,7 @@ export default function Home() {
       setIsLoading(false)
       console.log(resFet.data.postInfinity.length)
       currentLength += resFet.data.postInfinity.length
-      if(resFet.data.postInfinity.length === 0) {
+      if (resFet.data.postInfinity.length === 0) {
         console.log("habis")
         setHasMore(false)
       }
@@ -56,21 +57,23 @@ export default function Home() {
   }
 
   return (
-    <div className='flex flex-col w-full h-full'>
-      <StartAPost />
-      <div className='h-4'></div>
-      {data.postInfinity?.map((e: PostInterface, idx: number) => {
-        return (
-          <React.Fragment key={"post-" + idx} >
-            <MemoizedPost ps={e} />
-            {
-              idx < data.postInfinity.length - 1 && <div className='h-4'></div>
-            }
-          </React.Fragment>
-        )
-      })}
-      <div className='h-64'></div>
-      <InView callback={temp} isLoading={isLoading} hasMore={hasMore}/>
-    </div>
+    <homeContext.Provider value={{refetch}}>
+      <div className='flex flex-col w-full h-full'>
+        <StartAPost />
+        <div className='h-4'></div>
+        {data.postInfinity?.map((e: PostInterface, idx: number) => {
+          return (
+            <React.Fragment key={"post-" + idx} >
+              <MemoizedPost ps={e} />
+              {
+                idx < data.postInfinity.length - 1 && <div className='h-4'></div>
+              }
+            </React.Fragment>
+          )
+        })}
+        <div className='h-64'></div>
+        <InView callback={temp} isLoading={isLoading} hasMore={hasMore} />
+      </div>
+    </homeContext.Provider>
   )
 }

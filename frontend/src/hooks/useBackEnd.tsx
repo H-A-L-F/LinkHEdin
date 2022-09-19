@@ -481,6 +481,7 @@ function useProvideBackEnd() {
                         hashtag: hashtag,
                     }
                 })
+                refetchUser()
                 successHandle("Post created!")
                 return true
             } catch (err: any) {
