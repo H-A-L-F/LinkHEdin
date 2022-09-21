@@ -78,7 +78,7 @@ func (r *queryResolver) PostInfinity(ctx context.Context, limit int, offset int)
 
 	var models []*model.Post
 
-	err = r.DB.Raw("select p.hashtag, p.id, p.text, p.user_id, p.attachment_link, p.attachment_type, p.likes, p.sends, p.comments, p.created_at from posts p inner join users u on p.user_id = cast(u.id as text) where p.user_id = any (select unnest(followed_user)  from users where users.id = ? union select unnest(connected_user)  from users where users.id = ? union select cast(? as text)) ORDER BY p.created_at DESC LIMIT ? OFFSET ?", val.ID, val.ID, val.ID, limit, offset).Scan(&models).Error
+	err = r.DB.Raw("select p.hashtag, p.id, p.text, p.user_id, p.attachment_link, p.likes, p.sends, p.comments, p.created_at from posts p inner join users u on p.user_id = cast(u.id as text) where p.user_id = any (select unnest(followed_user)  from users where users.id = ? union select unnest(connected_user)  from users where users.id = ? union select cast(? as text)) ORDER BY p.created_at DESC LIMIT ? OFFSET ?", val.ID, val.ID, val.ID, limit, offset).Scan(&models).Error
 
 	if err != nil {
 		return nil, err
