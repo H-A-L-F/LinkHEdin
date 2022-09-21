@@ -1,12 +1,18 @@
+import { collection, getDoc, getDocs, query, where } from 'firebase/firestore'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { db } from '../../config/firebase'
+import { toastError } from '../../config/toast'
 import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
 import { useUserProfile } from '../../pages/Profile'
+import { TidyRoomInterface } from '../Message/room'
 
 export default function PersonalProfile() {
     const { id, currUser, isUser, refetchCurrUser } = useUserProfile()
     const { followUser, connectRequest, cancelConnect } = useBackEnd()
     const { user } = useAuth()
+    const navigate = useNavigate()
 
     function handleFollow() {
         followUser(id)
@@ -22,11 +28,46 @@ export default function PersonalProfile() {
         refetchCurrUser()
     }
 
+    function redirect(room: any) {
+        const temp = room.docs[0]
+        console.log({ id: room.docs[0].id, ...room.docs[0].data() })
+        const data: TidyRoomInterface = {
+            ref: temp.id,
+            fromId: user.id,
+            toId: id,
+            fromName: user.name,
+            toName: currUser.name
+        }
+        navigate('/messages/' + JSON.stringify(data))
+    }
+
+    async function handleSendMessage() {
+        let room: any
+        try {
+            const q = query(collection(db, "user_chat_room"), where("userIds", "==", [id, user.id]))
+            room = await getDocs(q)
+            if (room.docs.length !== 0) {
+                redirect(room)
+                return
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            const q = query(collection(db, "user_chat_room"), where("userIds", "==", [user.id, id]))
+            room = await getDocs(q)
+            if (room.docs.length !== 0) {
+                redirect(room)
+                return
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     function handleBlock() {
 
     }
-
-    console.log(user, id, user.ConnectedUser.includes(id), user.ConnectedUser.includes(id) !== true)
 
     return (
         <React.Fragment>
@@ -73,11 +114,17 @@ export default function PersonalProfile() {
                                             <div className='center-all py-2'>
                                                 Connect
                                             </div>
-                                        </div>}
+                                        </div>
+                                    }
                                     <div className='w-4'></div>
                                 </React.Fragment>
                                 :
-                                <div></div>
+                                <div className='btn-primary mr-4' onClick={handleSendMessage}>
+                                    <div className='bg'></div>
+                                    <div className='center-all py-2'>
+                                        Send Message
+                                    </div>
+                                </div>
                         }
                         <div className='btn-primary' onClick={handleBlock}>
                             <div className='bg'></div>

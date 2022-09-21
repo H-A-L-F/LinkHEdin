@@ -17,7 +17,6 @@ export default function Message() {
     const [currRef, setCurrRef] = useState<TidyRoomInterface>({ ref: "", fromId: "", fromName: "", toId: "", toName: "" })
     const roomState = useSnapCollection(query(collection(db, "user_chat_room"), where("userIds", "array-contains", user.id)))
 
-    const value = useProvideValue()
     return (
         <messageContext.Provider value={{ currRef, setCurrRef }}>
             <div className='box w-full'>
@@ -58,15 +57,6 @@ export default function Message() {
 
 export function useMessageProvider() {
     return useContext(messageContext)
-}
-
-function useProvideValue() {
-    const [currRef, setCurrRef] = useState("")
-
-    return {
-        currRef,
-        setCurrRef
-    }
 }
 
 // export default function Message() {
