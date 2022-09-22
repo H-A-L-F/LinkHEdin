@@ -1,6 +1,11 @@
 scalar Upload
 scalar Byte
 
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
 input NewPost {
   text: String!
   user_id: String!
@@ -15,7 +20,7 @@ type Post {
   AttachmentLink: String!
   AttachmentType: String!
   User: User!
-  likes: Int!
+  likes: Int! @goField(forceResolver: true)
   sends: Int!
   comments: Int!
   createdAt: Time!

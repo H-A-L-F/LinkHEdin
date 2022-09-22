@@ -36,6 +36,22 @@ export const CHANGE_PASS_QUERY = gql`
   }
 `;
 
+export const USER_SUGGESTION_QUERY = gql`
+  query UserMightKnow {
+    userSuggestion {
+      id
+      name
+      email
+      PhotoProfile
+      FollowedUser
+      ConnectedUser
+      RequestConnect
+      RequestConnectTxt
+      Headline
+    }
+  }
+`;
+
 export const UPDATE_USER_QUERY = gql`
   mutation UpdateUser($id: ID!, $input: UpdateUser!) {
     updateUser(id: $id, input: $input) {

@@ -1,9 +1,13 @@
+import { useQuery } from '@apollo/client';
 import React, { useState } from 'react'
 import { HiPlus, HiThumbUp, HiChatAlt, HiShare, HiPaperAirplane } from "react-icons/hi";
+import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
+import { FIND_POST_QUERY } from '../../query/post';
 import Comment from './Comment';
 import PostCommentFeed from './PostCommentFeed';
 import { PostInterface } from './PostInterface';
+import PostProfile from './PostProfile';
 import RichComment from './RichComment';
 import RichText from './RichText';
 
@@ -15,13 +19,30 @@ function Post({ ps }: PostCompInterface) {
     const [openComment, setOpenComment] = useState(false)
     const [openCommentSection, setopenCommentSection] = useState(false)
     const { postLike, followUser } = useBackEnd()
+    const { refetchUser } = useBackEnd()
+    const { user } = useAuth()
+    const { data, refetch } = useQuery(FIND_POST_QUERY, {
+        variables: {
+            id: ps.id,
+        },
+    });
 
     function handleFollow() {
         followUser(ps.User.id)
+        refetchUser()
     }
 
-    function handleLike() {
-        postLike(ps.id)
+    async function handleLike() {
+        try {
+            const res = await postLike(ps.id)
+            if (res) {
+                refetch().then((resp) => {
+                    console.log(resp)
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -29,24 +50,14 @@ function Post({ ps }: PostCompInterface) {
             <div className='box'>
                 <div className='flex flex-col'>
                     <div className='flex flex-row justify-between center-all'>
-                        <div className='flex flex-row center-all'>
-                            <div className='sq-avatar'>
-                                <img src={ps.User.PhotoProfile} className='sq-avatar-image' />
-                            </div>
-                            <div className='w-2'></div>
-                            <div className='flex flex-col'>
-                                <div className='text-md font-semibold'>{ps.User.name}</div>
-                                <div className='text-sm font-normal'>{ps.User.email}</div>
-                                <div className='text-sm font-normal'>{ps.User.FollowedUser.length}</div>
-                            </div>
-                        </div>
+                        <PostProfile user={ps.User} />
                         <div className='btn-plain w-fit h-fit py-2' onClick={handleFollow}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>
                                 <HiPlus size={20} />
                                 <div className='w-2'></div>
                                 <div className='font-semibold'>
-                                    Follow
+                                    {user.FollowedUser.includes(ps.User.id) ? "Unfollow" : "Follow"}
                                 </div>
                             </div>
                         </div>
@@ -65,6 +76,8 @@ function Post({ ps }: PostCompInterface) {
                         <div></div>
                         <div className='flex flex-row'>
                             <div className='text-sm font-normal link' onClick={() => { setopenCommentSection((prev) => !prev) }}>{ps.comments} comments</div>
+                            <div className='w-2'></div>
+                            <div className='text-sm font-normal'>{ps.likes} likes</div>
                             <div className='w-2'></div>
                             <div className='text-sm font-normal'>{ps.sends} shares</div>
                         </div>

@@ -49,6 +49,14 @@ func (r *postResolver) User(ctx context.Context, obj *model.Post) (*model.User, 
 	return user, r.DB.First(&user, "id = ?", obj.UserID).Error
 }
 
+// Likes is the resolver for the likes field.
+func (r *postResolver) Likes(ctx context.Context, obj *model.Post) (int, error) {
+	var model *model.PostLike
+	var count int64
+	r.DB.Find(&model, "post_id = ? AND is_like = true", obj.ID).Count(&count)
+	return int(count), nil
+}
+
 // Hashtag is the resolver for the hashtag field.
 func (r *postResolver) Hashtag(ctx context.Context, obj *model.Post) ([]string, error) {
 	return obj.Hashtag, nil
@@ -97,16 +105,3 @@ func (r *queryResolver) GetAllHashtag(ctx context.Context) ([]string, error) {
 func (r *Resolver) Post() generated.PostResolver { return &postResolver{r} }
 
 type postResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *postResolver) Likes(ctx context.Context, obj *model.Post) (int, error) {
-	var model *model.PostLike
-	var count int64
-	r.DB.First(&model, "post_id = ? AND is_like = true", obj.ID).Count(&count)
-	return int(count), nil
-}

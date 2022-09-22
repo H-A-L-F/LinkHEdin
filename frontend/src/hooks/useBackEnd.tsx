@@ -542,7 +542,7 @@ function useProvideBackEnd() {
     async function postLike(pid: string) {
         try {
             const resLike = await postLikeFunc({ variables: { id: pid } })
-            // successHandle("Post liked")
+            successHandle("Post liked")
         } catch (err: any) {
             errHandle(err)
             return false

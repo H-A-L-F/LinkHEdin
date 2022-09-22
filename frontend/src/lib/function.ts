@@ -45,7 +45,6 @@ export function appendDivString(str: string, idx: number, end: number, div: stri
 }
 
 function regexGetId(input: string) {
-    console.log("input: " + input)
     let regex = /@\[[^\]]*\]\(\d\)/i;
     let regex2 = /\([0-9]+\)/i;
     let res1 = input.match(regex)
@@ -54,7 +53,6 @@ function regexGetId(input: string) {
         let str = res2?.toString()
         if (str !== undefined) {
             let final = str.substring(1, str.length - 1)
-            console.log(final)
             return final
         }
     }
@@ -93,7 +91,6 @@ export function RichTextPost(str: string, idx: any, raw: string) {
                     const lenDiv = div.length + 1;
                     str = appendDivString(str, i, j + 2, div, endDiv)
                     i += lenDiv;
-                    console.log("<a>::::", str)
                     break;
                 }
             }

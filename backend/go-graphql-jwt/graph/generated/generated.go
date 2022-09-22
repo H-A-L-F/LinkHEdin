@@ -246,6 +246,7 @@ type NotificationResolver interface {
 }
 type PostResolver interface {
 	User(ctx context.Context, obj *model.Post) (*model.User, error)
+	Likes(ctx context.Context, obj *model.Post) (int, error)
 
 	Hashtag(ctx context.Context, obj *model.Post) ([]string, error)
 }
@@ -1577,6 +1578,11 @@ extend type Query {
 	{Name: "../post.graphqls", Input: `scalar Upload
 scalar Byte
 
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
 input NewPost {
   text: String!
   user_id: String!
@@ -1591,7 +1597,7 @@ type Post {
   AttachmentLink: String!
   AttachmentType: String!
   User: User!
-  likes: Int!
+  likes: Int! @goField(forceResolver: true)
   sends: Int!
   comments: Int!
   createdAt: Time!
@@ -1612,8 +1618,7 @@ extend type Mutation {
 `, BuiltIn: false},
 	{Name: "../postLike.graphqls", Input: `extend type Mutation {
   likePost(id: String!): String!
-}
-`, BuiltIn: false},
+}`, BuiltIn: false},
 	{Name: "../search.graphqls", Input: `type Search {
   post: [Post!]!
   user: [User!]!
@@ -6471,7 +6476,7 @@ func (ec *executionContext) _Post_likes(ctx context.Context, field graphql.Colle
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Likes, nil
+		return ec.resolvers.Post().Likes(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6492,8 +6497,8 @@ func (ec *executionContext) fieldContext_Post_likes(ctx context.Context, field g
 	fc = &graphql.FieldContext{
 		Object:     "Post",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
 		},
@@ -12209,12 +12214,25 @@ func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj
 
 			})
 		case "likes":
+			field := field
 
-			out.Values[i] = ec._Post_likes(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Post_likes(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "sends":
 
 			out.Values[i] = ec._Post_sends(ctx, field, obj)

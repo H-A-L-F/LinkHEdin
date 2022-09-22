@@ -1,855 +1,911 @@
 @use "index" as i;
 
 .main {
-    @extend .bg-base-100;
-    min-height: 100vh;
-    min-width: 100vw;
-    overflow-x: hidden;
-    display: flex;
-    flex-flow: column;
+  @extend .bg-base-100;
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow-x: hidden;
+  display: flex;
+  flex-flow: column;
 }
 
 .btn {
-    @extend .w-full, .h-12, .rounded-sm, .center-all, .font-bold, .text-xl, .cursor-pointer;
+  @extend .w-full,
+    .h-12,
+    .rounded-sm,
+    .center-all,
+    .font-bold,
+    .text-xl,
+    .cursor-pointer;
 
-    &-primary {
-        @extend .border-4, .border-primary, .bg-primary, .text-primary-content;
+  &-primary {
+    @extend .border-4, .border-primary, .bg-primary, .text-primary-content;
 
-        &:hover,
-        &.btn-active {
-            @extend .border-primary-focus, .bg-primary-focus;
-        }
+    &:hover,
+    &.btn-active {
+      @extend .border-primary-focus, .bg-primary-focus;
     }
+  }
 
-    &-neutral {
-        @extend .border-4, .border-neutral, .bg-neutral, .text-neutral-content;
+  &-neutral {
+    @extend .border-4, .border-neutral, .bg-neutral, .text-neutral-content;
 
-        &:hover,
-        &.btn-active {
-            @extend .border-neutral-focus, .bg-neutral-focus;
-        }
+    &:hover,
+    &.btn-active {
+      @extend .border-neutral-focus, .bg-neutral-focus;
     }
+  }
 }
 
 .link {
-    @extend .text-info, .cursor-pointer;
+  @extend .text-info, .cursor-pointer;
 
-    &:hover {
-        @extend .underline;
-    }
+  &:hover {
+    @extend .underline;
+  }
 }
 
 .nav-item {
-    @extend .w-10, .h-10, .bg-base, .rounded-md, .center-all, .cursor-pointer, .text-base-content;
-    position: relative;
-    transition: all 0.4s ease;
+  @extend .w-10,
+    .h-10,
+    .bg-base,
+    .rounded-md,
+    .center-all,
+    .cursor-pointer,
+    .text-base-content;
+  position: relative;
+  transition: all 0.4s ease;
 
-    &:hover .bg {
-        @extend .bg-base-content, .rounded-md;
-        opacity: 0.2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
+  &:hover .bg {
+    @extend .bg-base-content, .rounded-md;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .bg {
+    @extend .bg-base-content, .rounded-md;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .content {
+    @extend .center-all;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    .icon {
+      @extend .center-all;
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      width: 60%;
+      height: 60%;
+    }
+  }
+
+  .hint {
+    @extend .w-24,
+      .h-6,
+      .center-all,
+      .bg-neutral-content,
+      .text-neutral,
+      .rounded-md;
+    position: absolute;
+    opacity: 0;
+    top: 100%;
+    transition: all 0.2s ease;
+  }
+
+  &:hover .hint {
+    @extend .w-24,
+      .h-6,
+      .center-all,
+      .bg-neutral-content,
+      .text-neutral,
+      .rounded-md;
+    position: absolute;
+    opacity: 1;
+    top: 120%;
+    transition: all 0.2s ease;
+  }
+
+  .avatar {
+    @extend .center-all;
+    z-index: 10;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+
+    .image {
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
     }
 
-    .bg {
-        @extend .bg-base-content, .rounded-md;
-        z-index: 1;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
+    .name {
+      @extend .center-all, .text-base-content;
+      z-index: 10;
+      font-size: 12px;
+      position: absolute;
+      top: 100%;
     }
+  }
 
-    .content {
-        @extend .center-all;
-        z-index: 10;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+  .dropdown {
+    // @extend .w-52, .h-12;
+    @extend .bg-base-300, .px-4, .py-2;
+    @extend .center-all, .text-base-content;
+    opacity: 0;
+    display: none;
+    z-index: 10;
+    position: absolute;
+    top: 180%;
+    right: 0;
+  }
 
-        .icon {
-            @extend .center-all;
-            position: absolute;
-            top: 20%;
-            left: 20%;
-            width: 60%;
-            height: 60%;
-        }
-    }
-
-    .hint {
-        @extend .w-24, .h-6, .center-all, .bg-neutral-content, .text-neutral, .rounded-md;
-        position: absolute;
-        opacity: 0;
-        top: 100%;
-        transition: all 0.2s ease;
-    }
-
-    &:hover .hint {
-        @extend .w-24, .h-6, .center-all, .bg-neutral-content, .text-neutral, .rounded-md;
-        position: absolute;
-        opacity: 1;
-        top: 120%;
-        transition: all 0.2s ease;
-    }
-
-    .avatar {
-        @extend .center-all;
-        z-index: 10;
-        position: absolute;
-        top: 10%;
-        left: 10%;
-        width: 80%;
-        height: 80%;
-
-        .image {
-            border-radius: 50%;
-            height: 100%;
-            width: 100%;
-        }
-
-        .name {
-            @extend .center-all, .text-base-content;
-            z-index: 10;
-            font-size: 12px;
-            position: absolute;
-            top: 100%;
-        }
-    }
-
-    .dropdown {
-        // @extend .w-52, .h-12;
-        @extend .bg-base-300, .px-4, .py-2;
-        @extend .center-all, .text-base-content;
-        opacity: 0;
-        display: none;
-        z-index: 10;
-        position: absolute;
-        top: 180%;
-        right: 0;
-    }
-
-    &:focus .dropdown {
-        // @extend .w-52, .h-12;
-        @extend .bg-base-300, .px-4, .py-2;
-        @extend .center-all, .text-base-content;
-        display: flex;
-        opacity: 1;
-        z-index: 10;
-        position: absolute;
-        top: 180%;
-        right: 0;
-    }
+  &:focus .dropdown {
+    // @extend .w-52, .h-12;
+    @extend .bg-base-300, .px-4, .py-2;
+    @extend .center-all, .text-base-content;
+    display: flex;
+    opacity: 1;
+    z-index: 10;
+    position: absolute;
+    top: 180%;
+    right: 0;
+  }
 }
 
 .nav-item-active {
-    @extend .w-10, .h-10, .rounded-md, .center-all, .cursor-pointer;
-    @extend .bg-primary, .text-primary-content;
-    position: relative;
-    transition: all 0.4s ease;
+  @extend .w-10, .h-10, .rounded-md, .center-all, .cursor-pointer;
+  @extend .bg-primary, .text-primary-content;
+  position: relative;
+  transition: all 0.4s ease;
 
-    &:hover .bg {
-        @extend .bg-primary-600, .rounded-md;
-        opacity: 0.2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
+  &:hover .bg {
+    @extend .bg-primary-600, .rounded-md;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .bg {
+    @extend .bg-primary-600, .rounded-md;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .content {
+    @extend .center-all;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    .icon {
+      @extend .center-all;
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      width: 60%;
+      height: 60%;
     }
+  }
 
-    .bg {
-        @extend .bg-primary-600, .rounded-md;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  .hint {
+    @extend .w-24,
+      .h-6,
+      .center-all,
+      .bg-neutral-content,
+      .text-neutral,
+      .rounded-md;
+    position: absolute;
+    opacity: 0;
+    top: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .content {
-        @extend .center-all;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-
-        .icon {
-            @extend .center-all;
-            position: absolute;
-            top: 20%;
-            left: 20%;
-            width: 60%;
-            height: 60%;
-        }
-    }
-
-    .hint {
-        @extend .w-24, .h-6, .center-all, .bg-neutral-content, .text-neutral, .rounded-md;
-        position: absolute;
-        opacity: 0;
-        top: 100%;
-        transition: all 0.2s ease;
-    }
-
-    &:hover .hint {
-        @extend .w-24, .h-6, .center-all, .bg-neutral-content, .text-neutral, .rounded-md;
-        position: absolute;
-        opacity: 1;
-        top: 120%;
-        transition: all 0.2s ease;
-    }
+  &:hover .hint {
+    @extend .w-24,
+      .h-6,
+      .center-all,
+      .bg-neutral-content,
+      .text-neutral,
+      .rounded-md;
+    position: absolute;
+    opacity: 1;
+    top: 120%;
+    transition: all 0.2s ease;
+  }
 }
 
 .nav-item--container {
-    // @extend .bg-red-400;
-    height: 65px;
-    // width: 600px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    // justify-content: space-evenly;
+  // @extend .bg-red-400;
+  height: 65px;
+  // width: 600px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  // justify-content: space-evenly;
 }
 
 .nav {
-    @extend .bg-base-300;
-    padding: 0 15%;
-    min-height: 65px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  @extend .bg-base-300;
+  padding: 0 15%;
+  min-height: 65px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .main-layout {
-    padding: 0 15%;
-    height: 100%;
-    display: flex;
-    flex-flow: column;
-    flex: 1 1 auto;
+  padding: 0 15%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  flex: 1 1 auto;
 }
 
 .divider {
-    @extend .w-full, .bg-base-100, .my-2;
-    height: 0.2rem;
+  @extend .w-full, .bg-base-100, .my-2;
+  height: 0.2rem;
 }
 
 .divider-h {
-    @extend .h-full, .bg-base-100, .mx-2, .rounded-md;
-    width: 0.2rem;
+  @extend .h-full, .bg-base-100, .mx-2, .rounded-md;
+  width: 0.2rem;
 }
 
 .box {
-    @extend .w-auto, .bg-base-300, .rounded-md, .text-base-content;
-    $pad-y: 0.5rem;
-    $pad-x: 1rem;
-    position: relative;
-    padding: $pad-y $pad-x;
+  @extend .w-auto, .bg-base-300, .rounded-md, .text-base-content;
+  $pad-y: 0.5rem;
+  $pad-x: 1rem;
+  position: relative;
+  padding: $pad-y $pad-x;
 
-    .header {
-        @extend .flex, .flex-row, .justify-between, .font-bold, .text-xl, .center-all;
-        z-index: 1;
-    }
+  .header {
+    @extend .flex,
+      .flex-row,
+      .justify-between,
+      .font-bold,
+      .text-xl,
+      .center-all;
+    z-index: 1;
+  }
 
-    .content {
+  .content {
+    @extend .flex, .flex-col;
+
+    .education {
+      @extend .flex, .flex-row, .justify-between, .center-all;
+
+      .info {
         @extend .flex, .flex-col;
+      }
+    }
+  }
 
-        .education {
-            @extend .flex, .flex-row, .justify-between, .center-all;
+  .profile {
+    @extend .w-full, .h-96;
+    // @extend .bg-red-400;
 
-            .info {
-                @extend .flex, .flex-col;
-            }
-        }
+    &-bg {
+      @extend .w-full, .h-44, .center-all;
+      @extend .bg-base-300;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      .image {
+        @extend .w-full, .h-full, .bg-red-400;
+        border-radius: 0.375rem 0.375rem 0 0;
+      }
+
+      .edit {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
     }
 
-    .profile {
-        @extend .w-full, .h-96;
-        // @extend .bg-red-400;
+    .avatar {
+      @extend .center-all;
+      position: absolute;
+      top: 4rem;
+      left: 1rem;
 
-        &-bg {
-            @extend .w-full, .h-44, .center-all;
-            @extend .bg-base-300;
-            position: absolute;
-            top: 0;
-            left: 0;
-
-            .image {
-                @extend .w-full, .h-full, .bg-red-400;
-                border-radius: 0.375rem 0.375rem 0 0;
-            }
-
-            .edit {
-                position: absolute;
-                top: 0.5rem;
-                right: 0.5rem;
-            }
-        }
-
-        .avatar {
-            @extend .center-all;
-            position: absolute;
-            top: 4rem;
-            left: 1rem;
-
-            .image {
-                @extend .w-44, .h-44;
-                border-radius: 50%;
-                outline-width: 0.3rem;
-                outline-style: solid;
-                outline-color: var(--col-base-100);
-            }
-        }
-
-        .personal-position {
-            // @extend .w-full;
-            // @extend .bg-red-400;
-            // padding-left: $pad-x;
-            // padding-right: $pad-x;
-            // position: absolute;
-            position: absolute;
-            // left: 300px;
-            top: 65%;
-            overflow: hidden;
-            // border: 1px solid gold;
-            width: 97.5%;
-
-            .personal-content {
-                // @extend .w-full;
-
-                .user {
-                    @extend .flex, .flex-col;
-                }
-            }
-        }
-
-        .footer-position {
-            position: absolute;
-            bottom: 1rem;
-        }
+      .image {
+        @extend .w-44, .h-44;
+        border-radius: 50%;
+        outline-width: 0.3rem;
+        outline-style: solid;
+        outline-color: var(--col-base-100);
+      }
     }
+
+    .personal-position {
+      // @extend .w-full;
+      // @extend .bg-red-400;
+      // padding-left: $pad-x;
+      // padding-right: $pad-x;
+      // position: absolute;
+      position: absolute;
+      // left: 300px;
+      top: 65%;
+      overflow: hidden;
+      // border: 1px solid gold;
+      width: 97.5%;
+
+      .personal-content {
+        // @extend .w-full;
+
+        .user {
+          @extend .flex, .flex-col;
+        }
+      }
+    }
+
+    .footer-position {
+      position: absolute;
+      bottom: 1rem;
+    }
+  }
 }
 
 .icon-ghost {
-    @extend .w-10, .h-10, .rounded-xl, .center-all, .cursor-pointer;
-    @extend .bg-base-100, .text-base-content;
-    position: relative;
-    transition: all 0.4s ease;
+  @extend .w-10, .h-10, .rounded-xl, .center-all, .cursor-pointer;
+  @extend .bg-base-100, .text-base-content;
+  position: relative;
+  transition: all 0.4s ease;
 
-    &:hover .bg {
-        @extend .bg-base-content, .rounded-md;
-        opacity: 0.2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
+  &:hover .bg {
+    @extend .bg-base-content, .rounded-md;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .bg {
+    @extend .bg-base-content, .rounded-md;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .content {
+    @extend .center-all;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    .icon {
+      @extend .center-all;
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      width: 60%;
+      height: 60%;
     }
-
-    .bg {
-        @extend .bg-base-content, .rounded-md;
-        z-index: 1;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
-
-    .content {
-        @extend .center-all;
-        z-index: 10;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-
-        .icon {
-            @extend .center-all;
-            position: absolute;
-            top: 20%;
-            left: 20%;
-            width: 60%;
-            height: 60%;
-        }
-    }
+  }
 }
 
 .modal {
-    @extend .bg-base-300, .text-base-content;
-    @extend .px-4, .py-2, .rounded-md;
-    // @extend .rounded-md;
+  @extend .bg-base-300, .text-base-content;
+  @extend .px-4, .py-2, .rounded-md;
+  // @extend .rounded-md;
+  width: 50vw;
+  height: 70vh;
+  z-index: 105;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+
+  .header {
+    @extend .flex, .flex-row, .justify-between, .center-all;
+    @extend .px-4, .py-2;
+    // @extend .bg-red-400;
+    position: absolute;
+    border-radius: 0.375rem 0.375rem 0 0;
+    top: 0;
+    left: 0;
+    z-index: 3;
     width: 50vw;
-    height: 70vh;
-    z-index: 105;
-    position: fixed;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    overflow: hidden;
+    height: 5vh;
 
-    .header {
-        @extend .flex, .flex-row, .justify-between, .center-all;
-        @extend .px-4, .py-2;
-        // @extend .bg-red-400;
-        position: absolute;
-        border-radius: 0.375rem 0.375rem 0 0;
-        top: 0;
-        left: 0;
-        z-index: 3;
-        width: 50vw;
-        height: 5vh;
-
-        .title {
-            @extend .font-bold, .text-xl;
-        }
-
-        .icon {
-            @extend .font-bold, .text-xl;
-        }
+    .title {
+      @extend .font-bold, .text-xl;
     }
 
-    .content {
-        @extend .w-full, .px-2;
-        @extend .bg-base-100;
-        overflow-y: auto;
-        overflow-x: hidden;
-        right: -17px;
-        box-sizing: content-box;
-        height: 60vh;
-        position: absolute;
-        top: 5vh;
-        left: 0;
+    .icon {
+      @extend .font-bold, .text-xl;
+    }
+  }
 
-        &::-webkit-scrollbar {
-            width: 1em;
-        }
+  .content {
+    @extend .w-full, .px-2;
+    @extend .bg-base-100;
+    overflow-y: auto;
+    overflow-x: hidden;
+    right: -17px;
+    box-sizing: content-box;
+    height: 60vh;
+    position: absolute;
+    top: 5vh;
+    left: 0;
 
-        &::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: darkgrey;
-            outline: 1px solid slategrey;
-        }
+    &::-webkit-scrollbar {
+      width: 1em;
     }
 
-    .footer {
-        @extend .flex, .flex-row, .justify-end;
-        @extend .px-4, .py-2;
-        // @extend .bg-blue-400;
-        position: absolute;
-        border-radius: 0 0 0.375rem 0.375rem;
-        bottom: 0;
-        left: 0;
-        z-index: 3;
-        width: 50vw;
-        height: 5vh;
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
+  }
+
+  .footer {
+    @extend .flex, .flex-row, .justify-end;
+    @extend .px-4, .py-2;
+    // @extend .bg-blue-400;
+    position: absolute;
+    border-radius: 0 0 0.375rem 0.375rem;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    width: 50vw;
+    height: 5vh;
+  }
 }
 
 .btn-primary {
-    @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
-    // @extend .w-10, .h-10;
-    @extend .bg-primary, .text-primary-content;
-    position: relative;
-    transition: all 0.4s ease;
+  @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
+  // @extend .w-10, .h-10;
+  @extend .bg-primary, .text-primary-content;
+  position: relative;
+  transition: all 0.4s ease;
 
-    &:hover .bg {
-        @extend .bg-primary-content, .rounded-md;
-        opacity: 0.2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  &:hover .bg {
+    @extend .bg-primary-content, .rounded-md;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .bg {
-        @extend .bg-primary-content, .rounded-md;
-        z-index: 1;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  .bg {
+    @extend .bg-primary-content, .rounded-md;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .text {
-        @extend .center-all;
-        z-index: 2;
-    }
+  .text {
+    @extend .center-all;
+    z-index: 2;
+  }
 }
 
 .btn-ghost {
-    @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
-    // @extend .w-10, .h-10;
-    @extend .bg-base-300, .text-base-content;
-    position: relative;
-    transition: all 0.4s ease;
+  @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
+  // @extend .w-10, .h-10;
+  @extend .bg-base-300, .text-base-content;
+  position: relative;
+  transition: all 0.4s ease;
 
-    &:hover .bg {
-        @extend .bg-base-content, .rounded-md;
-        opacity: 0.2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  &:hover .bg {
+    @extend .bg-base-content, .rounded-md;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .bg {
-        @extend .bg-base-content, .rounded-md;
-        z-index: 1;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  .bg {
+    @extend .bg-base-content, .rounded-md;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .text {
-        @extend .center-all;
-        z-index: 2;
-    }
+  .text {
+    @extend .center-all;
+    z-index: 2;
+  }
 }
 
 .btn-error {
-    @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
-    // @extend .w-10, .h-10;
-    @extend .bg-error, .text-error-content;
-    position: relative;
-    transition: all 0.4s ease;
+  @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
+  // @extend .w-10, .h-10;
+  @extend .bg-error, .text-error-content;
+  position: relative;
+  transition: all 0.4s ease;
 
-    &:hover .bg {
-        @extend .bg-error-content, .rounded-md;
-        opacity: 0.2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  &:hover .bg {
+    @extend .bg-error-content, .rounded-md;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .bg {
-        @extend .bg-error-content, .rounded-md;
-        z-index: 1;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  .bg {
+    @extend .bg-error-content, .rounded-md;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .text {
-        @extend .center-all;
-        z-index: 2;
-    }
+  .text {
+    @extend .center-all;
+    z-index: 2;
+  }
 }
 
 .num-input {
-    @extend .bg-base-100, .text-base-content, .border-primary, .w-full, .h-8;
-    font-size: 15px;
-    border-radius: 5px;
+  @extend .bg-base-100, .text-base-content, .border-primary, .w-full, .h-8;
+  font-size: 15px;
+  border-radius: 5px;
 
-    &::placeholder {
-        @extend .text-base-content;
-        padding-left: 10px;
-    }
+  &::placeholder {
+    @extend .text-base-content;
+    padding-left: 10px;
+  }
 
-    &:focus-visible {
-        @extend .outline, .outline-base-content;
-    }
+  &:focus-visible {
+    @extend .outline, .outline-base-content;
+  }
 }
 
 .no-spinner {
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
 
 .outline {
-    @extend .px-4, .py-4, .rounded-xl;
-    @extend .w-full;
-    outline-style: solid;
-    outline-color: var(--col-base-content);
+  @extend .px-4, .py-4, .rounded-xl;
+  @extend .w-full;
+  outline-style: solid;
+  outline-color: var(--col-base-content);
 }
 
 .btn-plain {
-    @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
-    // @extend .w-10, .h-10;
-    @extend .bg-base, .text-base-content;
-    position: relative;
-    transition: all 0.4s ease;
+  @extend .rounded-md, .center-all, .cursor-pointer, .px-4;
+  // @extend .w-10, .h-10;
+  @extend .bg-base, .text-base-content;
+  position: relative;
+  transition: all 0.4s ease;
 
-    &:hover .bg {
-        @extend .bg-base-content, .rounded-md;
-        opacity: 0.2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  &:hover .bg {
+    @extend .bg-base-content, .rounded-md;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 
-    .bg {
-        @extend .bg-base-content, .rounded-md;
-        z-index: 1;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
+  .bg {
+    @extend .bg-base-content, .rounded-md;
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
 }
 
 .add-outline {
-    outline-style: solid;
-    outline-color: var(--col-base-content);
+  outline-style: solid;
+  outline-color: var(--col-base-content);
 }
 
 .fill {
-    &-info {
-        fill: var(--col-info);
-    }
+  &-info {
+    fill: var(--col-info);
+  }
 
-    &-success {
-        fill: var(--col-success);
-    }
+  &-success {
+    fill: var(--col-success);
+  }
 }
 
 .inv-avatar {
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+
+  &-image {
     border-radius: 50%;
-    height: 64px;
-    width: 64px;
 
-    &-image {
-        border-radius: 50%;
-
-        height: 100%;
-        width: 100%;
-    }
-
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .sq-avatar {
+  border-radius: 10%;
+  height: 64px;
+  width: 64px;
+
+  &-image {
     border-radius: 10%;
-    height: 64px;
-    width: 64px;
 
-    &-image {
-        border-radius: 10%;
-
-        height: 100%;
-        width: 100%;
-    }
-
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .popup {
-    @extend .bg-base-300, .rounded-md, .text-base-content;
-    // @extend .w-96, .h-64;
-    width: 32rem;
-    min-height: 24rem;
-    $pad-y: 0.5rem;
-    $pad-x: 1rem;
-    position: absolute;
-    top: 4rem;
-    padding: $pad-y $pad-x;
-    z-index: 105;
-
+  @extend .bg-base-300, .rounded-md, .text-base-content;
+  // @extend .w-96, .h-64;
+  width: 32rem;
+  min-height: 24rem;
+  $pad-y: 0.5rem;
+  $pad-x: 1rem;
+  position: absolute;
+  top: 4rem;
+  padding: $pad-y $pad-x;
+  z-index: 105;
 }
 
 .preview {
-    @extend .rounded-md;
-    // @extend .bg-red-400;
+  @extend .rounded-md;
+  // @extend .bg-red-400;
+  @extend .w-full, .h-64;
+  position: relative;
+
+  .content-pos {
     @extend .w-full, .h-64;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-    .content-pos {
-        @extend .w-full, .h-64;
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        .content {
-            @extend .w-full, .h-full;
-            @extend .rounded-md;
-            // object-fit: cover;
-            // height: 100%;
-            // width: 100%;
-        }
+    .content {
+      @extend .w-full, .h-full;
+      @extend .rounded-md;
+      // object-fit: cover;
+      // height: 100%;
+      // width: 100%;
     }
+  }
 
-    .remove {
-        position: absolute;
-        top: 4%;
-        right: 2%;
-        z-index: 5;
-    }
+  .remove {
+    position: absolute;
+    top: 4%;
+    right: 2%;
+    z-index: 5;
+  }
 }
 
 .left-box {
-    @extend .box, .mr-4;
-    width: 26rem;
+  @extend .box, .mr-4;
+  width: 26rem;
 }
 
 .right-box {
-    @extend .box, .ml-4;
-    width: 32rem;
+  @extend .box, .ml-4;
+  width: 32rem;
 }
 
 .flex-grow {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .chat-item {
-    @extend .flex, .flex-row, .p-2, .rounded-md, .cursor-pointer;
-    @extend .bg-base-300;
-    -webkit-tap-highlight-color: transparent;
-    transition: all 0.2s ease;
+  @extend .flex, .flex-row, .p-2, .rounded-md, .cursor-pointer;
+  @extend .bg-base-300;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+  position: absolute;
+  overflow: visible;
+  width: calc(100% - 1rem);
+
+  &::before {
+    @extend .bg-primary, .rounded-md;
+    content: "";
+    display: block;
     position: absolute;
-    overflow: visible;
-    width: calc(100% - 1rem);
+    width: calc(100%);
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    transform: scaleY(0);
+    transition: transform 0.1s ease-out;
+  }
 
+  &:hover,
+  &:focus {
     &::before {
-        @extend .bg-primary, .rounded-md;
-        content: "";
-        display: block;
-        position: absolute;
-        width: calc(100%);
-        height: 100%;
-        position: absolute;
-        z-index: -1;
-        left: 0;
-        top: 0;
-        transform: scaleY(0);
-        transition: transform 0.1s ease-out;
+      @extend .bg-primary, .rounded-md;
+      content: "";
+      display: block;
+      position: absolute;
+      width: calc(100%);
+      height: 100%;
+      position: absolute;
+      z-index: -1;
+      left: -4px;
+      top: 0;
+      transform: scaleY(1);
+      transition: transform 0.1s ease-out;
     }
-
-    &:hover,
-    &:focus {
-        &::before {
-            @extend .bg-primary, .rounded-md;
-            content: "";
-            display: block;
-            position: absolute;
-            width: calc(100%);
-            height: 100%;
-            position: absolute;
-            z-index: -1;
-            left: -4px;
-            top: 0;
-            transform: scaleY(1);
-            transition: transform 0.1s ease-out;
-        }
-    }
+  }
 }
 
 .outline-holder {
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .chat-box {
-    @extend .w-full, .h-full;
-    position: relative;
+  @extend .w-full, .h-full;
+  position: relative;
 
-    .chat {
-        @extend .flex, .flex-col;
-        @extend .w-full;
-        height: calc(100% - 2.5rem);
+  .chat {
+    @extend .flex, .flex-col;
+    @extend .w-full;
+    height: calc(100% - 2.5rem);
+    position: absolute;
+    overflow-y: scroll;
+
+    .bubble {
+      @extend .rounded-lg, .bg-base-100, .px-4, .py-2;
+      @extend .w-fit, .h-fit;
+
+      &-left {
+        @extend .bubble;
         position: absolute;
-        overflow-y: scroll;
+        left: 0;
+      }
 
-        .bubble {
-            @extend .rounded-lg, .bg-base-100, .px-4, .py-2;
-            @extend .w-fit, .h-fit;
-
-            &-left {
-                @extend .bubble;
-                position: absolute;
-                left: 0;
-            }
-
-            &-right {
-                @extend .bubble;
-                position: absolute;
-                right: 0;
-            }
-        }
-    }
-
-    .footer {
-        @extend .flex, .flex-row, .justify-between, .bg-base-300;
-        @extend .w-full, .h-10;
+      &-right {
+        @extend .bubble;
         position: absolute;
-        bottom: 0;
-
-        .input {
-            @extend .bg-base-200, .rounded-xl, .p-2;
-            @extend .w-full;
-
-            &-real {
-                @extend .w-full, .h-full, .rounded-xl;
-                padding: 0;
-                border: none;
-                outline: none;
-            }
-        }
+        right: 0;
+      }
     }
-}
+  }
 
-.comment-box {
-    @extend .rounded-lg;
-    @extend .w-full, .h-20;
-    outline-style: solid;
+  .footer {
+    @extend .flex, .flex-row, .justify-between, .bg-base-300;
+    @extend .w-full, .h-10;
+    position: absolute;
+    bottom: 0;
 
     .input {
-        @extend .bg-base-300, .m-2;
-        @extend .rounded-lg;
-        width: calc(100% - 1rem);
-        height: calc(100% - 1rem);
+      @extend .bg-base-200, .rounded-xl, .p-2;
+      @extend .w-full;
+
+      &-real {
+        @extend .w-full, .h-full, .rounded-xl;
         padding: 0;
         border: none;
         outline: none;
-        resize: none;
+      }
     }
+  }
+}
+
+.comment-box {
+  @extend .rounded-lg;
+  @extend .w-full, .h-20;
+  outline-style: solid;
+
+  .input {
+    @extend .bg-base-300, .m-2;
+    @extend .rounded-lg;
+    width: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+    padding: 0;
+    border: none;
+    outline: none;
+    resize: none;
+  }
+}
+
+.post-profile {
+  @extend .w-full, .h-full, .cursor-pointer;
+//   @extend .bg-red-400;
+  height: 4rem;
+  position: relative;
+
+  &-content {
+    @extend .flex, .flex-row, .center-all;
+    position: absolute;
+    left: 0;
+  }
+
+  &-hover {
+    @extend .rounded-md;
+    @extend .bg-red-400;
+    height: 4rem + 2rem;
+    width: 18rem;
+    position: absolute;
+    top: 0;
+    left: -19rem;
+  }
 }
