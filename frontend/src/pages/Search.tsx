@@ -6,6 +6,8 @@ import ReactLoading from "react-loading";
 import { UserInterface } from '../components/Profile/UserInterface';
 import { PostInterface } from '../components/Home/PostInterface';
 import { MemoizedPost } from '../components/Home/Post';
+import { useBackEnd } from '../hooks/useBackEnd';
+import { useAuth } from '../hooks/useAuth';
 
 const OPTION = {
   USER: "user",
@@ -25,6 +27,8 @@ export default function Search() {
   const [fakeLoadPost, setfakeLoadPost] = useState<boolean>(false)
   const [limitPeople, setlimitPeople] = useState<number>(LIMIT)
   const [limitPost, setlimitPost] = useState<number>(LIMIT)
+  const { user } = useAuth()
+  const { connectRequest, cancelConnect } = useBackEnd()
 
   function handleLoadMore(opt: string) {
     switch (opt) {
@@ -47,8 +51,14 @@ export default function Search() {
     }
   }
 
-  function handleConnect() {
+  function handleConnect(id: string) {
+    connectRequest(id, user.name + " have sent you a connect request!")
+    refetch({ query: input });
+  }
 
+  function handleCancel(id: string) {
+    cancelConnect(user.id, id)
+    refetch({ query: input });
   }
 
   if (loading) {
@@ -92,6 +102,7 @@ export default function Search() {
           <div className='text-md font-bold'>People</div>
           <div className='h-2'></div>
           {data.search.user.map((u: UserInterface, idx: number) => {
+            let temp: any = u.RequestConnect
             if (idx < limitPeople)
               return (
                 <React.Fragment>
@@ -106,11 +117,24 @@ export default function Search() {
                         <div className="text-sm font-medium">{u.email}</div>
                       </div>
                     </div>
-                    <div className="flex flex-row py-4">
-                      <div className="btn-primary" onClick={handleConnect}>
-                        <div className="bg"></div>
-                        <div className="py-2">Connect</div>
-                      </div>
+                    <div className='flex flex-row py-4'>
+                      {
+                        temp.includes(user.id)
+                          ?
+                          <div className='btn-error' onClick={() => { handleCancel(u.id) }}>
+                            <div className='bg'></div>
+                            <div className='center-all py-2'>
+                              Cancel
+                            </div>
+                          </div>
+                          :
+                          <div className='btn-primary' onClick={() => { handleConnect(u.id) }}>
+                            <div className='bg'></div>
+                            <div className='center-all py-2'>
+                              Connect
+                            </div>
+                          </div>
+                      }
                     </div>
                   </div>
                 </React.Fragment>

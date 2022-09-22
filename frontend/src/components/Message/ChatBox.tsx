@@ -22,7 +22,7 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
     function sendMessageFunc() {
         const text = msgRef.current?.value
         sendMessage(currRef.ref, currRef.fromId, currRef.toId, text)
-        (document.getElementById('msg-input') as HTMLInputElement).value = null
+            (document.getElementById('msg-input') as HTMLInputElement).value = null
     }
 
     function handleEnter(event: any) {
@@ -60,19 +60,18 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
     }
 
     const len = chatState.data.length
-    console.log(currRef)
 
     return (
         <div className='chat-box'>
             <div className='chat'>
                 {chatState.data.map((chat: ChatInterface, idx: number) => {
                     return (
-                        <React.Fragment>
+                        <React.Fragment key={'msg-' + idx}>
                             {
                                 chat.idFrom === user.id ?
-                                    <div className='bubble mx-2 place-self-end' key={'msg-' + idx}>{chat.content}</div>
+                                    <div className='bubble mx-2 place-self-end' >{chat.content}</div>
                                     :
-                                    <div className='bubble mx-2 place-self-start' key={'msg-' + idx}>{chat.content}</div>
+                                    <div className='bubble mx-2 place-self-start' >{chat.content}</div>
                             }
                             {idx < len - 1 && <div className='h-4'></div>}
                         </React.Fragment>
