@@ -53,7 +53,9 @@ export const FIND_POST_QUERY = gql`
         BgPhotoProfile
       }
       AttachmentType
-      likes
+      likes {
+        userId
+      }
       sends
       comments
       createdAt
@@ -82,7 +84,9 @@ export const INFINITY_QUERY = gql`
         BgPhotoProfile
       }
       hashtag
-      likes
+      likes {
+        userId
+      }
       sends
       comments
       createdAt
@@ -95,7 +99,9 @@ export const SEARCH_POST_QUERY = gql`
     posts {
       text
       id
-      likes
+      likes {
+        userId
+      }
       sends
       AttachmentType
       comments

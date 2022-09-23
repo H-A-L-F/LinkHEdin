@@ -153,6 +153,13 @@ type ComplexityRoot struct {
 		User           func(childComplexity int) int
 	}
 
+	PostLike struct {
+		ID     func(childComplexity int) int
+		IsLike func(childComplexity int) int
+		PostID func(childComplexity int) int
+		UserID func(childComplexity int) int
+	}
+
 	Query struct {
 		Comments         func(childComplexity int) int
 		GetAllHashtag    func(childComplexity int) int
@@ -246,7 +253,7 @@ type NotificationResolver interface {
 }
 type PostResolver interface {
 	User(ctx context.Context, obj *model.Post) (*model.User, error)
-	Likes(ctx context.Context, obj *model.Post) (int, error)
+	Likes(ctx context.Context, obj *model.Post) ([]*model.PostLike, error)
 
 	Hashtag(ctx context.Context, obj *model.Post) ([]string, error)
 }
@@ -1023,6 +1030,34 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Post.User(childComplexity), true
 
+	case "PostLike.id":
+		if e.complexity.PostLike.ID == nil {
+			break
+		}
+
+		return e.complexity.PostLike.ID(childComplexity), true
+
+	case "PostLike.isLike":
+		if e.complexity.PostLike.IsLike == nil {
+			break
+		}
+
+		return e.complexity.PostLike.IsLike(childComplexity), true
+
+	case "PostLike.postId":
+		if e.complexity.PostLike.PostID == nil {
+			break
+		}
+
+		return e.complexity.PostLike.PostID(childComplexity), true
+
+	case "PostLike.userId":
+		if e.complexity.PostLike.UserID == nil {
+			break
+		}
+
+		return e.complexity.PostLike.UserID(childComplexity), true
+
 	case "Query.comments":
 		if e.complexity.Query.Comments == nil {
 			break
@@ -1591,13 +1626,20 @@ input NewPost {
   attachment_type: String!
 }
 
+type PostLike {
+  id: ID!
+  userId: String!
+  postId: String!
+  isLike: Boolean!
+}
+
 type Post {
   id: ID!
   text: String!
   AttachmentLink: String!
   AttachmentType: String!
   User: User!
-  likes: Int! @goField(forceResolver: true)
+  likes: [PostLike!]! @goField(forceResolver: true)
   sends: Int!
   comments: Int!
   createdAt: Time!
@@ -6488,9 +6530,9 @@ func (ec *executionContext) _Post_likes(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.([]*model.PostLike)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNPostLike2ᚕᚖLinkHEdinᚋgraphᚋmodelᚐPostLikeᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Post_likes(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -6500,7 +6542,17 @@ func (ec *executionContext) fieldContext_Post_likes(ctx context.Context, field g
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_PostLike_id(ctx, field)
+			case "userId":
+				return ec.fieldContext_PostLike_userId(ctx, field)
+			case "postId":
+				return ec.fieldContext_PostLike_postId(ctx, field)
+			case "isLike":
+				return ec.fieldContext_PostLike_isLike(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type PostLike", field.Name)
 		},
 	}
 	return fc, nil
@@ -6677,6 +6729,182 @@ func (ec *executionContext) fieldContext_Post_hashtag(ctx context.Context, field
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PostLike_id(ctx context.Context, field graphql.CollectedField, obj *model.PostLike) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PostLike_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PostLike_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PostLike",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PostLike_userId(ctx context.Context, field graphql.CollectedField, obj *model.PostLike) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PostLike_userId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PostLike_userId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PostLike",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PostLike_postId(ctx context.Context, field graphql.CollectedField, obj *model.PostLike) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PostLike_postId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PostID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PostLike_postId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PostLike",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PostLike_isLike(ctx context.Context, field graphql.CollectedField, obj *model.PostLike) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PostLike_isLike(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.IsLike, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PostLike_isLike(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PostLike",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Boolean does not have child fields")
 		},
 	}
 	return fc, nil
@@ -12285,6 +12513,55 @@ func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
+var postLikeImplementors = []string{"PostLike"}
+
+func (ec *executionContext) _PostLike(ctx context.Context, sel ast.SelectionSet, obj *model.PostLike) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, postLikeImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("PostLike")
+		case "id":
+
+			out.Values[i] = ec._PostLike_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "userId":
+
+			out.Values[i] = ec._PostLike_userId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "postId":
+
+			out.Values[i] = ec._PostLike_postId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "isLike":
+
+			out.Values[i] = ec._PostLike_isLike(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var queryImplementors = []string{"Query"}
 
 func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -13735,6 +14012,60 @@ func (ec *executionContext) marshalNPost2ᚖLinkHEdinᚋgraphᚋmodelᚐPost(ctx
 		return graphql.Null
 	}
 	return ec._Post(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNPostLike2ᚕᚖLinkHEdinᚋgraphᚋmodelᚐPostLikeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.PostLike) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNPostLike2ᚖLinkHEdinᚋgraphᚋmodelᚐPostLike(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNPostLike2ᚖLinkHEdinᚋgraphᚋmodelᚐPostLike(ctx context.Context, sel ast.SelectionSet, v *model.PostLike) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._PostLike(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNReplyComment2ᚕᚖLinkHEdinᚋgraphᚋmodelᚐReplyCommentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ReplyComment) graphql.Marshaler {

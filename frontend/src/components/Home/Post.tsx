@@ -45,6 +45,18 @@ function Post({ ps }: PostCompInterface) {
         }
     }
 
+    function isLiked(arr: any) {
+        arr.forEach((element: any) => {
+            console.log(element)
+            console.log(element.userId === user.id)
+            if (element.userId === user.id) {
+                console.log("ini bener")
+                return true
+            }
+        })
+        return false
+    }
+
     return (
         <React.Fragment>
             <div className='box'>
@@ -77,7 +89,7 @@ function Post({ ps }: PostCompInterface) {
                         <div className='flex flex-row'>
                             <div className='text-sm font-normal link' onClick={() => { setopenCommentSection((prev) => !prev) }}>{ps.comments} comments</div>
                             <div className='w-2'></div>
-                            <div className='text-sm font-normal'>{ps.likes} likes</div>
+                            <div className='text-sm font-normal'>{ps.likes.length} likes</div>
                             <div className='w-2'></div>
                             <div className='text-sm font-normal'>{ps.sends} shares</div>
                         </div>
@@ -87,13 +99,37 @@ function Post({ ps }: PostCompInterface) {
                         <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>
-                                <HiThumbUp size={20} className='' />
+                                <HiThumbUp size={20} className={isLiked(ps.likes) ? 'text-primary' : ''} />
                                 <div className='w-2'></div>
                                 <div className='font-semibold'>
                                     Like
                                 </div>
                             </div>
                         </div>
+                        {
+                            isLiked(ps.likes) ?
+                                <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
+                                    <div className='bg'></div>
+                                    <div className='flex flex-row center-all'>
+                                        <HiThumbUp size={20} className={'text-primary'} />
+                                        <div className='w-2'></div>
+                                        <div className='font-semibold'>
+                                            Like
+                                        </div>
+                                    </div>
+                                </div>
+                                :
+                                <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
+                                    <div className='bg'></div>
+                                    <div className='flex flex-row center-all'>
+                                        <HiThumbUp size={20} className={''} />
+                                        <div className='w-2'></div>
+                                        <div className='font-semibold'>
+                                            Like
+                                        </div>
+                                    </div>
+                                </div>
+                        }
                         <div className='btn-plain w-fit h-fit py-2' onClick={() => { setOpenComment((prev) => !prev) }}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>

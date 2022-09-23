@@ -8,7 +8,7 @@ export interface PostInterface {
   createdAt: string;
   hashtag: [string];
   id: string;
-  likes: number;
+  likes: [string];
   sends: number;
   text: string;
   __typename: string;

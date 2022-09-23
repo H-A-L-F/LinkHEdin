@@ -41,7 +41,9 @@ export const SEARCH_QUERY = gql`
           BgPhotoProfile
         }
         hashtag
-        likes
+        likes {
+          userId
+        }
         sends
         comments
         createdAt

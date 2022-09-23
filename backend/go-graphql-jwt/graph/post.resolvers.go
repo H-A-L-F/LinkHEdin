@@ -50,11 +50,17 @@ func (r *postResolver) User(ctx context.Context, obj *model.Post) (*model.User, 
 }
 
 // Likes is the resolver for the likes field.
-func (r *postResolver) Likes(ctx context.Context, obj *model.Post) (int, error) {
-	var model *model.PostLike
-	var count int64
-	r.DB.Find(&model, "post_id = ? AND is_like = true", obj.ID).Count(&count)
-	return int(count), nil
+func (r *postResolver) Likes(ctx context.Context, obj *model.Post) ([]*model.PostLike, error) {
+	// var model []*model.PostLike
+	// return model, r.DB.Find(&model, "post_id = ? AND is_like = true", obj.ID).Error
+
+	var modelLikePost []*model.PostLike
+
+	if err := r.DB.Find(&modelLikePost, "post_id = ? AND is_like = true", obj.ID).Error; err != nil {
+		return nil, err
+	}
+
+	return modelLikePost, nil
 }
 
 // Hashtag is the resolver for the hashtag field.

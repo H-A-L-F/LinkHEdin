@@ -14,13 +14,20 @@ input NewPost {
   attachment_type: String!
 }
 
+type PostLike {
+  id: ID!
+  userId: String!
+  postId: String!
+  isLike: Boolean!
+}
+
 type Post {
   id: ID!
   text: String!
   AttachmentLink: String!
   AttachmentType: String!
   User: User!
-  likes: Int! @goField(forceResolver: true)
+  likes: [PostLike!]! @goField(forceResolver: true)
   sends: Int!
   comments: Int!
   createdAt: Time!
