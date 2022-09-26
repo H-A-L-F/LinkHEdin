@@ -46,15 +46,11 @@ function Post({ ps }: PostCompInterface) {
     }
 
     function isLiked(arr: any) {
+        let flag = false
         arr.forEach((element: any) => {
-            console.log(element)
-            console.log(element.userId === user.id)
-            if (element.userId === user.id) {
-                console.log("ini bener")
-                return true
-            }
+            if (element.userId === user.id) flag = true
         })
-        return false
+        return flag
     }
 
     return (
@@ -106,30 +102,6 @@ function Post({ ps }: PostCompInterface) {
                                 </div>
                             </div>
                         </div>
-                        {
-                            isLiked(ps.likes) ?
-                                <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
-                                    <div className='bg'></div>
-                                    <div className='flex flex-row center-all'>
-                                        <HiThumbUp size={20} className={'text-primary'} />
-                                        <div className='w-2'></div>
-                                        <div className='font-semibold'>
-                                            Like
-                                        </div>
-                                    </div>
-                                </div>
-                                :
-                                <div className='btn-plain w-fit h-fit py-2' onClick={handleLike}>
-                                    <div className='bg'></div>
-                                    <div className='flex flex-row center-all'>
-                                        <HiThumbUp size={20} className={''} />
-                                        <div className='w-2'></div>
-                                        <div className='font-semibold'>
-                                            Like
-                                        </div>
-                                    </div>
-                                </div>
-                        }
                         <div className='btn-plain w-fit h-fit py-2' onClick={() => { setOpenComment((prev) => !prev) }}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>
