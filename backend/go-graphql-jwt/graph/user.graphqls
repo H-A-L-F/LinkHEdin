@@ -15,7 +15,7 @@ type User {
   ConnectedUser: [String!]!
   RequestConnect: [String!]!
   RequestConnectTxt: [String!]!
-  Headline: String!
+  Headline: String! @goField(forceResolver: true)
   ProfileViews: Int!
   BgPhotoProfile: String!
 }

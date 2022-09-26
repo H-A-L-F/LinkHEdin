@@ -901,7 +901,8 @@
 
   &-hover {
     @extend .rounded-md;
-    @extend .bg-red-400;
+    // @extend .bg-red-400;
+    @extend .bg-base-200;
     height: 4rem + 2rem;
     width: 18rem;
     position: absolute;

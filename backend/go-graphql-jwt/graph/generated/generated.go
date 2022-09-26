@@ -286,6 +286,7 @@ type UserResolver interface {
 	ConnectedUser(ctx context.Context, obj *model.User) ([]string, error)
 	RequestConnect(ctx context.Context, obj *model.User) ([]string, error)
 	RequestConnectTxt(ctx context.Context, obj *model.User) ([]string, error)
+	Headline(ctx context.Context, obj *model.User) (string, error)
 }
 
 type executableSchema struct {
@@ -1689,7 +1690,7 @@ type User {
   ConnectedUser: [String!]!
   RequestConnect: [String!]!
   RequestConnectTxt: [String!]!
-  Headline: String!
+  Headline: String! @goField(forceResolver: true)
   ProfileViews: Int!
   BgPhotoProfile: String!
 }
@@ -9064,7 +9065,7 @@ func (ec *executionContext) _User_Headline(ctx context.Context, field graphql.Co
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Headline, nil
+		return ec.resolvers.User().Headline(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -9085,8 +9086,8 @@ func (ec *executionContext) fieldContext_User_Headline(ctx context.Context, fiel
 	fc = &graphql.FieldContext{
 		Object:     "User",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -13231,12 +13232,25 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 
 			})
 		case "Headline":
+			field := field
 
-			out.Values[i] = ec._User_Headline(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._User_Headline(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "ProfileViews":
 
 			out.Values[i] = ec._User_ProfileViews(ctx, field, obj)

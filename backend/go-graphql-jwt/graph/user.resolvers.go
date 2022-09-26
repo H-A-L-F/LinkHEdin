@@ -239,6 +239,17 @@ func (r *userResolver) RequestConnectTxt(ctx context.Context, obj *model.User) (
 	return obj.RequestConnectTxt, nil
 }
 
+// Headline is the resolver for the Headline field.
+func (r *userResolver) Headline(ctx context.Context, obj *model.User) (string, error) {
+	var model *model.Experience
+
+	if err := r.DB.First(&model, "user_id = ? AND active = true", obj.ID).Error; err != nil {
+		return "No headline", nil
+	}
+
+	return model.Title, nil
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 

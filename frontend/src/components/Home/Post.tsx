@@ -30,15 +30,14 @@ function Post({ ps }: PostCompInterface) {
     function handleFollow() {
         followUser(ps.User.id)
         refetchUser()
+        refetch()
     }
 
     async function handleLike() {
         try {
             const res = await postLike(ps.id)
             if (res) {
-                refetch().then((resp) => {
-                    console.log(resp)
-                })
+                refetch()
             }
         } catch (error) {
             console.log(error)
