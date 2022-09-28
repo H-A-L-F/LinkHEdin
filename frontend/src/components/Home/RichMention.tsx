@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { appendDivString, filteringAtMention, regexGetId } from '../../lib/function';
 import { FIND_USER_QUERY } from '../../query/user';
 import ReactLoading from "react-loading";
+import { useNavigate } from 'react-router-dom';
 
 interface RichMentionInterface {
     data: string
@@ -12,7 +13,7 @@ interface RichMentionInterface {
 export default function RichMention({ data }: RichMentionInterface) {
     let res = filteringAtMention(data)
     let val = ""
-    let id
+    let id: string | false = false
     data = res[0]
     for (let i = 0; i < data.length; i++) {
         if (data.charAt(i) === '@') {
@@ -40,6 +41,11 @@ export default function RichMention({ data }: RichMentionInterface) {
         variables: { id: id },
     })
     const [open, setOpen] = useState<boolean>(false)
+    const navigate = useNavigate()
+
+    function handleClick() {
+        if (id !== false) navigate("/profile/" + id)
+    }
 
     return (
         <React.Fragment>
@@ -70,7 +76,7 @@ export default function RichMention({ data }: RichMentionInterface) {
             ) : (
                 ""
             )}
-            <span className='link p-0 m-0' onMouseEnter={() => { setOpen(true) }} onMouseLeave={() => { setOpen(false) }}>
+            <span className='link p-0 m-0' onMouseEnter={() => { setOpen(true) }} onMouseLeave={() => { setOpen(false) }} onClick={handleClick}>
 
                 {
                     val + " "

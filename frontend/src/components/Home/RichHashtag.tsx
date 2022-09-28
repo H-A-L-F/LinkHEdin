@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { appendDivString, filteringAtMention, regexGetId } from '../../lib/function'
 
 interface RichHashtagInterface {
@@ -28,7 +29,13 @@ export default function RichHashtag({ data }: RichHashtagInterface) {
         }
     }
 
+    const navigate = useNavigate()
+
+    function handleClick() {
+        navigate('/search/' + text)
+    }
+
     return (
-        <span className='link'>{val + " "}</span>
+        <span className='link' onClick={handleClick}>{val + " "}</span>
     )
 }
