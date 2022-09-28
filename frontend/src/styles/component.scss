@@ -11,12 +11,12 @@
 
 .btn {
   @extend .w-full,
-    .h-12,
-    .rounded-sm,
-    .center-all,
-    .font-bold,
-    .text-xl,
-    .cursor-pointer;
+  .h-12,
+  .rounded-sm,
+  .center-all,
+  .font-bold,
+  .text-xl,
+  .cursor-pointer;
 
   &-primary {
     @extend .border-4, .border-primary, .bg-primary, .text-primary-content;
@@ -47,12 +47,12 @@
 
 .nav-item {
   @extend .w-10,
-    .h-10,
-    .bg-base,
-    .rounded-md,
-    .center-all,
-    .cursor-pointer,
-    .text-base-content;
+  .h-10,
+  .bg-base,
+  .rounded-md,
+  .center-all,
+  .cursor-pointer,
+  .text-base-content;
   position: relative;
   transition: all 0.4s ease;
 
@@ -100,11 +100,11 @@
 
   .hint {
     @extend .w-24,
-      .h-6,
-      .center-all,
-      .bg-neutral-content,
-      .text-neutral,
-      .rounded-md;
+    .h-6,
+    .center-all,
+    .bg-neutral-content,
+    .text-neutral,
+    .rounded-md;
     position: absolute;
     opacity: 0;
     top: 100%;
@@ -113,11 +113,11 @@
 
   &:hover .hint {
     @extend .w-24,
-      .h-6,
-      .center-all,
-      .bg-neutral-content,
-      .text-neutral,
-      .rounded-md;
+    .h-6,
+    .center-all,
+    .bg-neutral-content,
+    .text-neutral,
+    .rounded-md;
     position: absolute;
     opacity: 1;
     top: 120%;
@@ -221,11 +221,11 @@
 
   .hint {
     @extend .w-24,
-      .h-6,
-      .center-all,
-      .bg-neutral-content,
-      .text-neutral,
-      .rounded-md;
+    .h-6,
+    .center-all,
+    .bg-neutral-content,
+    .text-neutral,
+    .rounded-md;
     position: absolute;
     opacity: 0;
     top: 100%;
@@ -234,11 +234,11 @@
 
   &:hover .hint {
     @extend .w-24,
-      .h-6,
-      .center-all,
-      .bg-neutral-content,
-      .text-neutral,
-      .rounded-md;
+    .h-6,
+    .center-all,
+    .bg-neutral-content,
+    .text-neutral,
+    .rounded-md;
     position: absolute;
     opacity: 1;
     top: 120%;
@@ -293,11 +293,11 @@
 
   .header {
     @extend .flex,
-      .flex-row,
-      .justify-between,
-      .font-bold,
-      .text-xl,
-      .center-all;
+    .flex-row,
+    .justify-between,
+    .font-bold,
+    .text-xl,
+    .center-all;
     z-index: 1;
   }
 
@@ -627,6 +627,7 @@
 }
 
 .no-spinner {
+
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -889,7 +890,7 @@
 
 .post-profile {
   @extend .w-full, .h-full, .cursor-pointer;
-//   @extend .bg-red-400;
+  //   @extend .bg-red-400;
   height: 4rem;
   position: relative;
 
@@ -909,4 +910,8 @@
     top: 0;
     left: -19rem;
   }
+}
+
+.post-profile-hover {
+  position: absolute;
 }
