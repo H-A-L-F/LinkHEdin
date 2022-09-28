@@ -3,18 +3,18 @@ import React from 'react'
 import { db } from '../../config/firebase'
 import { useAuth } from '../../hooks/useAuth'
 import { FIRESTORE_FETCH_ERROR, FIRESTORE_FETCH_LOADING, useSnapCollection } from '../../hooks/useFirestoreSnapshot'
-import Modal from '../Modal/Modal'
 import ReactLoading from "react-loading";
-import ProfileSelectionCard from './ProfileSelectionCard'
+import Modal from '../Modal/Modal'
 import { RoomInterface } from '../Message/room'
+import ProfileSelectionCard from '../Profile/ProfileSelectionCard'
 
-interface ShareProfileModalInterface {
-    uid: string,
+interface ShareModalInterface {
+    data: any,
     openModal: boolean,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function ShareProfileModal({ uid, openModal, setOpenModal }: ShareProfileModalInterface) {
+export default function ShareModal({ data, openModal, setOpenModal }: ShareModalInterface) {
     const { user } = useAuth()
     const userState = useSnapCollection(query(collection(db, "user_chat_room"), where("userIds", "array-contains", user.id)))
 
@@ -68,7 +68,7 @@ export default function ShareProfileModal({ uid, openModal, setOpenModal }: Shar
                         return (
                             <React.Fragment key={'share-' + idx}>
                                 <div className='bg-base-300 rounded-md p-2 mr-2'>
-                                    {/* <ProfileSelectionCard sendId={uid} docRef={room.id} uid={getOther(room.userIds)} setOpenModal={setOpenModal} /> */}
+                                    <ProfileSelectionCard data={data} docRef={room.id} uid={getOther(room.userIds)} setOpenModal={setOpenModal} />
                                 </div>
                                 {idx < len - 1 && <div className='h-4'></div>}
                             </React.Fragment>

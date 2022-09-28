@@ -1,4 +1,8 @@
+import { collection, query, where } from 'firebase/firestore'
 import React from 'react'
+import { db } from '../../config/firebase'
+import { useAuth } from '../../hooks/useAuth'
+import { useSnapCollection } from '../../hooks/useFirestoreSnapshot'
 import Modal from '../Modal/Modal'
 
 interface SharePostModalInterface {
@@ -7,6 +11,8 @@ interface SharePostModalInterface {
 }
 
 export default function SharePostModal({ openModal, setOpenModal }: SharePostModalInterface) {
+    const { user } = useAuth()
+    const userState = useSnapCollection(query(collection(db, "user_chat_room"), where("userIds", "array-contains", user.id)))
 
     function handleClose() {
         setOpenModal(false)
@@ -26,18 +32,7 @@ export default function SharePostModal({ openModal, setOpenModal }: SharePostMod
             Content=
             {
                 <div className='form pr-2'>
-                    <div className='h-8'></div>
-                    {userState.data.map((room: RoomInterface, idx: number) => {
-                        return (
-                            <React.Fragment key={'share-' + idx}>
-                                <div className='bg-base-300 rounded-md p-2 mr-2'>
-                                    <ProfileSelectionCard docRef={room.id} uid={getOther(room.userIds)} setOpenModal={setOpenModal} />
-                                </div>
-                                {idx < len - 1 && <div className='h-4'></div>}
-                            </React.Fragment>
-                        )
-                    })}
-                    <div className='h-8'></div>
+
                 </div>
             }
         />

@@ -7,6 +7,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
 import { useUserProfile } from '../../pages/Profile'
 import { TidyRoomInterface } from '../Message/room'
+import ShareModal from '../ShareModal/ShareModal'
 import ShareProfileModal from './ShareProfileModal'
 
 export default function PersonalProfile() {
@@ -145,7 +146,8 @@ export default function PersonalProfile() {
                     </div>
                 </div>
             }
-            <ShareProfileModal uid={id} openModal={openShare} setOpenModal={setopenShare} />
+            {/* <ShareProfileModal uid={id} openModal={openShare} setOpenModal={setopenShare} /> */}
+            <ShareModal data={currUser} openModal={openShare} setOpenModal={setopenShare} />
         </React.Fragment>
     )
 }

@@ -6,15 +6,14 @@ import { FIND_USER_QUERY } from '../../query/user'
 import { UserInterface } from './UserInterface'
 
 interface ProfileSelectionCardInterface {
-    sendId: string,
+    data: any,
     docRef: string,
     uid: string,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function ProfileSelectionCard({ sendId, docRef, uid, setOpenModal }: ProfileSelectionCardInterface) {
-    const { data } = useQuery(FIND_USER_QUERY, { variables: { id: uid } })
-    const send = useQuery(FIND_USER_QUERY, { variables: { id: sendId } })
+export default function ProfileSelectionCard({ data, docRef, uid, setOpenModal }: ProfileSelectionCardInterface) {
+    const currUser = useQuery(FIND_USER_QUERY, { variables: { id: uid } })
     const { shareProfile } = useBackEnd()
     const { user } = useAuth()
 
@@ -23,27 +22,27 @@ export default function ProfileSelectionCard({ sendId, docRef, uid, setOpenModal
         setOpenModal(false)
     }
 
-    if (!data || !send.data) {
+    if (!currUser.data) {
         return <div></div>
     }
 
-    console.log(data, send.data)
+    console.log(currUser.data)
 
     return (
         <div className="flex flex-row justify-between">
             <div className="flex flex-row">
                 <div className="inv-avatar">
-                    <img src={data.user.PhotoProfile} className="inv-avatar-image" />
+                    <img src={currUser.data.user.PhotoProfile} className="inv-avatar-image" />
                 </div>
                 <div className="w-4"></div>
                 <div className="flex flex-col">
-                    <div className="text-md font-semibold">{data.user.name}</div>
-                    <div className="text-sm font-medium">{data.user.email}</div>
+                    <div className="text-md font-semibold">{currUser.data.user.name}</div>
+                    <div className="text-sm font-medium">{currUser.data.user.email}</div>
                 </div>
             </div>
             <div className="flex flex-row py-4">
                 <div className="w-4"></div>
-                <div className="btn-primary" onClick={() => { handleShareProfile(send.data.user) }}>
+                <div className="btn-primary" onClick={() => { handleShareProfile(data) }}>
                     <div className="bg"></div>
                     <div className="py-2">Share</div>
                 </div>
