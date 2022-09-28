@@ -590,6 +590,24 @@ function useProvideBackEnd() {
         return true
     }
 
+    async function sharePost(docId: string, fromId: string, toId: string, text: string) {
+        try {
+            const data: ChatInterface = {
+                content: text,
+                type: "post",
+                idFrom: fromId,
+                idTo: toId,
+                timestamp: Timestamp.now().toDate()
+            }
+            const ref = await addDoc(genUserMessageCol(docId), data)
+            successHandle("Shared post")
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+        return true
+    }
+
     return {
         login,
         register,
@@ -618,6 +636,7 @@ function useProvideBackEnd() {
         postLike,
         commentReply,
         refetchUser,
-        shareProfile
+        shareProfile,
+        sharePost
     }
 }

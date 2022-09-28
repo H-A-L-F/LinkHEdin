@@ -4,6 +4,7 @@ import { HiPlus, HiThumbUp, HiChatAlt, HiShare, HiPaperAirplane } from "react-ic
 import { useAuth } from '../../hooks/useAuth';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import { FIND_POST_QUERY } from '../../query/post';
+import ShareModal from '../ShareModal/ShareModal';
 import Comment from './Comment';
 import PostCommentFeed from './PostCommentFeed';
 import { PostInterface } from './PostInterface';
@@ -140,6 +141,7 @@ function Post({ ps }: PostCompInterface) {
             <div className='h-2'></div>
             {/* {openComment && <Comment ps={ps}/>} */}
             {openComment && <RichComment ps={ps} />}
+            <ShareModal data={ps} type="post" openModal={openShare} setOpenModal={setOpenShare} />
         </React.Fragment>
     )
 }

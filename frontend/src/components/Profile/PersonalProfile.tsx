@@ -147,7 +147,7 @@ export default function PersonalProfile() {
                 </div>
             }
             {/* <ShareProfileModal uid={id} openModal={openShare} setOpenModal={setopenShare} /> */}
-            <ShareModal data={currUser} openModal={openShare} setOpenModal={setopenShare} />
+            <ShareModal data={currUser} type="profile" openModal={openShare} setOpenModal={setopenShare} />
         </React.Fragment>
     )
 }

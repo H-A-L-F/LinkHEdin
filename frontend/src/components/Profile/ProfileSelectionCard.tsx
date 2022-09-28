@@ -7,18 +7,23 @@ import { UserInterface } from './UserInterface'
 
 interface ProfileSelectionCardInterface {
     data: any,
+    type: string,
     docRef: string,
     uid: string,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function ProfileSelectionCard({ data, docRef, uid, setOpenModal }: ProfileSelectionCardInterface) {
+export default function ProfileSelectionCard({ data, type, docRef, uid, setOpenModal }: ProfileSelectionCardInterface) {
     const currUser = useQuery(FIND_USER_QUERY, { variables: { id: uid } })
-    const { shareProfile } = useBackEnd()
+    const { shareProfile, sharePost } = useBackEnd()
     const { user } = useAuth()
 
     function handleShareProfile(data: UserInterface) {
-        shareProfile(docRef, user.id, uid, JSON.stringify(data))
+        if (type === "profile") {
+            shareProfile(docRef, user.id, uid, JSON.stringify(data))
+        } else if (type === "post") {
+            sharePost(docRef, user.id, uid, JSON.stringify(data))
+        }
         setOpenModal(false)
     }
 

@@ -10,11 +10,12 @@ import ProfileSelectionCard from '../Profile/ProfileSelectionCard'
 
 interface ShareModalInterface {
     data: any,
+    type: string,
     openModal: boolean,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function ShareModal({ data, openModal, setOpenModal }: ShareModalInterface) {
+export default function ShareModal({ data, type, openModal, setOpenModal }: ShareModalInterface) {
     const { user } = useAuth()
     const userState = useSnapCollection(query(collection(db, "user_chat_room"), where("userIds", "array-contains", user.id)))
 
@@ -68,7 +69,7 @@ export default function ShareModal({ data, openModal, setOpenModal }: ShareModal
                         return (
                             <React.Fragment key={'share-' + idx}>
                                 <div className='bg-base-300 rounded-md p-2 mr-2'>
-                                    <ProfileSelectionCard data={data} docRef={room.id} uid={getOther(room.userIds)} setOpenModal={setOpenModal} />
+                                    <ProfileSelectionCard data={data} type={type} docRef={room.id} uid={getOther(room.userIds)} setOpenModal={setOpenModal} />
                                 </div>
                                 {idx < len - 1 && <div className='h-4'></div>}
                             </React.Fragment>
