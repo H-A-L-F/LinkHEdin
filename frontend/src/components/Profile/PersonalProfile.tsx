@@ -129,7 +129,7 @@ export default function PersonalProfile() {
                                     </div>
                                 </div>
                         }
-                        <div className='btn-primary' onClick={() => {setopenShare(true)}}>
+                        <div className='btn-primary' onClick={() => { setopenShare(true) }}>
                             <div className='bg'></div>
                             <div className='center-all py-2'>
                                 Share Profile
@@ -145,7 +145,7 @@ export default function PersonalProfile() {
                     </div>
                 </div>
             }
-            <ShareProfileModal openModal={openShare} setOpenModal={setopenShare}/>
+            <ShareProfileModal uid={id} openModal={openShare} setOpenModal={setopenShare} />
         </React.Fragment>
     )
 }

@@ -18,6 +18,7 @@ interface PostCompInterface {
 function Post({ ps }: PostCompInterface) {
     const [openComment, setOpenComment] = useState(false)
     const [openCommentSection, setopenCommentSection] = useState(false)
+    const [openShare, setOpenShare] = useState(false)
     const { postLike, followUser } = useBackEnd()
     const { refetchUser } = useBackEnd()
     const { user } = useAuth()
@@ -25,7 +26,7 @@ function Post({ ps }: PostCompInterface) {
         variables: {
             id: ps.id,
         },
-    });
+    })
 
     function handleFollow() {
         followUser(ps.User.id)
@@ -111,7 +112,7 @@ function Post({ ps }: PostCompInterface) {
                                 </div>
                             </div>
                         </div>
-                        <div className='btn-plain w-fit h-fit py-2'>
+                        <div className='btn-plain w-fit h-fit py-2' onClick={() => { setOpenShare((prev) => !prev) }}>
                             <div className='bg'></div>
                             <div className='flex flex-row center-all'>
                                 <HiShare size={20} />

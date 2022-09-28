@@ -6,13 +6,15 @@ import { FIND_USER_QUERY } from '../../query/user'
 import { UserInterface } from './UserInterface'
 
 interface ProfileSelectionCardInterface {
+    sendId: string,
     docRef: string,
     uid: string,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function ProfileSelectionCard({ docRef, uid, setOpenModal }: ProfileSelectionCardInterface) {
+export default function ProfileSelectionCard({ sendId, docRef, uid, setOpenModal }: ProfileSelectionCardInterface) {
     const { data } = useQuery(FIND_USER_QUERY, { variables: { id: uid } })
+    const send = useQuery(FIND_USER_QUERY, { variables: { id: sendId } })
     const { shareProfile } = useBackEnd()
     const { user } = useAuth()
 
@@ -21,11 +23,11 @@ export default function ProfileSelectionCard({ docRef, uid, setOpenModal }: Prof
         setOpenModal(false)
     }
 
-    if (!data) {
+    if (!data || !send.data) {
         return <div></div>
     }
 
-    console.log(data)
+    console.log(data, send.data)
 
     return (
         <div className="flex flex-row justify-between">
@@ -41,7 +43,7 @@ export default function ProfileSelectionCard({ docRef, uid, setOpenModal }: Prof
             </div>
             <div className="flex flex-row py-4">
                 <div className="w-4"></div>
-                <div className="btn-primary" onClick={() => { handleShareProfile(data.user) }}>
+                <div className="btn-primary" onClick={() => { handleShareProfile(send.data.user) }}>
                     <div className="bg"></div>
                     <div className="py-2">Share</div>
                 </div>
