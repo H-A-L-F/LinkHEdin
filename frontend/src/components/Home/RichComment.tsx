@@ -1,3 +1,4 @@
+import { ApolloQueryResult } from '@apollo/client'
 import React, { useState } from 'react'
 import { HiPaperAirplane } from 'react-icons/hi'
 import { useAuth } from '../../hooks/useAuth'
@@ -6,10 +7,11 @@ import RichInput from '../Input/RichInput'
 import { PostInterface } from './PostInterface'
 
 interface RichCommentInterface {
-    ps: PostInterface
+    ps: PostInterface,
+    refetch: (variables?: Partial<{ id: string; }> | undefined) => Promise<ApolloQueryResult<any>>,
 }
 
-export default function RichComment({ ps }: RichCommentInterface) {
+export default function RichComment({ ps, refetch }: RichCommentInterface) {
     const { user } = useAuth()
     const { commentPost } = useBackEnd()
     const [value, setValue] = useState("")
@@ -17,6 +19,7 @@ export default function RichComment({ ps }: RichCommentInterface) {
     async function handleComment() {
         await commentPost(user.id, ps.id, value);
         setValue("")
+        refetch()
     }
 
     return (

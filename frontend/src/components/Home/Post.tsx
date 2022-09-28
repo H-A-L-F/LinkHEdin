@@ -140,8 +140,8 @@ function Post({ ps }: PostCompInterface) {
             </div>
             <div className='h-2'></div>
             {/* {openComment && <Comment ps={ps}/>} */}
-            {openComment && <RichComment ps={ps} />}
-            <ShareModal data={ps} type="post" openModal={openShare} setOpenModal={setOpenShare} />
+            {openComment && <RichComment ps={ps} refetch={refetch} />}
+            <ShareModal data={ps} type="post" openModal={openShare} setOpenModal={setOpenShare} callback={refetch} />
         </React.Fragment>
     )
 }

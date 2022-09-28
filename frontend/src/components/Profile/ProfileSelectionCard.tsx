@@ -11,18 +11,22 @@ interface ProfileSelectionCardInterface {
     docRef: string,
     uid: string,
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
+    callback?: any,
 }
 
-export default function ProfileSelectionCard({ data, type, docRef, uid, setOpenModal }: ProfileSelectionCardInterface) {
+export default function ProfileSelectionCard({ data, type, docRef, uid, setOpenModal, callback }: ProfileSelectionCardInterface) {
     const currUser = useQuery(FIND_USER_QUERY, { variables: { id: uid } })
     const { shareProfile, sharePost } = useBackEnd()
     const { user } = useAuth()
 
-    function handleShareProfile(data: UserInterface) {
+    function handleShareProfile(data: any) {
         if (type === "profile") {
             shareProfile(docRef, user.id, uid, JSON.stringify(data))
         } else if (type === "post") {
-            sharePost(docRef, user.id, uid, JSON.stringify(data))
+            sharePost(docRef, user.id, uid, JSON.stringify(data), data.id)
+        }
+        if (callback !== undefined) {
+            callback()
         }
         setOpenModal(false)
     }
