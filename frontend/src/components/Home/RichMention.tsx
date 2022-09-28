@@ -59,17 +59,20 @@ export default function RichMention({ data }: RichMentionInterface) {
                         width={"10%"}
                     ></ReactLoading>
                 ) : (
-                    <div className='profile-hover' style={{
+                    <div className='post-profile-hover' style={{
                         transition: "all 1s ease",
                         display: open ? "block" : "none",
                     }}>
-                        <div className='sq-avatar'>
-                            <img src={userState.data.user.PhotoProfile} className='sq-avatar-image' />
-                        </div>
-                        <div className='w-2'></div>
-                        <div className='flex flex-col'>
-                            <div className='text-md font-semibold'>{userState.data.user.name}</div>
-                            <div className='text-sm font-normal'>{userState.data.user.email}</div>
+                        <div className='flex flex-row p-2'>
+                            <div className='sq-avatar'>
+                                <img src={userState.data.user.PhotoProfile} className='sq-avatar-image' />
+                            </div>
+                            <div className='w-2'></div>
+                            <div className='flex flex-col'>
+                                <div className='text-md font-semibold'>{userState.data.user.name}</div>
+                                <div className='text-sm font-normal'>{userState.data.user.email}</div>
+                                <div className='text-sm font-normal'>{user.Headline}</div>
+                            </div>
                         </div>
                     </div>
                 )

@@ -913,10 +913,9 @@
 }
 
 .profile-hover {
-  // @extend .flex, .flex-col, .p-2;
-  // @extend .bg-base-100;
-  @extend .box;
-  width: 18rem;
+  @extend .flex, .flex-col, .p-2, .rounded-md, .w-auto;
+  @extend .bg-base-200;
+  // @extend .box;
   position: absolute;
-  top: -8rem;
+  left: -13rem;
 }
