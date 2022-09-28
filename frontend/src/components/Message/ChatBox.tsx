@@ -10,6 +10,7 @@ import { usersCol } from '../../query/FirestoreCollection';
 import { useAuth } from '../../hooks/useAuth';
 import { useMessageProvider } from './DirectChat';
 import ChatProfile from './ChatProfile';
+import ChatPost from './ChatPost';
 
 interface ChatBoxInterface {
     currRef: TidyRoomInterface
@@ -31,6 +32,35 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
 
     function handleEnter(event: any) {
         if (event.key === 'Enter') sendMessageFunc()
+    }
+
+    function chatWrapper(chat: ChatInterface) {
+        switch (chat.type) {
+            case "profile": {
+                return (
+                    <ChatProfile content={chat.content} />
+                )
+            }
+            case "post": {
+                return (
+                    <ChatPost ps={chat.content} />
+                )
+            }
+            default: {
+                return chat.content
+            }
+        }
+
+        return (
+            chat.type === "profile" ?
+                <div className='flex flex-col center-all'>
+                    {
+                        <ChatProfile content={chat.content} />
+                    }
+                </div>
+                :
+                chat.content
+        )
     }
 
     if (chatState.status === FIRESTORE_FETCH_LOADING)
@@ -74,23 +104,11 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
                             {
                                 chat.idFrom === user.id ?
                                     <div className='bubble mx-2 place-self-end' >
-                                        {
-                                            chat.type === "profile" ? <div className='flex flex-col center-all'>
-                                                {
-                                                    <ChatProfile content={chat.content} />
-                                                }
-                                            </div>
-                                                :
-                                                chat.content
-                                        }
+                                        {chatWrapper(chat)}
                                     </div>
                                     :
                                     <div className='bubble mx-2 place-self-start' >
-                                        {
-                                            chat.type === "profile" ? <div className='flex flex-col center-all'>{JSON.parse(chat.content)}</div>
-                                                :
-                                                chat.content
-                                        }
+                                        {chatWrapper(chat)}
                                     </div>
                             }
                             {idx < len - 1 && <div className='h-4'></div>}
@@ -110,5 +128,23 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
                 </div>
             </div>
         </div>
+    )
+}
+
+interface ChatWrapperInterface {
+    chat: ChatInterface
+}
+
+function ChatWrapper({ chat }: ChatWrapperInterface) {
+
+    return (
+        chat.type === "profile" ?
+            <div className='flex flex-col center-all'>
+                {
+                    <ChatProfile content={chat.content} />
+                }
+            </div>
+            :
+            chat.content
     )
 }
