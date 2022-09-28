@@ -4,6 +4,8 @@ import { useAuth } from '../../hooks/useAuth'
 import { filteringAtMention, RichTextPost, RichTextPost2 } from '../../lib/function'
 import { FIND_USER_QUERY } from '../../query/user'
 import ReactLoading from "react-loading";
+import RichMention from './RichMention'
+import RichHashtag from './RichHashtag'
 
 interface RichTextInterface {
     text: string
@@ -12,7 +14,7 @@ interface RichTextInterface {
 const INDEX = 99
 
 export default function RichText({ text }: RichTextInterface) {
-    const a = RichTextPost2(text, INDEX)
+    // const a = RichTextPost2(text, INDEX)
     const { user } = useAuth()
     const [queriedUser, setUser] = useState({
         name: "",
@@ -24,6 +26,8 @@ export default function RichText({ text }: RichTextInterface) {
     })
     const [open, setOpen] = useState<boolean>(false)
     const richTagClass = document.getElementsByClassName("ri-class-" + INDEX)
+    let tempArr: string[] = []
+    const arr: string[] = text.split(" ")
 
     function handleMouseEnter(name: string) {
         console.log("handling")
@@ -46,7 +50,6 @@ export default function RichText({ text }: RichTextInterface) {
 
     function loop() {
         let temp = text.split(" ")
-        let tempArr: string[] = []
         temp.map((e: string, idx: number) => {
             if (e.includes('@')) {
                 tempArr.push(genRichText(e).concat(" "))
@@ -66,13 +69,14 @@ export default function RichText({ text }: RichTextInterface) {
                 tempArr.push(e.concat(" "))
             }
         })
-        return tempArr.join('')
     }
 
     function genRichText(input: string) {
         let res = filteringAtMention(input)
         return RichTextPost(res[0], INDEX, res[1])
     }
+
+    loop()
 
     return (
         <React.Fragment>
@@ -107,11 +111,29 @@ export default function RichText({ text }: RichTextInterface) {
             ) : (
                 ""
             )}
-            <div dangerouslySetInnerHTML={{ __html: loop() }}>
-            </div>
+            {/* <div dangerouslySetInnerHTML={{ __html: loop() }}>
+            </div> */}
             {/* <div className="rich-container">
                 <div dangerouslySetInnerHTML={{ __html: a }} />
             </div> */}
+            <p className='m-0' style={{
+                position: "relative",
+            }}>
+                {arr.map((text: string, idx: number) => {
+                    if (text.includes('#')) {
+                        return <RichHashtag data={text} key={"rm-" + idx} />
+                    }
+                    else if (text.includes('@')) {
+                        return <RichMention data={text} key={"rm-" + idx} />
+                    }
+                    else if (text.includes('http')) {
+                        return text + " "
+                    }
+                    else {
+                        return text + " "
+                    }
+                })}
+            </p>
         </React.Fragment>
     )
 }

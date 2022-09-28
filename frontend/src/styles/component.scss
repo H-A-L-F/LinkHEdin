@@ -912,6 +912,11 @@
   }
 }
 
-.post-profile-hover {
+.profile-hover {
+  // @extend .flex, .flex-col, .p-2;
+  // @extend .bg-base-100;
+  @extend .box;
+  width: 18rem;
   position: absolute;
+  top: -8rem;
 }
