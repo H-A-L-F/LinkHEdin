@@ -6,6 +6,7 @@ export interface RoomInterface {
 
 export interface ChatInterface {
   content: string;
+  type: string,
   idFrom: string;
   idTo: string;
   timestamp: Date;

@@ -5,6 +5,9 @@ import { db } from '../../config/firebase';
 import { useSnapCollection } from '../../hooks/useFirestoreSnapshot';
 
 export default function EmptyChatBox() {
+
+    console.log("empty chatbox")
+
     return (
         <div className='chat-box'>
             <div className='chat'>

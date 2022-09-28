@@ -1,5 +1,5 @@
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../config/firebase'
 import { toastError } from '../../config/toast'
@@ -7,12 +7,14 @@ import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
 import { useUserProfile } from '../../pages/Profile'
 import { TidyRoomInterface } from '../Message/room'
+import ShareProfileModal from './ShareProfileModal'
 
 export default function PersonalProfile() {
     const { id, currUser, isUser, refetchCurrUser } = useUserProfile()
     const { followUser, connectRequest, cancelConnect } = useBackEnd()
     const { user } = useAuth()
     const navigate = useNavigate()
+    const [openShare, setopenShare] = useState(false)
 
     function handleFollow() {
         followUser(id)
@@ -127,6 +129,13 @@ export default function PersonalProfile() {
                                     </div>
                                 </div>
                         }
+                        <div className='btn-primary' onClick={() => {setopenShare(true)}}>
+                            <div className='bg'></div>
+                            <div className='center-all py-2'>
+                                Share Profile
+                            </div>
+                        </div>
+                        <div className='w-4'></div>
                         <div className='btn-primary' onClick={handleBlock}>
                             <div className='bg'></div>
                             <div className='center-all py-2'>
@@ -136,6 +145,7 @@ export default function PersonalProfile() {
                     </div>
                 </div>
             }
+            <ShareProfileModal openModal={openShare} setOpenModal={setopenShare}/>
         </React.Fragment>
     )
 }

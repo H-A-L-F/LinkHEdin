@@ -8,14 +8,33 @@ import { TidyRoomInterface } from '../components/Message/room';
 import UserChatRoom from '../components/Message/UserChatRoom';
 import { db } from '../config/firebase';
 import { useAuth } from '../hooks/useAuth';
-import { useSnapCollection } from '../hooks/useFirestoreSnapshot';
+import { FIRESTORE_FETCH_ERROR, FIRESTORE_FETCH_LOADING, useSnapCollection } from '../hooks/useFirestoreSnapshot';
+import ChatBoxSorter from './ChatBoxSorter';
+import ReactLoading from "react-loading";
 
 const messageContext = createContext({} as any)
 
 export default function Message() {
     const { user } = useAuth()
     const [currRef, setCurrRef] = useState<TidyRoomInterface>({ ref: "", fromId: "", fromName: "", toId: "", toName: "" })
+    const [currChat, setCurrChat] = useState<number>()
     const roomState = useSnapCollection(query(collection(db, "user_chat_room"), where("userIds", "array-contains", user.id)))
+
+    if (roomState.status === FIRESTORE_FETCH_LOADING)
+        return (
+            <ReactLoading
+                type="balls"
+                className="mt-3"
+                color="gray"
+                height={"10%"}
+                width={"10%"}
+            ></ReactLoading>
+        )
+
+    if (roomState.status === FIRESTORE_FETCH_ERROR) {
+        console.log(roomState.error)
+        return <div></div>
+    }
 
     return (
         <messageContext.Provider value={{ currRef, setCurrRef }}>
@@ -48,6 +67,7 @@ export default function Message() {
                                 :
                                 <ChatBox currRef={currRef} />
                         }
+                        {/* <ChatBoxSorter currRef={currRef}/> */}
                     </div>
                 </div>
             </div>

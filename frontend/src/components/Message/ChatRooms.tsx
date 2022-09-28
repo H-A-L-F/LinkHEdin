@@ -7,6 +7,7 @@ import ReactLoading from "react-loading";
 import { RoomInterface, TidyRoomInterface } from './room'
 import { useAuth } from '../../hooks/useAuth'
 import { useMessageProvider } from '../../pages/Message'
+import { NavLink } from 'react-router-dom'
 
 interface ChatRoomsInterface {
     roomState: {
@@ -52,7 +53,10 @@ export default function ChatRooms({ roomState }: ChatRoomsInterface) {
     }
 
     function handleClick(room: RoomInterface) {
+        setCurrRef({ ref: "", fromId: "", fromName: "", toId: "", toName: "" })
         setCurrRef(tidyRoom(room))
+        // console.log(tidyRoom(room))
+        console.log(currRef, tidyRoom(room))
     }
 
     if (roomState.status === FIRESTORE_FETCH_LOADING)
@@ -77,9 +81,11 @@ export default function ChatRooms({ roomState }: ChatRoomsInterface) {
         <div className='flex flex-col w-96 h-full'>
             {roomState.data.map((room: RoomInterface, idx: number) => {
                 return (
-                    <div onClick={() => { handleClick(room) }} key={"room-" + idx} >
+                    // <NavLink to={'/messages/' + JSON.stringify(tidyRoom(room))} key={"room-" + room.id} className='mb-2'>
+                    <div onClick={() => { handleClick(room) }} key={"room-" + idx} className='mb-2'>
                         <UserChatRoom name={getName(room)} />
                     </div>
+                    // </NavLink>
                 )
             })}
         </div>

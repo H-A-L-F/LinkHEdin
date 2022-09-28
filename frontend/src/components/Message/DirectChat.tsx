@@ -1,5 +1,5 @@
 import { collection, query, where } from 'firebase/firestore'
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { HiOutlineDotsHorizontal, HiPencilAlt } from 'react-icons/hi'
 import { useParams } from 'react-router-dom'
 import { db } from '../../config/firebase'
@@ -30,6 +30,19 @@ export default function DirectChat() {
         return temp
     }
 
+    useEffect(() => {
+        console.log("useeffec", parseRoom())
+        setCurrRef(parseRoom())
+    }, [room])
+
+    useEffect(() => {
+        console.log("ref berubah ajg");
+    }, [currRef])
+
+    console.log("parse", currRef, parseRoom());
+    console.log("kebuat ulangs");
+
+
     return (
         <directChatContext.Provider value={{ currRef, setCurrRef }}>
             <div className='box w-full'>
@@ -55,12 +68,13 @@ export default function DirectChat() {
                     <div className='flex flex-row center-all w-full h-full justify-start'>
                         <ChatRooms roomState={roomState} />
                         <div className='divider-h'></div>
-                        {
+                        {/* {
                             currRef.ref === "" ?
                                 <EmptyChatBox />
                                 :
                                 <ChatBox currRef={currRef} />
-                        }
+                        } */}
+                        <ChatBox currRef={currRef} />
                     </div>
                 </div>
             </div>

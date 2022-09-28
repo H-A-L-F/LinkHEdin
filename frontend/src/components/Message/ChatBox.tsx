@@ -1,5 +1,5 @@
-import { collection, doc, orderBy, query } from 'firebase/firestore';
-import React, { createRef } from 'react'
+import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
+import React, { createRef, useEffect } from 'react'
 import { HiPaperAirplane } from "react-icons/hi";
 import { db } from '../../config/firebase';
 import { FIRESTORE_FETCH_ERROR, FIRESTORE_FETCH_LOADING, useSnapCollection } from '../../hooks/useFirestoreSnapshot';
@@ -8,14 +8,18 @@ import { ChatInterface, TidyRoomInterface } from './room';
 import { useBackEnd } from '../../hooks/useBackEnd';
 import { usersCol } from '../../query/FirestoreCollection';
 import { useAuth } from '../../hooks/useAuth';
+import { useMessageProvider } from './DirectChat';
+import ChatProfile from './ChatProfile';
 
 interface ChatBoxInterface {
     currRef: TidyRoomInterface
 }
 
 export default function ChatBox({ currRef }: ChatBoxInterface) {
+    // export default function ChatBox() {
     const { user } = useAuth()
-    const chatState = useSnapCollection(query(collection(db, "user_chat_room", currRef.ref, "chats"), orderBy('timestamp', 'asc')))
+    // const { currRef } = useMessageProvider()
+    let chatState = useSnapCollection(query(collection(db, "user_chat_room", currRef.ref, "chats"), orderBy('timestamp', 'asc')))
     const { sendMessage } = useBackEnd()
     const msgRef = createRef<HTMLInputElement>()
 
@@ -69,14 +73,31 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
                         <React.Fragment key={'msg-' + idx}>
                             {
                                 chat.idFrom === user.id ?
-                                    <div className='bubble mx-2 place-self-end' >{chat.content}</div>
+                                    <div className='bubble mx-2 place-self-end' >
+                                        {
+                                            chat.type === "profile" ? <div className='flex flex-col center-all'>
+                                                {
+                                                    <ChatProfile content={chat.content} />
+                                                }
+                                            </div>
+                                                :
+                                                chat.content
+                                        }
+                                    </div>
                                     :
-                                    <div className='bubble mx-2 place-self-start' >{chat.content}</div>
+                                    <div className='bubble mx-2 place-self-start' >
+                                        {
+                                            chat.type === "profile" ? <div className='flex flex-col center-all'>{JSON.parse(chat.content)}</div>
+                                                :
+                                                chat.content
+                                        }
+                                    </div>
                             }
                             {idx < len - 1 && <div className='h-4'></div>}
                         </React.Fragment>
                     )
                 })}
+                <div>{currRef.ref}</div>
             </div>
             <div className='footer'>
                 <div className='input'>
