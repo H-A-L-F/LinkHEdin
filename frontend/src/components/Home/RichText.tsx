@@ -27,6 +27,7 @@ export default function RichText({ text }: RichTextInterface) {
     const [open, setOpen] = useState<boolean>(false)
     const richTagClass = document.getElementsByClassName("ri-class-" + INDEX)
     let tempArr: string[] = []
+    // console.log(text)
     const arr: string[] = text.split(" ")
 
     function handleMouseEnter(name: string) {

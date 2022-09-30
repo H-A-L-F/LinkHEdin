@@ -48,12 +48,10 @@ export default function ShareModal({ data, type, openModal, setOpenModal, callba
         )
 
     if (userState.status === FIRESTORE_FETCH_ERROR) {
-        console.log(userState.error)
         return <div></div>
     }
 
     const len = userState.data.length
-    console.log(userState)
 
     return (
         <Modal

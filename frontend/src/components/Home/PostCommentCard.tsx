@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
 import { FIND_COMMENT_QUERY } from '../../query/comment'
 import { PostCommentInterface } from './postComment'
-import Reply from './Reply'
+import RichReply from './RichReply'
 import RichText from './RichText'
 
 interface PostCommentCardInterface {
@@ -71,10 +71,8 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                     </div>
                 </div>
             </div>
-            {openReply &&
-                <div className='ml-16'>
-                    <Reply cid={pc.ID} />
-                </div>
+            {
+                openReply && <RichReply pc={pc} refetch={refetch} />
             }
             {pc.Replies.map((reply: any, idx: number) => {
                 return (
@@ -89,10 +87,11 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                                     <div className='text-md font-bold'>{reply.User.name}</div>
                                     <div className='text-sm font-medium'>{reply.User.email}</div>
                                     <div className='h-2'></div>
-                                    <div className='text-sm font-medium'>
+                                    {/* <div className='text-sm font-medium'>
                                         <span className='font-semibold'>@{reply.User.name + " "}</span>
                                         {reply.Text}
-                                    </div>
+                                    </div> */}
+                                    <RichText text={reply.Text} />
                                 </div>
                             </div>
                             <div className='h-2'></div>
