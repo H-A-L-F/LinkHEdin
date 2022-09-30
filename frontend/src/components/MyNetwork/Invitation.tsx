@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../../hooks/useAuth'
+import ConnectedUser from './ConnectedUser'
 import Request from './Request'
 import UserYouMightKnow from './UserYouMightKnow'
 
@@ -8,8 +9,8 @@ export default function Invitation() {
 
     const len = user.RequestConnect.length
     return (
-        <React.Fragment>
-            <div className="box w-full h-full">
+        <div className='flex flex-col'>
+            <div className="box w-full h-fit">
                 <div className="header">
                     Invitations
                     {/* <div className='btn-plain'>
@@ -29,7 +30,10 @@ export default function Invitation() {
                     )
                 })}
             </div>
+            <div className='h-4'></div>
             <UserYouMightKnow />
-        </React.Fragment>
+            <div className='h-4'></div>
+            <ConnectedUser />
+        </div>
     )
 }

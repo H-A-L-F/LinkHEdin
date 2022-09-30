@@ -18,12 +18,15 @@ type User {
   Headline: String! @goField(forceResolver: true)
   ProfileViews: Int!
   BgPhotoProfile: String!
+  BlockedUser: [String!]!
 }
 
 type Query {
+  searchConnected: [User!]! @auth
   user(id: ID!): User! @auth
   users: [User!]!
   whoisme: User! @auth
+  userSuggestion: [User!]! @auth
 }
 
 input NewUser {

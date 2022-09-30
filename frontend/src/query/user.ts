@@ -111,4 +111,23 @@ export const GET_USER_QUERY = gql`
       RequestConnectTxt
     }
   }
-`;
+`
+
+export const GET_CONNECTED_USER_QUERY = gql`
+query GetConnetedUser{
+  searchConnected{
+    name
+    email
+    PhotoProfile
+    FollowedUser
+    ConnectedUser
+    RequestConnect
+    RequestConnectTxt
+    Headline
+    ProfileViews
+    BgPhotoProfile
+    BlockedUser
+    id
+  }
+}
+`

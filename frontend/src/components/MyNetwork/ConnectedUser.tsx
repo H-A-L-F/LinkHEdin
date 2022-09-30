@@ -1,30 +1,31 @@
 import { useQuery } from '@apollo/client';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { USER_SUGGESTION_QUERY } from '../../query/user';
-import { UserInterface } from '../Profile/UserInterface';
 import { ROUTE } from '../../config/constants';
+import { GET_CONNECTED_USER_QUERY } from '../../query/user';
+import { UserInterface } from '../Profile/UserInterface'
 
-export default function UserYouMightKnow() {
-    const { data } = useQuery(USER_SUGGESTION_QUERY);
+export default function ConnectedUser() {
+    const { data } = useQuery(GET_CONNECTED_USER_QUERY)
     const navigate = useNavigate();
 
     function handleViewProfile(id: string) {
         navigate(ROUTE.ROUTE_PROFILE(id))
     }
 
-    if (!data || data.userSuggestion.length === 0) {
+    if (!data || data.searchConnected.length === 0) {
         return <div></div>
     }
 
-    const len = data.userSuggestion.length
+    const len = data.searchConnected.length
+
     return (
         <div className='box w-full h-fit'>
             <div className="header">
-                User you might know
+                Connected user
             </div>
             <div className="divider"></div>
-            {data.userSuggestion.map((currUser: UserInterface, idx: number) => {
+            {data.searchConnected.map((currUser: UserInterface, idx: number) => {
                 return (
                     <React.Fragment key={"inv-" + idx}>
                         <div className="flex flex-row justify-between">

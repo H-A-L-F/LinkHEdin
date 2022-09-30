@@ -196,6 +196,14 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*model.Us
 	return model, r.DB.Delete(model).Error
 }
 
+// SearchConnected is the resolver for the searchConnected field.
+func (r *queryResolver) SearchConnected(ctx context.Context) ([]*model.User, error) {
+	val := *middleware.CtxValue(ctx)
+	var connectedUser []*model.User
+	r.DB.Raw("select * from users where cast(users.id as text) = any (select  unnest(u.connected_user) as connected from users u where u.id = ?)", val.ID).Scan(&connectedUser)
+	return connectedUser, nil
+}
+
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
 	var user *model.User
@@ -217,6 +225,19 @@ func (r *queryResolver) Whoisme(ctx context.Context) (*model.User, error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+// UserSuggestion is the resolver for the userSuggestion field.
+func (r *queryResolver) UserSuggestion(ctx context.Context) ([]*model.User, error) {
+	val := *middleware.CtxValue(ctx)
+	var user *model.User
+	err := r.DB.First(&user, "id = ?", val.ID).Error
+	if err != nil {
+		return nil, err
+	}
+	var models []*model.User
+	r.DB.Raw("select * from users where cast(users.id as text) = any (select unnest(users.connected_user) from users where cast(users.id as text) = any (select unnest(u.connected_user) from users u where u.id = ?)) and users.id != ?", val.ID, val.ID).Scan(&models)
+	return models, nil
 }
 
 // FollowedUser is the resolver for the FollowedUser field.
@@ -248,6 +269,11 @@ func (r *userResolver) Headline(ctx context.Context, obj *model.User) (string, e
 	}
 
 	return model.Title, nil
+}
+
+// BlockedUser is the resolver for the BlockedUser field.
+func (r *userResolver) BlockedUser(ctx context.Context, obj *model.User) ([]string, error) {
+	return obj.BlockedUser, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.
