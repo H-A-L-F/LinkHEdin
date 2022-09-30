@@ -34,4 +34,5 @@ extend type Mutation {
 extend type Query {
   seeCommentOnPost(postId: String!, limit: Int!, offset: Int!): [Comment!]!
   comments: [Comment!]!
+  comment(id: String!): Comment!
 }

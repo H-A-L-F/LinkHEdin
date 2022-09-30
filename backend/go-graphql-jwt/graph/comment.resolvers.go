@@ -78,6 +78,12 @@ func (r *queryResolver) Comments(ctx context.Context) ([]*model.Comment, error) 
 	return model, r.DB.Find(&model).Error
 }
 
+// Comment is the resolver for the comment field.
+func (r *queryResolver) Comment(ctx context.Context, id string) (*model.Comment, error) {
+	var model *model.Comment
+	return model, r.DB.First(&model, "id = ?", id).Error
+}
+
 // User is the resolver for the User field.
 func (r *replyCommentResolver) User(ctx context.Context, obj *model.ReplyComment) (*model.User, error) {
 	var model *model.User

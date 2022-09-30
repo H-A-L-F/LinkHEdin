@@ -161,6 +161,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
+		Comment          func(childComplexity int, id string) int
 		Comments         func(childComplexity int) int
 		GetAllHashtag    func(childComplexity int) int
 		Jobs             func(childComplexity int) int
@@ -263,6 +264,7 @@ type QueryResolver interface {
 	Whoisme(ctx context.Context) (*model.User, error)
 	SeeCommentOnPost(ctx context.Context, postID string, limit int, offset int) ([]*model.Comment, error)
 	Comments(ctx context.Context) ([]*model.Comment, error)
+	Comment(ctx context.Context, id string) (*model.Comment, error)
 	UserEducation(ctx context.Context, userID string) ([]*model.Education, error)
 	MyEducation(ctx context.Context) ([]*model.Education, error)
 	UserExperience(ctx context.Context, userID string) ([]*model.Experience, error)
@@ -1059,6 +1061,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.PostLike.UserID(childComplexity), true
 
+	case "Query.comment":
+		if e.complexity.Query.Comment == nil {
+			break
+		}
+
+		args, err := ec.field_Query_comment_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Comment(childComplexity, args["id"].(string)), true
+
 	case "Query.comments":
 		if e.complexity.Query.Comments == nil {
 			break
@@ -1465,6 +1479,7 @@ extend type Mutation {
 extend type Query {
   seeCommentOnPost(postId: String!, limit: Int!, offset: Int!): [Comment!]!
   comments: [Comment!]!
+  comment(id: String!): Comment!
 }
 `, BuiltIn: false},
 	{Name: "../commentLike.graphqls", Input: `extend type Mutation {
@@ -2310,6 +2325,21 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_comment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -7289,6 +7319,75 @@ func (ec *executionContext) fieldContext_Query_comments(ctx context.Context, fie
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Comment", field.Name)
 		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_comment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_comment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Comment(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Comment)
+	fc.Result = res
+	return ec.marshalNComment2ᚖLinkHEdinᚋgraphᚋmodelᚐComment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_comment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "PostID":
+				return ec.fieldContext_Comment_PostID(ctx, field)
+			case "ID":
+				return ec.fieldContext_Comment_ID(ctx, field)
+			case "User":
+				return ec.fieldContext_Comment_User(ctx, field)
+			case "Text":
+				return ec.fieldContext_Comment_Text(ctx, field)
+			case "Likes":
+				return ec.fieldContext_Comment_Likes(ctx, field)
+			case "Replies":
+				return ec.fieldContext_Comment_Replies(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Comment", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_comment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
 	}
 	return fc, nil
 }
@@ -12697,6 +12796,29 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
+		case "comment":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_comment(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
 		case "userEducation":
 			field := field
 
@@ -13628,6 +13750,10 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) marshalNComment2LinkHEdinᚋgraphᚋmodelᚐComment(ctx context.Context, sel ast.SelectionSet, v model.Comment) graphql.Marshaler {
+	return ec._Comment(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNComment2ᚕᚖLinkHEdinᚋgraphᚋmodelᚐCommentᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Comment) graphql.Marshaler {

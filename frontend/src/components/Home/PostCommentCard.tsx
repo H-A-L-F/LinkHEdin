@@ -1,6 +1,8 @@
+import { useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
+import { FIND_COMMENT_QUERY } from '../../query/comment'
 import { PostCommentInterface } from './postComment'
 import Reply from './Reply'
 import RichText from './RichText'
@@ -13,9 +15,25 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
     const { user } = useAuth()
     const { commentLike } = useBackEnd()
     const [openReply, setOpenReply] = useState(false)
+    const { data, refetch } = useQuery(FIND_COMMENT_QUERY, {
+        variables: {
+            id: pc.ID,
+        },
+    })
 
-    function handleLike() {
-        commentLike(pc.ID)
+    async function handleLike() {
+        try {
+            const res = await commentLike(pc.ID)
+            if (res) {
+                refetch()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    if (data) {
+        pc = data.comment
     }
 
     return (
@@ -33,6 +51,10 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                             <div className='h-2'></div>
                             <div className='text-sm font-medium'>
                                 <RichText text={pc.Text} />
+                            </div>
+                            <div className='flex flex-row justify-between'>
+                                <div></div>
+                                <div className='text-sm font-medium'>Likes: {pc.Likes}</div>
                             </div>
                         </div>
                     </div>
