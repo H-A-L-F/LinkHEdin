@@ -9,3 +9,12 @@ export interface PostCommentInterface {
     User: UserInterface,
     __typename: "Comment"
 }
+
+export interface PostReplyInterface {
+    CommentId: string,
+    ID: string,
+    Likes: number,
+    Text: string
+    User: UserInterface,
+    __typename: "ReplyComment"
+}

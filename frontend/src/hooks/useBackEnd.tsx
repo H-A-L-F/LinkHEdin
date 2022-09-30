@@ -18,7 +18,7 @@ import { addDoc, collection, doc, query, Timestamp, where } from 'firebase/fires
 import { db } from "../config/firebase";
 import { genUserMessageCol, usersCol } from "../query/FirestoreCollection";
 import { ChatInterface } from "../components/Message/room";
-import { CREATE_COMMENT_MUTATION, LIKE_COMMENT_QUERY, REPLY_COMMENT_QUERY } from "../query/comment";
+import { CREATE_COMMENT_MUTATION, LIKE_COMMENT_QUERY, LIKE_COMMENT_REPLY, REPLY_COMMENT_QUERY } from "../query/comment";
 
 const backEndContext = createContext({} as any)
 
@@ -52,6 +52,7 @@ function useProvideBackEnd() {
     const [createPostFunc] = useMutation(CREATE_POST_QUERY);
     const [commentPostFunc] = useMutation(CREATE_COMMENT_MUTATION)
     const [commentLikeFunc] = useMutation(LIKE_COMMENT_QUERY)
+    const [commentReplyLikeFunc] = useMutation(LIKE_COMMENT_REPLY)
     const [postLikeFunc] = useMutation(LIKE_POST_QUERY)
     const [commentReplyFunc] = useMutation(REPLY_COMMENT_QUERY)
     const [sendPostFunc] = useMutation(SEND_POST_QUERY)
@@ -541,6 +542,21 @@ function useProvideBackEnd() {
         return true
     }
 
+    async function replyLike(rid: string) {
+        try {
+            const resLike = await commentReplyLikeFunc({
+                variables: {
+                    commentId: rid,
+                }
+            })
+            successHandle("Reply liked")
+        } catch (err: any) {
+            errHandle(err)
+            return false
+        }
+        return true
+    }
+
     async function postLike(pid: string) {
         try {
             const resLike = await postLikeFunc({ variables: { id: pid } })
@@ -639,6 +655,7 @@ function useProvideBackEnd() {
         commentReply,
         refetchUser,
         shareProfile,
-        sharePost
+        sharePost,
+        replyLike
     }
 }
