@@ -84,6 +84,12 @@ func (r *queryResolver) Comment(ctx context.Context, id string) (*model.Comment,
 	return model, r.DB.First(&model, "id = ?", id).Error
 }
 
+// Reply is the resolver for the reply field.
+func (r *queryResolver) Reply(ctx context.Context, id string) (*model.ReplyComment, error) {
+	var model *model.ReplyComment
+	return model, r.DB.First(&model, "id = ?", id).Error
+}
+
 // User is the resolver for the User field.
 func (r *replyCommentResolver) User(ctx context.Context, obj *model.ReplyComment) (*model.User, error) {
 	var model *model.User
@@ -96,6 +102,12 @@ func (r *replyCommentResolver) Likes(ctx context.Context, obj *model.ReplyCommen
 	var count int64
 	r.DB.First(&model, "comment_reply_id = ? AND is_like = true", obj.ID).Count(&count)
 	return int(count), nil
+}
+
+// Replies is the resolver for the Replies field.
+func (r *replyCommentResolver) Replies(ctx context.Context, obj *model.ReplyComment) ([]*model.ReplyComment, error) {
+	var models []*model.ReplyComment
+	return models, r.DB.Where("comment_id = ?", obj.ID).Find(&models).Error
 }
 
 // Comment returns generated.CommentResolver implementation.

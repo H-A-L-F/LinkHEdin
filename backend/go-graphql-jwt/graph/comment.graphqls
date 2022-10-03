@@ -4,6 +4,7 @@ type ReplyComment {
   Text: String!
   Likes: Int!
   CommentId: String!
+  Replies: [ReplyComment!]!
 }
 
 type Comment {
@@ -35,4 +36,5 @@ extend type Query {
   seeCommentOnPost(postId: String!, limit: Int!, offset: Int!): [Comment!]!
   comments: [Comment!]!
   comment(id: String!): Comment!
+  reply(id: String!): ReplyComment!
 }

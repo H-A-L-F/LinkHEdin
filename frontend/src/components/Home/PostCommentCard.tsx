@@ -113,7 +113,7 @@ function PostCommentCard({ pc }: PostCommentCardInterface) {
                     </div>
                 )
             })} */}
-            <PostCommentReplyCard pc={pc} refetch={refetch} setOpenReplyReply={setOpenReply} setReply={setReply}/>
+            <PostCommentReplyCard pc={pc} refetch={refetch} setOpenReplyReply={setOpenReplyReply} setReply={setReply}/>
             {
                 openReplyReply && <RichReply pc={reply} refetch={refetch} />
             }

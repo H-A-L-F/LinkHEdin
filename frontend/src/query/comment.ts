@@ -62,6 +62,44 @@ export const FIND_COMMENT_QUERY = gql`
   }
 `;
 
+export const FIND_REPLY_QUERY = gql`
+  query FindReply($id: String!) {
+    reply(id: $id) {
+      CommentId
+      ID
+      User{
+        id
+        name
+        email
+        PhotoProfile
+        FollowedUser
+        ConnectedUser
+        RequestConnect
+        Headline
+      }
+      Text
+      Likes
+      Replies{
+        User{
+          id
+        name
+        email
+        PhotoProfile
+        FollowedUser
+        ConnectedUser
+    
+        RequestConnect
+        Headline
+        }
+        Text
+        Likes
+        CommentId
+        ID
+      }
+    }
+  }
+`;
+
 export const SEE_COMMENT_QUERY = gql`
   query SeeComment($postId:String!, $limit:Int!, $offset:Int!){
     seeCommentOnPost(postId:$postId,limit:$limit, offset: $offset){
