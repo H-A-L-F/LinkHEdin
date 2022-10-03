@@ -41,7 +41,9 @@ export default function CommentReply({ reply, setReply, setOpenReplyReply, refet
     if (commentState.data) {
         console.log(commentState.data.reply)
         reply = commentState.data.reply
+        console.log(reply.Replies.length)
     }
+
 
     return (
         <React.Fragment>
@@ -79,7 +81,11 @@ export default function CommentReply({ reply, setReply, setOpenReplyReply, refet
                     </div>
                 </div>
             </div>
-            <PostCommentReplyCard pc={reply} refetch={refetch} setOpenReplyReply={setOpenReplyReply} setReply={setReply}/>
+            {
+                reply.Replies && reply.Replies.map((e) => {
+                    return <CommentReply refetch={refetch} reply={e} setOpenReplyReply={setOpenReplyReply} setReply={setReply} />
+                })
+            }
         </React.Fragment>
     )
 }

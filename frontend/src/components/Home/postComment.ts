@@ -16,5 +16,6 @@ export interface PostReplyInterface {
     Likes: number,
     Text: string
     User: UserInterface,
+    Replies: PostReplyInterface[],
     __typename: "ReplyComment"
 }

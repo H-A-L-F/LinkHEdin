@@ -1,11 +1,7 @@
 import { ApolloQueryResult, useQuery } from '@apollo/client'
 import React, { useState } from 'react'
-import { useAuth } from '../../hooks/useAuth'
-import { useBackEnd } from '../../hooks/useBackEnd'
-import { FIND_COMMENT_QUERY } from '../../query/comment'
 import CommentReply from './CommentReply'
 import { PostCommentInterface, PostReplyInterface } from './postComment'
-import RichText from './RichText'
 
 interface PostCommentReplyCardInterface {
     pc: PostCommentInterface,
@@ -21,9 +17,7 @@ export default function PostCommentReplyCard({ pc, setReply, setOpenReplyReply, 
         <div>
             {pc.Replies.map((reply: PostReplyInterface, idx: number) => {
                 return (
-                    <div className='flex flex-col' key={"reply-" + idx}>
-                        <CommentReply refetch={refetch} reply={reply} setOpenReplyReply={setOpenReplyReply} setReply={setReply} />
-                    </div>
+                    <CommentReply refetch={refetch} reply={reply} setOpenReplyReply={setOpenReplyReply} setReply={setReply} />
                 )
             })}
         </div>
