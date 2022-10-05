@@ -27,6 +27,7 @@ import { offsetLimitPagination, Reference } from "@apollo/client/utilities";
 import Message from "./pages/Message";
 import Search from "./pages/Search";
 import DirectChat from "./components/Message/DirectChat";
+import Information from "./components/Service/Information";
 
 export function App() {
   const { user, theme } = useAuth()
@@ -81,6 +82,10 @@ export function App() {
                 <Route path="search/:input" element={<Search />} />
                 <Route path="search/people/:input" element={<Search />} />
                 <Route path="search/hashtags/:input" element={<Search />} />
+                <Route
+                  path="/information/:id"
+                  element={<Information mode={"google"} />}
+                ></Route>
               </Route>
 
               <Route path="guest" element={<GuestLayout />}>

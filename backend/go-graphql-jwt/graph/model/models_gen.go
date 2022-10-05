@@ -2,6 +2,10 @@
 
 package model
 
+type AllUpdateUser struct {
+	Name string `json:"name"`
+}
+
 type GoogleInput struct {
 	GoogleID  string `json:"googleId"`
 	GoogleKey string `json:"googleKey"`

@@ -4,12 +4,11 @@ package graph
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
+	my_auth "LinkHEdin/auth"
 	"LinkHEdin/graph/model"
 	"context"
 	"errors"
 	"fmt"
-
-	my_auth "LinkHEdin/auth"
 
 	"github.com/google/uuid"
 )

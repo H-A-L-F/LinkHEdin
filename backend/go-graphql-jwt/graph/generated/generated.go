@@ -127,6 +127,7 @@ type ComplexityRoot struct {
 		UpdateEducation       func(childComplexity int, id string, input model.NewEducation) int
 		UpdateExperience      func(childComplexity int, id string, input model.NewExperience) int
 		UpdateUser            func(childComplexity int, id string, input model.UpdateUser) int
+		UpdateUserWithID      func(childComplexity int, id string, input model.AllUpdateUser) int
 		ValidateChangePass    func(childComplexity int, input model.ValidChangePass) int
 		ValidateUser          func(childComplexity int, input model.ValidReq) int
 		ValidateUserWithEmail func(childComplexity int, email string) int
@@ -233,6 +234,7 @@ type MutationResolver interface {
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
 	UpdateUser(ctx context.Context, id string, input model.UpdateUser) (*model.User, error)
 	DeleteUser(ctx context.Context, id string) (*model.User, error)
+	UpdateUserWithID(ctx context.Context, id string, input model.AllUpdateUser) (string, error)
 	CreateComment(ctx context.Context, input model.NewComment) (string, error)
 	RepliesComment(ctx context.Context, input model.NewRepliesComment) (string, error)
 	NewLikeComment(ctx context.Context, commentID string) (string, error)
@@ -911,6 +913,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateUser(childComplexity, args["id"].(string), args["input"].(model.UpdateUser)), true
 
+	case "Mutation.updateUserWithId":
+		if e.complexity.Mutation.UpdateUserWithID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateUserWithId_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateUserWithID(childComplexity, args["id"].(string), args["input"].(model.AllUpdateUser)), true
+
 	case "Mutation.validateChangePass":
 		if e.complexity.Mutation.ValidateChangePass == nil {
 			break
@@ -1437,6 +1451,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputAllUpdateUser,
 		ec.unmarshalInputGoogleInput,
 		ec.unmarshalInputInputNotification,
 		ec.unmarshalInputJobInput,
@@ -1823,6 +1838,10 @@ input UpdateUser {
   BgPhotoProfile: String!
 }
 
+input AllUpdateUser {
+  name: String!
+}
+
 type Mutation {
   requestChangePassword(email: String!): String!
   validateChangePass(input: ValidChangePass!): String!
@@ -1835,6 +1854,7 @@ type Mutation {
   createUser(input: NewUser!): User!
   updateUser(id: ID!, input: UpdateUser!): User!
   deleteUser(id: ID!): User!
+  updateUserWithId(id: ID!, input: AllUpdateUser!): String!
 }`, BuiltIn: false},
 	{Name: "../userValidation.graphqls", Input: `input NewLink {
   link: String!
@@ -2334,6 +2354,30 @@ func (ec *executionContext) field_Mutation_updateExperience_args(ctx context.Con
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNnewExperience2LinkHEdinᚋgraphᚋmodelᚐNewExperience(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateUserWithId_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 model.AllUpdateUser
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalNAllUpdateUser2LinkHEdinᚋgraphᚋmodelᚐAllUpdateUser(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4845,6 +4889,61 @@ func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteUser_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateUserWithId(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateUserWithId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateUserWithID(rctx, fc.Args["id"].(string), fc.Args["input"].(model.AllUpdateUser))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateUserWithId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateUserWithId_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -11600,6 +11699,34 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputAllUpdateUser(ctx context.Context, obj interface{}) (model.AllUpdateUser, error) {
+	var it model.AllUpdateUser
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputGoogleInput(ctx context.Context, obj interface{}) (model.GoogleInput, error) {
 	var it model.GoogleInput
 	asMap := map[string]interface{}{}
@@ -12799,6 +12926,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteUser(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateUserWithId":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateUserWithId(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {
@@ -14430,6 +14566,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) unmarshalNAllUpdateUser2LinkHEdinᚋgraphᚋmodelᚐAllUpdateUser(ctx context.Context, v interface{}) (model.AllUpdateUser, error) {
+	res, err := ec.unmarshalInputAllUpdateUser(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
 
 func (ec *executionContext) unmarshalNAny2interface(ctx context.Context, v interface{}) (interface{}, error) {
 	res, err := graphql.UnmarshalAny(v)

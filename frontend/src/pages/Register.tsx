@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import mainLogo from '../assets/mainLogo.png'
 import GoogleSignIn from '../components/GoogleSignIn'
+import MyGoogleRegister from '../components/Service/MyGoogleRegister'
 import { ROUTE } from '../config/constants'
 import { toastError } from '../config/toast'
 import { useBackEnd } from '../hooks/useBackEnd'
@@ -64,7 +65,8 @@ export default function Register() {
                     <div className='form-space-y'></div>
                     <div className='text-base-content'>OR</div>
                     <div className='form-space-y'></div>
-                    <GoogleSignIn />
+                    {/* <GoogleSignIn /> */}
+                    <MyGoogleRegister />
                 </div>
             </form>
             <div className='mt-8'></div>

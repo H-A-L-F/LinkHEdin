@@ -196,6 +196,19 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id string) (*model.Us
 	return model, r.DB.Delete(model).Error
 }
 
+// UpdateUserWithID is the resolver for the updateUserWithId field.
+func (r *mutationResolver) UpdateUserWithID(ctx context.Context, id string, input model.AllUpdateUser) (string, error) {
+	var user *model.User
+	err := r.DB.First(&user, "id = ?", id).Error
+	if err != nil {
+		return "Error", err
+	}
+
+	user.Name = input.Name
+
+	return "Ok", r.DB.Save(&user).Error
+}
+
 // SearchConnected is the resolver for the searchConnected field.
 func (r *queryResolver) SearchConnected(ctx context.Context) ([]*model.User, error) {
 	val := *middleware.CtxValue(ctx)

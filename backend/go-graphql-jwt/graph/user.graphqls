@@ -53,6 +53,10 @@ input UpdateUser {
   BgPhotoProfile: String!
 }
 
+input AllUpdateUser {
+  name: String!
+}
+
 type Mutation {
   requestChangePassword(email: String!): String!
   validateChangePass(input: ValidChangePass!): String!
@@ -65,4 +69,5 @@ type Mutation {
   createUser(input: NewUser!): User!
   updateUser(id: ID!, input: UpdateUser!): User!
   deleteUser(id: ID!): User!
+  updateUserWithId(id: ID!, input: AllUpdateUser!): String!
 }
