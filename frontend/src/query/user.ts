@@ -136,3 +136,9 @@ export const UPDATE_PROFILE_WITH_ID = gql`
     updateUserWithId(id:$id, input:$input)
   }
 `
+
+export const PROFILE_SEEN_QUERY = gql`
+mutation ProfileView($id :ID!){
+  profileSeen(id:$id)
+}
+`
