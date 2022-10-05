@@ -50,17 +50,6 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
                 return chat.content
             }
         }
-
-        return (
-            chat.type === "profile" ?
-                <div className='flex flex-col center-all'>
-                    {
-                        <ChatProfile content={chat.content} />
-                    }
-                </div>
-                :
-                chat.content
-        )
     }
 
     if (chatState.status === FIRESTORE_FETCH_LOADING)
