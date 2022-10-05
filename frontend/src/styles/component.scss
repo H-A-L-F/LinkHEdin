@@ -274,6 +274,24 @@
   flex: 1 1 auto;
 }
 
+.responsive {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (max-width: 800px) {
+  .responsive {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .divider {
   @extend .w-full, .bg-base-100, .my-2;
   height: 0.2rem;
@@ -761,7 +779,7 @@
 }
 
 .left-box {
-  @extend .box, .mr-4;
+  @extend .box, .mr-4, .mb-4;
   width: 26rem;
 }
 
@@ -922,7 +940,7 @@
 
 .left-footer-container{
   @extend .w-full, .h-full;
-  @extend .box, .ml-4;
+  @extend .box, .ml-4, .mt-4;
   width: 32rem;
   // @include abs.display-flex(flex-start , center , column);
   // border-top-left-radius: 10px;

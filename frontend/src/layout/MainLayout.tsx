@@ -19,7 +19,7 @@ export default function MainLayout() {
             <Navbar />
             <div className='main-layout'>
                 <div className='h-8'></div>
-                <div className='flex flex-row flex-grow w-full h-full'>
+                <div className='responsive'>
                     {
                         location.pathname === "/home" && <Left /> ||
                         location.pathname === "/mynetwork" && <Left /> ||
