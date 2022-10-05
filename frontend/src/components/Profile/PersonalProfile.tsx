@@ -1,13 +1,16 @@
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore'
 import React, { useState } from 'react'
+import { HiPencil } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../config/firebase'
 import { toastError } from '../../config/toast'
 import { useAuth } from '../../hooks/useAuth'
 import { useBackEnd } from '../../hooks/useBackEnd'
 import { useUserProfile } from '../../pages/Profile'
+import IconButton from '../Buttons/IconButton'
 import { TidyRoomInterface } from '../Message/room'
 import ShareModal from '../ShareModal/ShareModal'
+import EditProfileModal from './EditProfileModal'
 import ShareProfileModal from './ShareProfileModal'
 
 export default function PersonalProfile() {
@@ -16,6 +19,7 @@ export default function PersonalProfile() {
     const { user } = useAuth()
     const navigate = useNavigate()
     const [openShare, setopenShare] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
 
     function handleFollow() {
         followUser(id)
@@ -72,16 +76,30 @@ export default function PersonalProfile() {
 
     }
 
+    function openEditModal() {
+        setOpenModal(true)
+    }
+
     return (
         <React.Fragment>
             <div className='personal-position'>
                 <div className='personal-content'>
-                    <div className='user'>
-                        <div className='text-lg font-semibold'>
-                            {currUser.name}
+                    <div className='flex flex-row justify-between'>
+                        <div className='user'>
+                            <div className='text-lg font-semibold'>
+                                {currUser.name}
+                            </div>
+                            <div className='text-md font-medium'>
+                                {currUser.email}
+                            </div>
+                            <div className='text-md font-medium'>
+                                {currUser.Headline}
+                            </div>
                         </div>
-                        <div className='text-md font-medium'>
-                            {currUser.email}
+                        <div></div>
+                        <div className='btn-plain' onClick={openEditModal}>
+                            <div className='btn-plain.bg'></div>
+                            <IconButton Icon={HiPencil} />
                         </div>
                     </div>
                 </div>
@@ -148,6 +166,7 @@ export default function PersonalProfile() {
             }
             {/* <ShareProfileModal uid={id} openModal={openShare} setOpenModal={setopenShare} /> */}
             <ShareModal data={currUser} type="profile" openModal={openShare} setOpenModal={setopenShare} />
+            <EditProfileModal openModal={openModal} setOpenModal={setOpenModal} refetch={refetchCurrUser} us={currUser} isUser={isUser} />
         </React.Fragment>
     )
 }

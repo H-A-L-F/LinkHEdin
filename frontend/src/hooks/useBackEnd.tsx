@@ -204,6 +204,16 @@ function useProvideBackEnd() {
         }
     }
 
+    async function setName(uid: string, name: string) {
+        try {
+            const input = constructUpdateUser({name: name})
+            const res = await updateUser(uid, input)
+            successHandle("Updated profile")
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     async function setProfilePict(img: any, id: string) {
         setLoading(true)
         try {
@@ -656,6 +666,7 @@ function useProvideBackEnd() {
         refetchUser,
         shareProfile,
         sharePost,
-        replyLike
+        replyLike,
+        setName
     }
 }
