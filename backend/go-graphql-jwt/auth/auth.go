@@ -108,3 +108,35 @@ func UserLogin(ctx context.Context, email string, password string) (interface{},
 		"ProfileViews":   user.ProfileViews,
 	}, nil
 }
+
+func UserLoginWithoutPassword(ctx context.Context, email string) (interface{}, error) {
+	user, err := UserGetByEmail(ctx, email)
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, &gqlerror.Error{
+				Message: "Email Not Found",
+			}
+		}
+		return nil, err
+	}
+
+	token, err := GenerateJWT(ctx, user.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return map[string]interface{}{
+		"id":                user.ID,
+		"token":             token,
+		"name":              user.Name,
+		"email":             user.Email,
+		"PhotoProfile":      user.PhotoProfile,
+		"FollowedUser":      user.FollowedUser,
+		"RequestConnect":    user.RequestConnect,
+		"Headline":          user.Headline,
+		"ProfileViews":      user.ProfileViews,
+		"BgPhotoProfile":    user.BgPhotoProfile,
+		"RequestConnectTxt": user.RequestConnectTxt,
+		"BlockedUser":       user.BlockedUser,
+	}, nil
+}

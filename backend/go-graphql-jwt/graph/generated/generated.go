@@ -114,6 +114,7 @@ type ComplexityRoot struct {
 		DeleteNotification    func(childComplexity int, id string) int
 		DeleteUser            func(childComplexity int, id string) int
 		Follow                func(childComplexity int, id string) int
+		Google                func(childComplexity int, input model.GoogleInput) int
 		LikePost              func(childComplexity int, id string) int
 		LikeReplyComment      func(childComplexity int, replycommentID string) int
 		Login                 func(childComplexity int, email string, password string) int
@@ -246,6 +247,7 @@ type MutationResolver interface {
 	CreateExperience(ctx context.Context, input model.NewExperience) (string, error)
 	UpdateExperience(ctx context.Context, id string, input model.NewExperience) (string, error)
 	DeleteExperience(ctx context.Context, id string) (string, error)
+	Google(ctx context.Context, input model.GoogleInput) (interface{}, error)
 	CreateJob(ctx context.Context, input model.JobInput) (string, error)
 	CreateNotification(ctx context.Context, input model.InputNotification) (string, error)
 	DeleteNotification(ctx context.Context, id string) (string, error)
@@ -752,6 +754,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.Follow(childComplexity, args["id"].(string)), true
+
+	case "Mutation.google":
+		if e.complexity.Mutation.Google == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_google_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.Google(childComplexity, args["input"].(model.GoogleInput)), true
 
 	case "Mutation.likePost":
 		if e.complexity.Mutation.LikePost == nil {
@@ -1423,6 +1437,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputGoogleInput,
 		ec.unmarshalInputInputNotification,
 		ec.unmarshalInputJobInput,
 		ec.unmarshalInputNewLink,
@@ -1628,6 +1643,17 @@ extend type Mutation{
     updateExperience(id:ID!, input: newExperience!):String! @auth
     deleteExperience(id:ID!): String! @auth
 }`, BuiltIn: false},
+	{Name: "../google.graphqls", Input: `input GoogleInput {
+  googleId: String!
+  googleKey: String!
+  email: String!
+  name: String!
+}
+
+extend type Mutation {
+  google(input: GoogleInput!): Any!
+}
+`, BuiltIn: false},
 	{Name: "../job.graphqls", Input: `scalar Time
 
 type Job {
@@ -2097,6 +2123,21 @@ func (ec *executionContext) field_Mutation_follow_args(ctx context.Context, rawA
 		}
 	}
 	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_google_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.GoogleInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNGoogleInput2LinkHEdinᚋgraphᚋmodelᚐGoogleInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -5694,6 +5735,61 @@ func (ec *executionContext) fieldContext_Mutation_deleteExperience(ctx context.C
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteExperience_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_google(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_google(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().Google(rctx, fc.Args["input"].(model.GoogleInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(interface{})
+	fc.Result = res
+	return ec.marshalNAny2interface(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_google(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Any does not have child fields")
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_google_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -11504,6 +11600,58 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputGoogleInput(ctx context.Context, obj interface{}) (model.GoogleInput, error) {
+	var it model.GoogleInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"googleId", "googleKey", "email", "name"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "googleId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googleId"))
+			it.GoogleID, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "googleKey":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("googleKey"))
+			it.GoogleKey, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputInputNotification(ctx context.Context, obj interface{}) (model.InputNotification, error) {
 	var it model.InputNotification
 	asMap := map[string]interface{}{}
@@ -12777,6 +12925,15 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteExperience(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "google":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_google(ctx, field)
 			})
 
 			if out.Values[i] == graphql.Null {
@@ -14489,6 +14646,11 @@ func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.S
 		}
 	}
 	return graphql.WrapContextMarshaler(ctx, res)
+}
+
+func (ec *executionContext) unmarshalNGoogleInput2LinkHEdinᚋgraphᚋmodelᚐGoogleInput(ctx context.Context, v interface{}) (model.GoogleInput, error) {
+	res, err := ec.unmarshalInputGoogleInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {

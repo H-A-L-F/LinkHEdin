@@ -2,6 +2,13 @@
 
 package model
 
+type GoogleInput struct {
+	GoogleID  string `json:"googleId"`
+	GoogleKey string `json:"googleKey"`
+	Email     string `json:"email"`
+	Name      string `json:"name"`
+}
+
 type InputNotification struct {
 	UserID         string `json:"userId"`
 	Text           string `json:"text"`
