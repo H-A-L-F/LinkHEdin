@@ -209,6 +209,17 @@ func (r *mutationResolver) UpdateUserWithID(ctx context.Context, id string, inpu
 	return "Ok", r.DB.Save(&user).Error
 }
 
+// ProfileSeen is the resolver for the profileSeen field.
+func (r *mutationResolver) ProfileSeen(ctx context.Context, id string) (string, error) {
+	var model *model.User
+	err := r.DB.First(&model, "id = ?", id).Error
+	if err != nil {
+		return "Error", err
+	}
+	model.ProfileViews = model.ProfileViews + 1
+	return "Ok", r.DB.Save(&model).Error
+}
+
 // SearchConnected is the resolver for the searchConnected field.
 func (r *queryResolver) SearchConnected(ctx context.Context) ([]*model.User, error) {
 	val := *middleware.CtxValue(ctx)

@@ -70,4 +70,5 @@ type Mutation {
   updateUser(id: ID!, input: UpdateUser!): User!
   deleteUser(id: ID!): User!
   updateUserWithId(id: ID!, input: AllUpdateUser!): String!
+  profileSeen(id: ID!): String!
 }
