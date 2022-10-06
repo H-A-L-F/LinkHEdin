@@ -183,7 +183,7 @@ export default function StartAPost() {
                             {video &&
                                 <div className='preview'>
                                     <div className='content-pos'>
-                                        <video src={image} className='content' controls />
+                                        <video src={video} className='content' controls />
                                     </div>
                                     <div className='remove' onClick={handleRemoveVideo}>
                                         <div className='btn-ghost w-fit h-fit py-2 px-2'>

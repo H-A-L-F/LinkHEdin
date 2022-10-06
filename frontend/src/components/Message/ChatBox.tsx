@@ -92,7 +92,7 @@ export default function ChatBox({ currRef }: ChatBoxInterface) {
                         <React.Fragment key={'msg-' + idx}>
                             {
                                 chat.idFrom === user.id ?
-                                    <div className='bubble mx-2 place-self-end' >
+                                    <div className='bubble mx-2 place-self-end mb-2' >
                                         {chatWrapper(chat)}
                                     </div>
                                     :
