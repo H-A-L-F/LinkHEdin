@@ -117,7 +117,7 @@ export default function RichText({ text }: RichTextInterface) {
             {/* <div className="rich-container">
                 <div dangerouslySetInnerHTML={{ __html: a }} />
             </div> */}
-            <p className='m-0' style={{
+            <div className='m-0' style={{
                 position: "relative",
             }}>
                 {arr.map((text: string, idx: number) => {
@@ -134,7 +134,7 @@ export default function RichText({ text }: RichTextInterface) {
                         return text + " "
                     }
                 })}
-            </p>
+            </div>
         </React.Fragment>
     )
 }
