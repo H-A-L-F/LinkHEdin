@@ -29,6 +29,7 @@ export default function MainLayout() {
                     {outlet}
                     {
                         location.pathname === "/home" && <Right /> ||
+                        location.pathname === "/mynetwork" && <Right /> ||
                         location.pathname === "/jobs" && <Right /> ||
                         location.pathname === "/messages" && <Right /> ||
                         location.pathname === "/notifications" && <Right /> ||

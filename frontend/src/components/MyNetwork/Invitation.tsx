@@ -9,7 +9,7 @@ export default function Invitation() {
 
     const len = user.RequestConnect.length
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col mr-8'>
             <div className="box w-full h-fit">
                 <div className="header">
                     Invitations
