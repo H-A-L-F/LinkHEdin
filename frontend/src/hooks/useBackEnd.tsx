@@ -11,7 +11,7 @@ import { CREATE_EXPERIENCE_MUTATION, DELETE_EXPERIENCE_MUTATION, UPDATE_EXPERIEN
 import { CREATE_JOB_MUTATION } from "../query/job";
 import { DELETE_NOTIFICATION_MUTATION } from "../query/notification";
 import { CREATE_POST_QUERY, LIKE_POST_QUERY, SEND_POST_QUERY } from "../query/post";
-import { FOLLOW_USER_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
+import { FOLLOW_USER_QUERY, PROFILE_SEEN_QUERY, UPDATE_USER_QUERY, USER_FETCH_QUERY } from "../query/user";
 import { useAuth } from "./useAuth";
 import { useLoading } from "./useLoading";
 import { addDoc, collection, doc, query, Timestamp, where } from 'firebase/firestore'
@@ -56,6 +56,7 @@ function useProvideBackEnd() {
     const [postLikeFunc] = useMutation(LIKE_POST_QUERY)
     const [commentReplyFunc] = useMutation(REPLY_COMMENT_QUERY)
     const [sendPostFunc] = useMutation(SEND_POST_QUERY)
+    const [profileViewFunc] = useMutation(PROFILE_SEEN_QUERY)
 
     function errHandle(err: any) {
         toastError(err.message)
@@ -206,7 +207,7 @@ function useProvideBackEnd() {
 
     async function setName(uid: string, name: string) {
         try {
-            const input = constructUpdateUser({name: name})
+            const input = constructUpdateUser({ name: name })
             const res = await updateUser(uid, input)
             successHandle("Updated profile")
         } catch (err: any) {
@@ -636,6 +637,14 @@ function useProvideBackEnd() {
         return true
     }
 
+    async function viewProfile(uid: string) {
+        try {
+            const res = await profileViewFunc({ variables: { id: uid } })
+        } catch (err: any) {
+            errHandle(err)
+        }
+    }
+
     return {
         login,
         register,
@@ -667,6 +676,7 @@ function useProvideBackEnd() {
         shareProfile,
         sharePost,
         replyLike,
-        setName
+        setName,
+        viewProfile
     }
 }

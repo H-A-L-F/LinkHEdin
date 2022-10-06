@@ -1,5 +1,5 @@
 import { collection, getDoc, getDocs, query, where } from 'firebase/firestore'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HiPencil } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../config/firebase'
@@ -15,7 +15,7 @@ import ShareProfileModal from './ShareProfileModal'
 
 export default function PersonalProfile() {
     const { id, currUser, isUser, refetchCurrUser } = useUserProfile()
-    const { followUser, connectRequest, cancelConnect } = useBackEnd()
+    const { followUser, connectRequest, cancelConnect, viewProfile } = useBackEnd()
     const { user } = useAuth()
     const navigate = useNavigate()
     const [openShare, setopenShare] = useState(false)
@@ -80,6 +80,11 @@ export default function PersonalProfile() {
         setOpenModal(true)
     }
 
+    // useEffect(() => {
+    //     viewProfile(currUser.id)
+    // }, [])
+    
+
     return (
         <React.Fragment>
             <div className='personal-position'>
@@ -94,6 +99,9 @@ export default function PersonalProfile() {
                             </div>
                             <div className='text-md font-medium'>
                                 {currUser.Headline}
+                            </div>
+                            <div className='text-md font-medium'>
+                                {"ProfileViews: " + currUser.ProfileViews}
                             </div>
                         </div>
                         <div></div>
